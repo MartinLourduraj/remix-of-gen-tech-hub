@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { AuthProvider } from "@/lib/auth";
+import { DataProvider } from "@/lib/store";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -72,11 +75,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Gen-Tech Generators ERP" },
+      { name: "description", content: "Enterprise ERP, CRM, billing, warranty and service platform for authorized generator dealers." },
+      { name: "author", content: "Gen-Tech Generators" },
+      { property: "og:title", content: "Gen-Tech Generators ERP" },
+      { property: "og:description", content: "Enterprise ERP for authorized generator dealers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -113,7 +116,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider>
+        <DataProvider>
+          <Outlet />
+          <Toaster />
+        </DataProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
