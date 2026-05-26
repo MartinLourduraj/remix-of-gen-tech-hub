@@ -13,7 +13,10 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
+import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
+import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
+import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
@@ -37,9 +40,24 @@ const AppVendorsRoute = AppVendorsRouteImport.update({
   path: '/vendors',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSalesOrdersRoute = AppSalesOrdersRouteImport.update({
+  id: '/sales-orders',
+  path: '/sales-orders',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppQuotationsRoute = AppQuotationsRouteImport.update({
+  id: '/quotations',
+  path: '/quotations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProductsRoute = AppProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInvoicesRoute = AppInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
   getParentRoute: () => AppRoute,
 } as any)
 const AppEmployeesRoute = AppEmployeesRouteImport.update({
@@ -64,7 +82,10 @@ export interface FileRoutesByFullPath {
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
+  '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
+  '/quotations': typeof AppQuotationsRoute
+  '/sales-orders': typeof AppSalesOrdersRoute
   '/vendors': typeof AppVendorsRoute
 }
 export interface FileRoutesByTo {
@@ -73,7 +94,10 @@ export interface FileRoutesByTo {
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
+  '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
+  '/quotations': typeof AppQuotationsRoute
+  '/sales-orders': typeof AppSalesOrdersRoute
   '/vendors': typeof AppVendorsRoute
 }
 export interface FileRoutesById {
@@ -84,7 +108,10 @@ export interface FileRoutesById {
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/employees': typeof AppEmployeesRoute
+  '/_app/invoices': typeof AppInvoicesRoute
   '/_app/products': typeof AppProductsRoute
+  '/_app/quotations': typeof AppQuotationsRoute
+  '/_app/sales-orders': typeof AppSalesOrdersRoute
   '/_app/vendors': typeof AppVendorsRoute
 }
 export interface FileRouteTypes {
@@ -95,7 +122,10 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/employees'
+    | '/invoices'
     | '/products'
+    | '/quotations'
+    | '/sales-orders'
     | '/vendors'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -104,7 +134,10 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/employees'
+    | '/invoices'
     | '/products'
+    | '/quotations'
+    | '/sales-orders'
     | '/vendors'
   id:
     | '__root__'
@@ -114,7 +147,10 @@ export interface FileRouteTypes {
     | '/_app/customers'
     | '/_app/dashboard'
     | '/_app/employees'
+    | '/_app/invoices'
     | '/_app/products'
+    | '/_app/quotations'
+    | '/_app/sales-orders'
     | '/_app/vendors'
   fileRoutesById: FileRoutesById
 }
@@ -154,11 +190,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVendorsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/sales-orders': {
+      id: '/_app/sales-orders'
+      path: '/sales-orders'
+      fullPath: '/sales-orders'
+      preLoaderRoute: typeof AppSalesOrdersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/quotations': {
+      id: '/_app/quotations'
+      path: '/quotations'
+      fullPath: '/quotations'
+      preLoaderRoute: typeof AppQuotationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/products': {
       id: '/_app/products'
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/invoices': {
+      id: '/_app/invoices'
+      path: '/invoices'
+      fullPath: '/invoices'
+      preLoaderRoute: typeof AppInvoicesRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/employees': {
@@ -189,7 +246,10 @@ interface AppRouteChildren {
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEmployeesRoute: typeof AppEmployeesRoute
+  AppInvoicesRoute: typeof AppInvoicesRoute
   AppProductsRoute: typeof AppProductsRoute
+  AppQuotationsRoute: typeof AppQuotationsRoute
+  AppSalesOrdersRoute: typeof AppSalesOrdersRoute
   AppVendorsRoute: typeof AppVendorsRoute
 }
 
@@ -197,7 +257,10 @@ const AppRouteChildren: AppRouteChildren = {
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEmployeesRoute: AppEmployeesRoute,
+  AppInvoicesRoute: AppInvoicesRoute,
   AppProductsRoute: AppProductsRoute,
+  AppQuotationsRoute: AppQuotationsRoute,
+  AppSalesOrdersRoute: AppSalesOrdersRoute,
   AppVendorsRoute: AppVendorsRoute,
 }
 
