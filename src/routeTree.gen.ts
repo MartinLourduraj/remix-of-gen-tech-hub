@@ -16,6 +16,8 @@ import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
 import { Route as AppServiceRouteImport } from './routes/_app/service'
 import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
+import { Route as AppRolesRouteImport } from './routes/_app/roles'
+import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
@@ -56,6 +58,16 @@ const AppServiceRoute = AppServiceRouteImport.update({
 const AppSalesOrdersRoute = AppSalesOrdersRouteImport.update({
   id: '/sales-orders',
   path: '/sales-orders',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRolesRoute = AppRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AppRoute,
 } as any)
 const AppQuotationsRoute = AppQuotationsRouteImport.update({
@@ -104,6 +116,8 @@ export interface FileRoutesByFullPath {
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
   '/quotations': typeof AppQuotationsRoute
+  '/reports': typeof AppReportsRoute
+  '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
@@ -119,6 +133,8 @@ export interface FileRoutesByTo {
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
   '/quotations': typeof AppQuotationsRoute
+  '/reports': typeof AppReportsRoute
+  '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
@@ -136,6 +152,8 @@ export interface FileRoutesById {
   '/_app/invoices': typeof AppInvoicesRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/quotations': typeof AppQuotationsRoute
+  '/_app/reports': typeof AppReportsRoute
+  '/_app/roles': typeof AppRolesRoute
   '/_app/sales-orders': typeof AppSalesOrdersRoute
   '/_app/service': typeof AppServiceRoute
   '/_app/vendors': typeof AppVendorsRoute
@@ -153,6 +171,8 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/products'
     | '/quotations'
+    | '/reports'
+    | '/roles'
     | '/sales-orders'
     | '/service'
     | '/vendors'
@@ -168,6 +188,8 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/products'
     | '/quotations'
+    | '/reports'
+    | '/roles'
     | '/sales-orders'
     | '/service'
     | '/vendors'
@@ -184,6 +206,8 @@ export interface FileRouteTypes {
     | '/_app/invoices'
     | '/_app/products'
     | '/_app/quotations'
+    | '/_app/reports'
+    | '/_app/roles'
     | '/_app/sales-orders'
     | '/_app/service'
     | '/_app/vendors'
@@ -247,6 +271,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSalesOrdersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/roles': {
+      id: '/_app/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof AppRolesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports': {
+      id: '/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/quotations': {
       id: '/_app/quotations'
       path: '/quotations'
@@ -307,6 +345,8 @@ interface AppRouteChildren {
   AppInvoicesRoute: typeof AppInvoicesRoute
   AppProductsRoute: typeof AppProductsRoute
   AppQuotationsRoute: typeof AppQuotationsRoute
+  AppReportsRoute: typeof AppReportsRoute
+  AppRolesRoute: typeof AppRolesRoute
   AppSalesOrdersRoute: typeof AppSalesOrdersRoute
   AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRoute
@@ -321,6 +361,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppInvoicesRoute: AppInvoicesRoute,
   AppProductsRoute: AppProductsRoute,
   AppQuotationsRoute: AppQuotationsRoute,
+  AppReportsRoute: AppReportsRoute,
+  AppRolesRoute: AppRolesRoute,
   AppSalesOrdersRoute: AppSalesOrdersRoute,
   AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRoute,
