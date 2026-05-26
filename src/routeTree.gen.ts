@@ -12,11 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
+import { Route as AppServiceRouteImport } from './routes/_app/service'
 import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
+import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
@@ -35,9 +38,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppWarrantyRoute = AppWarrantyRouteImport.update({
+  id: '/warranty',
+  path: '/warranty',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppVendorsRoute = AppVendorsRouteImport.update({
   id: '/vendors',
   path: '/vendors',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppServiceRoute = AppServiceRouteImport.update({
+  id: '/service',
+  path: '/service',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSalesOrdersRoute = AppSalesOrdersRouteImport.update({
@@ -58,6 +71,11 @@ const AppProductsRoute = AppProductsRouteImport.update({
 const AppInvoicesRoute = AppInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInventoryRoute = AppInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
   getParentRoute: () => AppRoute,
 } as any)
 const AppEmployeesRoute = AppEmployeesRouteImport.update({
@@ -82,11 +100,14 @@ export interface FileRoutesByFullPath {
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
+  '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
   '/quotations': typeof AppQuotationsRoute
   '/sales-orders': typeof AppSalesOrdersRoute
+  '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
+  '/warranty': typeof AppWarrantyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,11 +115,14 @@ export interface FileRoutesByTo {
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
+  '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof AppProductsRoute
   '/quotations': typeof AppQuotationsRoute
   '/sales-orders': typeof AppSalesOrdersRoute
+  '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
+  '/warranty': typeof AppWarrantyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -108,11 +132,14 @@ export interface FileRoutesById {
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/employees': typeof AppEmployeesRoute
+  '/_app/inventory': typeof AppInventoryRoute
   '/_app/invoices': typeof AppInvoicesRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/quotations': typeof AppQuotationsRoute
   '/_app/sales-orders': typeof AppSalesOrdersRoute
+  '/_app/service': typeof AppServiceRoute
   '/_app/vendors': typeof AppVendorsRoute
+  '/_app/warranty': typeof AppWarrantyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -122,11 +149,14 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/employees'
+    | '/inventory'
     | '/invoices'
     | '/products'
     | '/quotations'
     | '/sales-orders'
+    | '/service'
     | '/vendors'
+    | '/warranty'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -134,11 +164,14 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/employees'
+    | '/inventory'
     | '/invoices'
     | '/products'
     | '/quotations'
     | '/sales-orders'
+    | '/service'
     | '/vendors'
+    | '/warranty'
   id:
     | '__root__'
     | '/'
@@ -147,11 +180,14 @@ export interface FileRouteTypes {
     | '/_app/customers'
     | '/_app/dashboard'
     | '/_app/employees'
+    | '/_app/inventory'
     | '/_app/invoices'
     | '/_app/products'
     | '/_app/quotations'
     | '/_app/sales-orders'
+    | '/_app/service'
     | '/_app/vendors'
+    | '/_app/warranty'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,11 +219,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/warranty': {
+      id: '/_app/warranty'
+      path: '/warranty'
+      fullPath: '/warranty'
+      preLoaderRoute: typeof AppWarrantyRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/vendors': {
       id: '/_app/vendors'
       path: '/vendors'
       fullPath: '/vendors'
       preLoaderRoute: typeof AppVendorsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/service': {
+      id: '/_app/service'
+      path: '/service'
+      fullPath: '/service'
+      preLoaderRoute: typeof AppServiceRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/sales-orders': {
@@ -218,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInvoicesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/inventory': {
+      id: '/_app/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AppInventoryRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/employees': {
       id: '/_app/employees'
       path: '/employees'
@@ -246,22 +303,28 @@ interface AppRouteChildren {
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEmployeesRoute: typeof AppEmployeesRoute
+  AppInventoryRoute: typeof AppInventoryRoute
   AppInvoicesRoute: typeof AppInvoicesRoute
   AppProductsRoute: typeof AppProductsRoute
   AppQuotationsRoute: typeof AppQuotationsRoute
   AppSalesOrdersRoute: typeof AppSalesOrdersRoute
+  AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRoute
+  AppWarrantyRoute: typeof AppWarrantyRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEmployeesRoute: AppEmployeesRoute,
+  AppInventoryRoute: AppInventoryRoute,
   AppInvoicesRoute: AppInvoicesRoute,
   AppProductsRoute: AppProductsRoute,
   AppQuotationsRoute: AppQuotationsRoute,
   AppSalesOrdersRoute: AppSalesOrdersRoute,
+  AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRoute,
+  AppWarrantyRoute: AppWarrantyRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
