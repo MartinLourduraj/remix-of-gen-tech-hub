@@ -82,10 +82,10 @@ export function PublicShell() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52">
-                <DropdownMenuItem asChild><Link to="/login" search={{ portal: "customer" }}>Customer Portal</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/login" search={{ portal: "dealer" }}>Dealer Portal</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/login" search={{ portal: "employee" }}>Employee Portal</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/login" search={{ portal: "admin" }}>Admin Console</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link to="/login">Customer Portal</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link to="/login">Dealer Portal</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link to="/login">Employee Portal</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link to="/login">Admin Console</Link></DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button asChild size="sm" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white shadow-glow">
