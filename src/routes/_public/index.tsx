@@ -27,7 +27,7 @@ const categories = [
 const slides = [
   { tag: "CPCB-IV+ Ready", title: "Industrial Power, Engineered to Outlast.", sub: "Authorized dealer for Kirloskar, Cummins & Mahindra Powerol. 5 kVA to 2500 kVA generators with pan-India service.", cta1: "View Products", cta1To: "/products", cta2: "Request Quote", cta2To: "/contact" },
   { tag: "Monsoon Service Drive", title: "Free Health Check + 15% Off AMC.", sub: "Book before 30 June and get a complimentary load-bank test plus genuine spares discount.", cta1: "Book Service", cta1To: "/service-request", cta2: "AMC Enquiry", cta2To: "/contact" },
-  { tag: "Rental Marketplace", title: "Power on Demand — From 12 hrs to 12 months.", sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.", cta1: "Browse Rental", cta1To: "/rental", cta2: "Become Dealer", cta2To: "/login" },
+  { tag: "Rental Marketplace", title: "Power on Demand — From 12 hrs to 12 months.", sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.", cta1: "Browse Rental", cta1To: "/rental-generators", cta2: "Become Dealer", cta2To: "/login" },
 ];
 
 function HomePage() {
