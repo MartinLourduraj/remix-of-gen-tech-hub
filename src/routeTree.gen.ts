@@ -13,6 +13,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicProductsRouteImport } from './routes/_public/products'
+import { Route as PublicCompareRouteImport } from './routes/_public/compare'
 import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
 import { Route as AppServiceRouteImport } from './routes/_app/service'
@@ -26,6 +28,7 @@ import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
+import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -43,6 +46,16 @@ const AppRoute = AppRouteImport.update({
 const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicProductsRoute = PublicProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicCompareRoute = PublicCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => PublicRoute,
 } as any)
 const AppWarrantyRoute = AppWarrantyRouteImport.update({
@@ -110,6 +123,11 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AppRoute,
 } as any)
+const PublicProductsIdRoute = PublicProductsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PublicProductsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -119,7 +137,7 @@ export interface FileRoutesByFullPath {
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
-  '/products': typeof AppProductsRoute
+  '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
@@ -127,6 +145,8 @@ export interface FileRoutesByFullPath {
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
+  '/compare': typeof PublicCompareRoute
+  '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -136,7 +156,7 @@ export interface FileRoutesByTo {
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
-  '/products': typeof AppProductsRoute
+  '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
@@ -144,6 +164,8 @@ export interface FileRoutesByTo {
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
+  '/compare': typeof PublicCompareRoute
+  '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -163,7 +185,10 @@ export interface FileRoutesById {
   '/_app/service': typeof AppServiceRoute
   '/_app/vendors': typeof AppVendorsRoute
   '/_app/warranty': typeof AppWarrantyRoute
+  '/_public/compare': typeof PublicCompareRoute
+  '/_public/products': typeof PublicProductsRouteWithChildren
   '/_public/': typeof PublicIndexRoute
+  '/_public/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -183,6 +208,8 @@ export interface FileRouteTypes {
     | '/service'
     | '/vendors'
     | '/warranty'
+    | '/compare'
+    | '/products/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +227,8 @@ export interface FileRouteTypes {
     | '/service'
     | '/vendors'
     | '/warranty'
+    | '/compare'
+    | '/products/$id'
   id:
     | '__root__'
     | '/_app'
@@ -218,7 +247,10 @@ export interface FileRouteTypes {
     | '/_app/service'
     | '/_app/vendors'
     | '/_app/warranty'
+    | '/_public/compare'
+    | '/_public/products'
     | '/_public/'
+    | '/_public/products/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -255,6 +287,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/products': {
+      id: '/_public/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof PublicProductsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/compare': {
+      id: '/_public/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof PublicCompareRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_app/warranty': {
@@ -348,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_public/products/$id': {
+      id: '/_public/products/$id'
+      path: '/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof PublicProductsIdRouteImport
+      parentRoute: typeof PublicProductsRoute
+    }
   }
 }
 
@@ -385,11 +438,27 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface PublicProductsRouteChildren {
+  PublicProductsIdRoute: typeof PublicProductsIdRoute
+}
+
+const PublicProductsRouteChildren: PublicProductsRouteChildren = {
+  PublicProductsIdRoute: PublicProductsIdRoute,
+}
+
+const PublicProductsRouteWithChildren = PublicProductsRoute._addFileChildren(
+  PublicProductsRouteChildren,
+)
+
 interface PublicRouteChildren {
+  PublicCompareRoute: typeof PublicCompareRoute
+  PublicProductsRoute: typeof PublicProductsRouteWithChildren
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicCompareRoute: PublicCompareRoute,
+  PublicProductsRoute: PublicProductsRouteWithChildren,
   PublicIndexRoute: PublicIndexRoute,
 }
 
