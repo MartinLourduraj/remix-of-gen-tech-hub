@@ -14,6 +14,7 @@ import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
+import { Route as PublicRentalGeneratorsRouteImport } from './routes/_public/rental-generators'
 import { Route as PublicProductsRouteImport } from './routes/_public/products'
 import { Route as PublicCompareRouteImport } from './routes/_public/compare'
 import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
@@ -52,6 +53,11 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
 const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
   id: '/used-generators',
   path: '/used-generators',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicRentalGeneratorsRoute = PublicRentalGeneratorsRouteImport.update({
+  id: '/rental-generators',
+  path: '/rental-generators',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicProductsRoute = PublicProductsRouteImport.update({
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
   '/compare': typeof PublicCompareRoute
+  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/products/$id': typeof PublicProductsIdRoute
 }
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
   '/compare': typeof PublicCompareRoute
+  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/products/$id': typeof PublicProductsIdRoute
 }
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/_app/warranty': typeof AppWarrantyRoute
   '/_public/compare': typeof PublicCompareRoute
   '/_public/products': typeof PublicProductsRouteWithChildren
+  '/_public/rental-generators': typeof PublicRentalGeneratorsRoute
   '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/': typeof PublicIndexRoute
   '/_public/products/$id': typeof PublicProductsIdRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/vendors'
     | '/warranty'
     | '/compare'
+    | '/rental-generators'
     | '/used-generators'
     | '/products/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/vendors'
     | '/warranty'
     | '/compare'
+    | '/rental-generators'
     | '/used-generators'
     | '/products/$id'
   id:
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/_app/warranty'
     | '/_public/compare'
     | '/_public/products'
+    | '/_public/rental-generators'
     | '/_public/used-generators'
     | '/_public/'
     | '/_public/products/$id'
@@ -306,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/used-generators'
       fullPath: '/used-generators'
       preLoaderRoute: typeof PublicUsedGeneratorsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/rental-generators': {
+      id: '/_public/rental-generators'
+      path: '/rental-generators'
+      fullPath: '/rental-generators'
+      preLoaderRoute: typeof PublicRentalGeneratorsRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/products': {
@@ -472,6 +491,7 @@ const PublicProductsRouteWithChildren = PublicProductsRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicCompareRoute: typeof PublicCompareRoute
   PublicProductsRoute: typeof PublicProductsRouteWithChildren
+  PublicRentalGeneratorsRoute: typeof PublicRentalGeneratorsRoute
   PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
   PublicIndexRoute: typeof PublicIndexRoute
 }
@@ -479,6 +499,7 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicCompareRoute: PublicCompareRoute,
   PublicProductsRoute: PublicProductsRouteWithChildren,
+  PublicRentalGeneratorsRoute: PublicRentalGeneratorsRoute,
   PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
   PublicIndexRoute: PublicIndexRoute,
 }
