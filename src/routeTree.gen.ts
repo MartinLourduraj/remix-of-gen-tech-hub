@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
 import { Route as PublicProductsRouteImport } from './routes/_public/products'
 import { Route as PublicCompareRouteImport } from './routes/_public/compare'
 import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
@@ -46,6 +47,11 @@ const AppRoute = AppRouteImport.update({
 const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
+  id: '/used-generators',
+  path: '/used-generators',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicProductsRoute = PublicProductsRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
   '/compare': typeof PublicCompareRoute
+  '/used-generators': typeof PublicUsedGeneratorsRoute
   '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesByTo {
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/vendors': typeof AppVendorsRoute
   '/warranty': typeof AppWarrantyRoute
   '/compare': typeof PublicCompareRoute
+  '/used-generators': typeof PublicUsedGeneratorsRoute
   '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesById {
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/_app/warranty': typeof AppWarrantyRoute
   '/_public/compare': typeof PublicCompareRoute
   '/_public/products': typeof PublicProductsRouteWithChildren
+  '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/': typeof PublicIndexRoute
   '/_public/products/$id': typeof PublicProductsIdRoute
 }
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/vendors'
     | '/warranty'
     | '/compare'
+    | '/used-generators'
     | '/products/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/vendors'
     | '/warranty'
     | '/compare'
+    | '/used-generators'
     | '/products/$id'
   id:
     | '__root__'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/_app/warranty'
     | '/_public/compare'
     | '/_public/products'
+    | '/_public/used-generators'
     | '/_public/'
     | '/_public/products/$id'
   fileRoutesById: FileRoutesById
@@ -287,6 +299,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/used-generators': {
+      id: '/_public/used-generators'
+      path: '/used-generators'
+      fullPath: '/used-generators'
+      preLoaderRoute: typeof PublicUsedGeneratorsRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/products': {
@@ -453,12 +472,14 @@ const PublicProductsRouteWithChildren = PublicProductsRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicCompareRoute: typeof PublicCompareRoute
   PublicProductsRoute: typeof PublicProductsRouteWithChildren
+  PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicCompareRoute: PublicCompareRoute,
   PublicProductsRoute: PublicProductsRouteWithChildren,
+  PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
   PublicIndexRoute: PublicIndexRoute,
 }
 
