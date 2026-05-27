@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/_app'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
 import { Route as AppServiceRouteImport } from './routes/_app/service'
@@ -33,11 +32,6 @@ const LoginRoute = LoginRouteImport.update({
 } as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppWarrantyRoute = AppWarrantyRouteImport.update({
@@ -107,7 +101,7 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
@@ -124,7 +118,7 @@ export interface FileRoutesByFullPath {
   '/warranty': typeof AppWarrantyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
@@ -142,7 +136,6 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/customers': typeof AppCustomersRoute
@@ -196,7 +189,6 @@ export interface FileRouteTypes {
     | '/warranty'
   id:
     | '__root__'
-    | '/'
     | '/_app'
     | '/login'
     | '/_app/customers'
@@ -215,7 +207,6 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
@@ -234,13 +225,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/warranty': {
@@ -372,7 +356,6 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
 }
