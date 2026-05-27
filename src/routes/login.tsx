@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
-import { Building2, Mail, KeyRound, Smartphone } from "lucide-react";
+import { Building2, Mail, KeyRound, Smartphone, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -34,7 +35,11 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="min-h-screen grid lg:grid-cols-2 relative">
+      {/* Back to Website */}
+      <Button asChild variant="ghost" size="sm" className="absolute top-4 left-4 z-10 text-white hover:bg-white/10 hover:text-white lg:text-white">
+        <Link to="/"><ArrowLeft className="mr-1.5 h-4 w-4" /> Back to Website</Link>
+      </Button>
       <div className="hidden lg:flex flex-col justify-between bg-primary p-12 text-primary-foreground">
         <div className="flex items-center gap-3">
           <div className="grid h-10 w-10 place-items-center rounded-md bg-white/15">
