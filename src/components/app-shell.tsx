@@ -34,7 +34,7 @@ const navGroups: NavGroup[] = [
   ]},
   { title: "Operations", items: [
     { to: "/inventory", label: "Inventory", icon: Boxes },
-    { to: "/warranty", label: "Warranty", icon: ShieldCheck },
+    { to: "/warranty-admin", label: "Warranty", icon: ShieldCheck },
     { to: "/service", label: "Service Tickets", icon: Wrench },
   ]},
   { title: "Admin", items: [

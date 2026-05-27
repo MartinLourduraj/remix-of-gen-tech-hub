@@ -27,7 +27,7 @@ const categories = [
 const slides = [
   { tag: "CPCB-IV+ Ready", title: "Industrial Power, Engineered to Outlast.", sub: "Authorized dealer for Kirloskar, Cummins & Mahindra Powerol. 5 kVA to 2500 kVA generators with pan-India service.", cta1: "View Products", cta1To: "/products", cta2: "Request Quote", cta2To: "/contact" },
   { tag: "Monsoon Service Drive", title: "Free Health Check + 15% Off AMC.", sub: "Book before 30 June and get a complimentary load-bank test plus genuine spares discount.", cta1: "Book Service", cta1To: "/service-request", cta2: "AMC Enquiry", cta2To: "/contact" },
-  { tag: "Rental Marketplace", title: "Power on Demand — From 12 hrs to 12 months.", sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.", cta1: "Browse Rental", cta1To: "/rental", cta2: "Become Dealer", cta2To: "/login" },
+  { tag: "Rental Marketplace", title: "Power on Demand — From 12 hrs to 12 months.", sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.", cta1: "Browse Rental", cta1To: "/rental-generators", cta2: "Become Dealer", cta2To: "/login" },
 ];
 
 function HomePage() {
@@ -122,7 +122,7 @@ function HomePage() {
       <Section eyebrow="Browse by Category" title="Power for every industry & application">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {categories.map((c) => (
-            <Link key={c.name} to="/categories" className="group">
+            <Link key={c.name} to="/products" className="group">
               <Card className="p-5 h-full transition-all hover:shadow-elevated hover:-translate-y-0.5 hover:border-[var(--brand-orange)]/40">
                 <div className="grid h-11 w-11 place-items-center rounded-lg bg-[var(--brand-navy)] text-[var(--brand-orange)] mb-3 group-hover:bg-[var(--brand-orange)] group-hover:text-white transition-colors">
                   <c.icon className="h-5 w-5" />
@@ -235,7 +235,7 @@ function HomePage() {
             <p className="mt-3 text-white/75 max-w-lg">Find your nearest Gen-Tech dealer for sales, spares and emergency breakdown support.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white">
-                <Link to="/dealer-locator"><MapPin className="mr-1.5 h-4 w-4" /> Find a Dealer</Link>
+                <Link to="/dealers"><MapPin className="mr-1.5 h-4 w-4" /> Find a Dealer</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-white/5 border-white/20 text-white hover:bg-white/10 hover:text-white">
                 <Link to="/login">Become a Dealer</Link>

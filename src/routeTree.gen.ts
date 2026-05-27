@@ -10,10 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
-import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
+import { Route as PublicWarrantyRouteImport } from './routes/_public/warranty'
+import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
+import { Route as PublicServiceRequestRouteImport } from './routes/_public/service-request'
+import { Route as PublicRentalGeneratorsRouteImport } from './routes/_public/rental-generators'
+import { Route as PublicRecommendRouteImport } from './routes/_public/recommend'
+import { Route as PublicProductsRouteImport } from './routes/_public/products'
+import { Route as PublicDealersRouteImport } from './routes/_public/dealers'
+import { Route as PublicContactRouteImport } from './routes/_public/contact'
+import { Route as PublicCompareRouteImport } from './routes/_public/compare'
+import { Route as PublicAboutRouteImport } from './routes/_public/about'
+import { Route as AppWarrantyAdminRouteImport } from './routes/_app/warranty-admin'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
 import { Route as AppServiceRouteImport } from './routes/_app/service'
 import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
@@ -26,10 +37,16 @@ import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
+import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicRoute = PublicRouteImport.update({
@@ -45,9 +62,59 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
-const AppWarrantyRoute = AppWarrantyRouteImport.update({
+const PublicWarrantyRoute = PublicWarrantyRouteImport.update({
   id: '/warranty',
   path: '/warranty',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
+  id: '/used-generators',
+  path: '/used-generators',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicServiceRequestRoute = PublicServiceRequestRouteImport.update({
+  id: '/service-request',
+  path: '/service-request',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicRentalGeneratorsRoute = PublicRentalGeneratorsRouteImport.update({
+  id: '/rental-generators',
+  path: '/rental-generators',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicRecommendRoute = PublicRecommendRouteImport.update({
+  id: '/recommend',
+  path: '/recommend',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicProductsRoute = PublicProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicDealersRoute = PublicDealersRouteImport.update({
+  id: '/dealers',
+  path: '/dealers',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicContactRoute = PublicContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicCompareRoute = PublicCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAboutRoute = PublicAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => PublicRoute,
+} as any)
+const AppWarrantyAdminRoute = AppWarrantyAdminRouteImport.update({
+  id: '/warranty-admin',
+  path: '/warranty-admin',
   getParentRoute: () => AppRoute,
 } as any)
 const AppVendorsRoute = AppVendorsRouteImport.update({
@@ -110,45 +177,73 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AppRoute,
 } as any)
+const PublicProductsIdRoute = PublicProductsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PublicProductsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
-  '/products': typeof AppProductsRoute
+  '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
-  '/warranty': typeof AppWarrantyRoute
+  '/warranty-admin': typeof AppWarrantyAdminRoute
+  '/about': typeof PublicAboutRoute
+  '/compare': typeof PublicCompareRoute
+  '/contact': typeof PublicContactRoute
+  '/dealers': typeof PublicDealersRoute
+  '/recommend': typeof PublicRecommendRoute
+  '/rental-generators': typeof PublicRentalGeneratorsRoute
+  '/service-request': typeof PublicServiceRequestRoute
+  '/used-generators': typeof PublicUsedGeneratorsRoute
+  '/warranty': typeof PublicWarrantyRoute
+  '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
-  '/products': typeof AppProductsRoute
+  '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
   '/vendors': typeof AppVendorsRoute
-  '/warranty': typeof AppWarrantyRoute
+  '/warranty-admin': typeof AppWarrantyAdminRoute
+  '/about': typeof PublicAboutRoute
+  '/compare': typeof PublicCompareRoute
+  '/contact': typeof PublicContactRoute
+  '/dealers': typeof PublicDealersRoute
+  '/recommend': typeof PublicRecommendRoute
+  '/rental-generators': typeof PublicRentalGeneratorsRoute
+  '/service-request': typeof PublicServiceRequestRoute
+  '/used-generators': typeof PublicUsedGeneratorsRoute
+  '/warranty': typeof PublicWarrantyRoute
+  '/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -162,13 +257,25 @@ export interface FileRoutesById {
   '/_app/sales-orders': typeof AppSalesOrdersRoute
   '/_app/service': typeof AppServiceRoute
   '/_app/vendors': typeof AppVendorsRoute
-  '/_app/warranty': typeof AppWarrantyRoute
+  '/_app/warranty-admin': typeof AppWarrantyAdminRoute
+  '/_public/about': typeof PublicAboutRoute
+  '/_public/compare': typeof PublicCompareRoute
+  '/_public/contact': typeof PublicContactRoute
+  '/_public/dealers': typeof PublicDealersRoute
+  '/_public/products': typeof PublicProductsRouteWithChildren
+  '/_public/recommend': typeof PublicRecommendRoute
+  '/_public/rental-generators': typeof PublicRentalGeneratorsRoute
+  '/_public/service-request': typeof PublicServiceRequestRoute
+  '/_public/used-generators': typeof PublicUsedGeneratorsRoute
+  '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
+  '/_public/products/$id': typeof PublicProductsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/login'
     | '/customers'
     | '/dashboard'
@@ -182,10 +289,21 @@ export interface FileRouteTypes {
     | '/sales-orders'
     | '/service'
     | '/vendors'
+    | '/warranty-admin'
+    | '/about'
+    | '/compare'
+    | '/contact'
+    | '/dealers'
+    | '/recommend'
+    | '/rental-generators'
+    | '/service-request'
+    | '/used-generators'
     | '/warranty'
+    | '/products/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/login'
     | '/customers'
     | '/dashboard'
@@ -199,11 +317,22 @@ export interface FileRouteTypes {
     | '/sales-orders'
     | '/service'
     | '/vendors'
+    | '/warranty-admin'
+    | '/about'
+    | '/compare'
+    | '/contact'
+    | '/dealers'
+    | '/recommend'
+    | '/rental-generators'
+    | '/service-request'
+    | '/used-generators'
     | '/warranty'
+    | '/products/$id'
   id:
     | '__root__'
     | '/_app'
     | '/_public'
+    | '/admin'
     | '/login'
     | '/_app/customers'
     | '/_app/dashboard'
@@ -217,13 +346,25 @@ export interface FileRouteTypes {
     | '/_app/sales-orders'
     | '/_app/service'
     | '/_app/vendors'
-    | '/_app/warranty'
+    | '/_app/warranty-admin'
+    | '/_public/about'
+    | '/_public/compare'
+    | '/_public/contact'
+    | '/_public/dealers'
+    | '/_public/products'
+    | '/_public/recommend'
+    | '/_public/rental-generators'
+    | '/_public/service-request'
+    | '/_public/used-generators'
+    | '/_public/warranty'
     | '/_public/'
+    | '/_public/products/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
+  AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
 }
 
@@ -234,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public': {
@@ -257,11 +405,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_app/warranty': {
-      id: '/_app/warranty'
+    '/_public/warranty': {
+      id: '/_public/warranty'
       path: '/warranty'
       fullPath: '/warranty'
-      preLoaderRoute: typeof AppWarrantyRouteImport
+      preLoaderRoute: typeof PublicWarrantyRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/used-generators': {
+      id: '/_public/used-generators'
+      path: '/used-generators'
+      fullPath: '/used-generators'
+      preLoaderRoute: typeof PublicUsedGeneratorsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/service-request': {
+      id: '/_public/service-request'
+      path: '/service-request'
+      fullPath: '/service-request'
+      preLoaderRoute: typeof PublicServiceRequestRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/rental-generators': {
+      id: '/_public/rental-generators'
+      path: '/rental-generators'
+      fullPath: '/rental-generators'
+      preLoaderRoute: typeof PublicRentalGeneratorsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/recommend': {
+      id: '/_public/recommend'
+      path: '/recommend'
+      fullPath: '/recommend'
+      preLoaderRoute: typeof PublicRecommendRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/products': {
+      id: '/_public/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof PublicProductsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/dealers': {
+      id: '/_public/dealers'
+      path: '/dealers'
+      fullPath: '/dealers'
+      preLoaderRoute: typeof PublicDealersRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/contact': {
+      id: '/_public/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof PublicContactRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/compare': {
+      id: '/_public/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof PublicCompareRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_app/warranty-admin': {
+      id: '/_app/warranty-admin'
+      path: '/warranty-admin'
+      fullPath: '/warranty-admin'
+      preLoaderRoute: typeof AppWarrantyAdminRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/vendors': {
@@ -348,6 +566,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_public/products/$id': {
+      id: '/_public/products/$id'
+      path: '/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof PublicProductsIdRouteImport
+      parentRoute: typeof PublicProductsRoute
+    }
   }
 }
 
@@ -364,7 +589,7 @@ interface AppRouteChildren {
   AppSalesOrdersRoute: typeof AppSalesOrdersRoute
   AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRoute
-  AppWarrantyRoute: typeof AppWarrantyRoute
+  AppWarrantyAdminRoute: typeof AppWarrantyAdminRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -380,16 +605,48 @@ const AppRouteChildren: AppRouteChildren = {
   AppSalesOrdersRoute: AppSalesOrdersRoute,
   AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRoute,
-  AppWarrantyRoute: AppWarrantyRoute,
+  AppWarrantyAdminRoute: AppWarrantyAdminRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface PublicProductsRouteChildren {
+  PublicProductsIdRoute: typeof PublicProductsIdRoute
+}
+
+const PublicProductsRouteChildren: PublicProductsRouteChildren = {
+  PublicProductsIdRoute: PublicProductsIdRoute,
+}
+
+const PublicProductsRouteWithChildren = PublicProductsRoute._addFileChildren(
+  PublicProductsRouteChildren,
+)
+
 interface PublicRouteChildren {
+  PublicAboutRoute: typeof PublicAboutRoute
+  PublicCompareRoute: typeof PublicCompareRoute
+  PublicContactRoute: typeof PublicContactRoute
+  PublicDealersRoute: typeof PublicDealersRoute
+  PublicProductsRoute: typeof PublicProductsRouteWithChildren
+  PublicRecommendRoute: typeof PublicRecommendRoute
+  PublicRentalGeneratorsRoute: typeof PublicRentalGeneratorsRoute
+  PublicServiceRequestRoute: typeof PublicServiceRequestRoute
+  PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
+  PublicWarrantyRoute: typeof PublicWarrantyRoute
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicAboutRoute: PublicAboutRoute,
+  PublicCompareRoute: PublicCompareRoute,
+  PublicContactRoute: PublicContactRoute,
+  PublicDealersRoute: PublicDealersRoute,
+  PublicProductsRoute: PublicProductsRouteWithChildren,
+  PublicRecommendRoute: PublicRecommendRoute,
+  PublicRentalGeneratorsRoute: PublicRentalGeneratorsRoute,
+  PublicServiceRequestRoute: PublicServiceRequestRoute,
+  PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
+  PublicWarrantyRoute: PublicWarrantyRoute,
   PublicIndexRoute: PublicIndexRoute,
 }
 
@@ -399,6 +656,7 @@ const PublicRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
+  AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport

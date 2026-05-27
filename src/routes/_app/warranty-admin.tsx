@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { QrCode, Download } from "lucide-react";
 
-export const Route = createFileRoute("/_app/warranty")({ component: WarrantyPage });
+export const Route = createFileRoute("/_app/warranty-admin")({ component: WarrantyPage });
 
 const tone: Record<string, any> = { Active: "default", Expired: "destructive", Claimed: "secondary" };
 
