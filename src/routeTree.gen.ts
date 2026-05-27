@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppWarrantyRouteImport } from './routes/_app/warranty'
 import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
@@ -28,6 +29,10 @@ import { Route as AppCustomersRouteImport } from './routes/_app/customers'
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -101,7 +106,7 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AppRouteWithChildren
+  '/': typeof PublicRoute
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
@@ -118,7 +123,7 @@ export interface FileRoutesByFullPath {
   '/warranty': typeof AppWarrantyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AppRouteWithChildren
+  '/': typeof PublicRoute
   '/login': typeof LoginRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
@@ -137,6 +142,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_public': typeof PublicRoute
   '/login': typeof LoginRoute
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -190,6 +196,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_app'
+    | '/_public'
     | '/login'
     | '/_app/customers'
     | '/_app/dashboard'
@@ -208,6 +215,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
+  PublicRoute: typeof PublicRoute
   LoginRoute: typeof LoginRoute
 }
 
@@ -218,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -357,6 +372,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
+  PublicRoute: PublicRoute,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
