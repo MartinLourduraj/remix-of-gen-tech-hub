@@ -1,41 +1,68 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import {
   BarChart3, FileText, Users, Boxes, Wrench, ShieldCheck, Receipt, IndianRupee,
+  ArrowRight, Package, ShoppingCart, Truck,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_app/reports")({ component: ReportsPage });
 
-const reports = [
-  { group: "Sales", icon: BarChart3, items: ["Daily Sales","Weekly Sales","Monthly Sales","Annual Sales","Product-wise Sales","Branch-wise Sales","Sales Executive Performance"] },
-  { group: "Customers", icon: Users, items: ["Customer Ledger","Outstanding Report","Credit Report","Purchase History"] },
-  { group: "Inventory", icon: Boxes, items: ["Stock Summary","Reorder Report","Dead Stock","Fast/Slow Moving"] },
-  { group: "Service", icon: Wrench, items: ["Open Tickets","Closed Tickets","Technician Performance","AMC Report"] },
-  { group: "Warranty", icon: ShieldCheck, items: ["Active Warranty","Expiring Soon","Claims"] },
-  { group: "Accounts", icon: IndianRupee, items: ["Ledger","Trial Balance","P&L","Balance Sheet","Cash Flow"] },
-  { group: "GST", icon: Receipt, items: ["GSTR-1","GSTR-2","GSTR-3B","CGST/SGST/IGST Summary"] },
-  { group: "Documents", icon: FileText, items: ["Audit Logs","Activity Timeline","Export Center"] },
+type R = { to: any; label: string; desc: string };
+const groups: { group: string; icon: any; items: R[] }[] = [
+  { group: "Sales", icon: BarChart3, items: [
+    { to: "/reports/sales",      label: "Sales Register",   desc: "Invoice-wise sales with GST split" },
+    { to: "/reports/quotations", label: "Quotation Report", desc: "Conversion funnel & approvals" },
+    { to: "/reports/orders",     label: "Sales Orders",     desc: "Open / dispatched / delivered" },
+  ]},
+  { group: "Receivables", icon: IndianRupee, items: [
+    { to: "/reports/invoices",     label: "Invoice Report",     desc: "All B2B/B2C invoices" },
+    { to: "/reports/outstanding",  label: "Outstanding / Aging", desc: "Customer-wise dues" },
+    { to: "/reports/collections",  label: "Collections",        desc: "Receipts & cash inflow" },
+  ]},
+  { group: "Inventory", icon: Boxes, items: [
+    { to: "/reports/inventory", label: "Stock Summary", desc: "Item-wise stock & reorder" },
+    { to: "/reports/purchases", label: "Purchase Report", desc: "Vendor-wise procurement" },
+  ]},
+  { group: "Service & Warranty", icon: Wrench, items: [
+    { to: "/reports/service",  label: "Service Tickets", desc: "Open, in-progress, SLA" },
+    { to: "/reports/warranty", label: "Warranty Register", desc: "Active / expired / claimed" },
+    { to: "/reports/amc",      label: "AMC Contracts",   desc: "Renewals & due visits" },
+  ]},
+  { group: "Masters", icon: Users, items: [
+    { to: "/reports/customers", label: "Customer List", desc: "Credit, outstanding, region" },
+    { to: "/reports/employees", label: "Employee List", desc: "By branch & department" },
+    { to: "/reports/products",  label: "Product Catalogue", desc: "SKU, price, warranty" },
+  ]},
+  { group: "Compliance", icon: Receipt, items: [
+    { to: "/reports/gst", label: "GST Summary (GSTR-1/3B)", desc: "Output tax, IGST, CGST, SGST" },
+  ]},
 ];
 
 function ReportsPage() {
   return (
     <div>
-      <PageHeader title="Reports Hub" description="Every report grouped by domain — export to PDF, Excel or JSON." />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {reports.map((r) => {
-          const Icon = r.icon;
+      <PageHeader title="Reports Hub" description="Every operational, financial and compliance report — fully filterable, exportable to Excel & PDF." />
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {groups.map((g) => {
+          const Icon = g.icon;
           return (
-            <Card key={r.group}>
+            <Card key={g.group}>
               <CardContent className="p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="grid h-8 w-8 place-items-center rounded-md bg-primary/10 text-primary"><Icon className="h-4 w-4" /></div>
-                  <h3 className="font-semibold">{r.group}</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="grid h-9 w-9 place-items-center rounded-md bg-primary/10 text-primary"><Icon className="h-4 w-4" /></div>
+                  <h3 className="font-semibold text-base">{g.group}</h3>
                 </div>
-                <ul className="space-y-1.5 text-sm">
-                  {r.items.map((i) => (
-                    <li key={i}>
-                      <a className="text-muted-foreground hover:text-primary transition-colors cursor-pointer" >• {i}</a>
+                <ul className="space-y-2">
+                  {g.items.map((i) => (
+                    <li key={i.label}>
+                      <Link to={i.to} className="flex items-start gap-2 -mx-2 px-2 py-1.5 rounded-md hover:bg-muted group">
+                        <ArrowRight className="h-3.5 w-3.5 mt-1 text-muted-foreground group-hover:text-primary" />
+                        <div className="flex-1">
+                          <div className="font-medium text-sm">{i.label}</div>
+                          <div className="text-xs text-muted-foreground">{i.desc}</div>
+                        </div>
+                      </Link>
                     </li>
                   ))}
                 </ul>
