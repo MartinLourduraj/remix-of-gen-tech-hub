@@ -38,6 +38,21 @@ import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
 import { Route as AppReportsIndexRouteImport } from './routes/_app/reports.index'
 import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
+import { Route as AppReportsWarrantyRouteImport } from './routes/_app/reports.warranty'
+import { Route as AppReportsServiceRouteImport } from './routes/_app/reports.service'
+import { Route as AppReportsSalesRouteImport } from './routes/_app/reports.sales'
+import { Route as AppReportsQuotationsRouteImport } from './routes/_app/reports.quotations'
+import { Route as AppReportsPurchasesRouteImport } from './routes/_app/reports.purchases'
+import { Route as AppReportsProductsRouteImport } from './routes/_app/reports.products'
+import { Route as AppReportsOutstandingRouteImport } from './routes/_app/reports.outstanding'
+import { Route as AppReportsOrdersRouteImport } from './routes/_app/reports.orders'
+import { Route as AppReportsInvoicesRouteImport } from './routes/_app/reports.invoices'
+import { Route as AppReportsInventoryRouteImport } from './routes/_app/reports.inventory'
+import { Route as AppReportsGstRouteImport } from './routes/_app/reports.gst'
+import { Route as AppReportsEmployeesRouteImport } from './routes/_app/reports.employees'
+import { Route as AppReportsCustomersRouteImport } from './routes/_app/reports.customers'
+import { Route as AppReportsCollectionsRouteImport } from './routes/_app/reports.collections'
+import { Route as AppReportsAmcRouteImport } from './routes/_app/reports.amc'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -182,6 +197,81 @@ const PublicProductsIdRoute = PublicProductsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => PublicProductsRoute,
 } as any)
+const AppReportsWarrantyRoute = AppReportsWarrantyRouteImport.update({
+  id: '/reports/warranty',
+  path: '/reports/warranty',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsServiceRoute = AppReportsServiceRouteImport.update({
+  id: '/reports/service',
+  path: '/reports/service',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsSalesRoute = AppReportsSalesRouteImport.update({
+  id: '/reports/sales',
+  path: '/reports/sales',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsQuotationsRoute = AppReportsQuotationsRouteImport.update({
+  id: '/reports/quotations',
+  path: '/reports/quotations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsPurchasesRoute = AppReportsPurchasesRouteImport.update({
+  id: '/reports/purchases',
+  path: '/reports/purchases',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsProductsRoute = AppReportsProductsRouteImport.update({
+  id: '/reports/products',
+  path: '/reports/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsOutstandingRoute = AppReportsOutstandingRouteImport.update({
+  id: '/reports/outstanding',
+  path: '/reports/outstanding',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsOrdersRoute = AppReportsOrdersRouteImport.update({
+  id: '/reports/orders',
+  path: '/reports/orders',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsInvoicesRoute = AppReportsInvoicesRouteImport.update({
+  id: '/reports/invoices',
+  path: '/reports/invoices',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsInventoryRoute = AppReportsInventoryRouteImport.update({
+  id: '/reports/inventory',
+  path: '/reports/inventory',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsGstRoute = AppReportsGstRouteImport.update({
+  id: '/reports/gst',
+  path: '/reports/gst',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsEmployeesRoute = AppReportsEmployeesRouteImport.update({
+  id: '/reports/employees',
+  path: '/reports/employees',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsCustomersRoute = AppReportsCustomersRouteImport.update({
+  id: '/reports/customers',
+  path: '/reports/customers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsCollectionsRoute = AppReportsCollectionsRouteImport.update({
+  id: '/reports/collections',
+  path: '/reports/collections',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsAmcRoute = AppReportsAmcRouteImport.update({
+  id: '/reports/amc',
+  path: '/reports/amc',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -208,6 +298,21 @@ export interface FileRoutesByFullPath {
   '/service-request': typeof PublicServiceRequestRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
+  '/reports/amc': typeof AppReportsAmcRoute
+  '/reports/collections': typeof AppReportsCollectionsRoute
+  '/reports/customers': typeof AppReportsCustomersRoute
+  '/reports/employees': typeof AppReportsEmployeesRoute
+  '/reports/gst': typeof AppReportsGstRoute
+  '/reports/inventory': typeof AppReportsInventoryRoute
+  '/reports/invoices': typeof AppReportsInvoicesRoute
+  '/reports/orders': typeof AppReportsOrdersRoute
+  '/reports/outstanding': typeof AppReportsOutstandingRoute
+  '/reports/products': typeof AppReportsProductsRoute
+  '/reports/purchases': typeof AppReportsPurchasesRoute
+  '/reports/quotations': typeof AppReportsQuotationsRoute
+  '/reports/sales': typeof AppReportsSalesRoute
+  '/reports/service': typeof AppReportsServiceRoute
+  '/reports/warranty': typeof AppReportsWarrantyRoute
   '/products/$id': typeof PublicProductsIdRoute
   '/reports/': typeof AppReportsIndexRoute
 }
@@ -236,6 +341,21 @@ export interface FileRoutesByTo {
   '/service-request': typeof PublicServiceRequestRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
+  '/reports/amc': typeof AppReportsAmcRoute
+  '/reports/collections': typeof AppReportsCollectionsRoute
+  '/reports/customers': typeof AppReportsCustomersRoute
+  '/reports/employees': typeof AppReportsEmployeesRoute
+  '/reports/gst': typeof AppReportsGstRoute
+  '/reports/inventory': typeof AppReportsInventoryRoute
+  '/reports/invoices': typeof AppReportsInvoicesRoute
+  '/reports/orders': typeof AppReportsOrdersRoute
+  '/reports/outstanding': typeof AppReportsOutstandingRoute
+  '/reports/products': typeof AppReportsProductsRoute
+  '/reports/purchases': typeof AppReportsPurchasesRoute
+  '/reports/quotations': typeof AppReportsQuotationsRoute
+  '/reports/sales': typeof AppReportsSalesRoute
+  '/reports/service': typeof AppReportsServiceRoute
+  '/reports/warranty': typeof AppReportsWarrantyRoute
   '/products/$id': typeof PublicProductsIdRoute
   '/reports': typeof AppReportsIndexRoute
 }
@@ -268,6 +388,21 @@ export interface FileRoutesById {
   '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
+  '/_app/reports/amc': typeof AppReportsAmcRoute
+  '/_app/reports/collections': typeof AppReportsCollectionsRoute
+  '/_app/reports/customers': typeof AppReportsCustomersRoute
+  '/_app/reports/employees': typeof AppReportsEmployeesRoute
+  '/_app/reports/gst': typeof AppReportsGstRoute
+  '/_app/reports/inventory': typeof AppReportsInventoryRoute
+  '/_app/reports/invoices': typeof AppReportsInvoicesRoute
+  '/_app/reports/orders': typeof AppReportsOrdersRoute
+  '/_app/reports/outstanding': typeof AppReportsOutstandingRoute
+  '/_app/reports/products': typeof AppReportsProductsRoute
+  '/_app/reports/purchases': typeof AppReportsPurchasesRoute
+  '/_app/reports/quotations': typeof AppReportsQuotationsRoute
+  '/_app/reports/sales': typeof AppReportsSalesRoute
+  '/_app/reports/service': typeof AppReportsServiceRoute
+  '/_app/reports/warranty': typeof AppReportsWarrantyRoute
   '/_public/products/$id': typeof PublicProductsIdRoute
   '/_app/reports/': typeof AppReportsIndexRoute
 }
@@ -298,6 +433,21 @@ export interface FileRouteTypes {
     | '/service-request'
     | '/used-generators'
     | '/warranty'
+    | '/reports/amc'
+    | '/reports/collections'
+    | '/reports/customers'
+    | '/reports/employees'
+    | '/reports/gst'
+    | '/reports/inventory'
+    | '/reports/invoices'
+    | '/reports/orders'
+    | '/reports/outstanding'
+    | '/reports/products'
+    | '/reports/purchases'
+    | '/reports/quotations'
+    | '/reports/sales'
+    | '/reports/service'
+    | '/reports/warranty'
     | '/products/$id'
     | '/reports/'
   fileRoutesByTo: FileRoutesByTo
@@ -326,6 +476,21 @@ export interface FileRouteTypes {
     | '/service-request'
     | '/used-generators'
     | '/warranty'
+    | '/reports/amc'
+    | '/reports/collections'
+    | '/reports/customers'
+    | '/reports/employees'
+    | '/reports/gst'
+    | '/reports/inventory'
+    | '/reports/invoices'
+    | '/reports/orders'
+    | '/reports/outstanding'
+    | '/reports/products'
+    | '/reports/purchases'
+    | '/reports/quotations'
+    | '/reports/sales'
+    | '/reports/service'
+    | '/reports/warranty'
     | '/products/$id'
     | '/reports'
   id:
@@ -357,6 +522,21 @@ export interface FileRouteTypes {
     | '/_public/used-generators'
     | '/_public/warranty'
     | '/_public/'
+    | '/_app/reports/amc'
+    | '/_app/reports/collections'
+    | '/_app/reports/customers'
+    | '/_app/reports/employees'
+    | '/_app/reports/gst'
+    | '/_app/reports/inventory'
+    | '/_app/reports/invoices'
+    | '/_app/reports/orders'
+    | '/_app/reports/outstanding'
+    | '/_app/reports/products'
+    | '/_app/reports/purchases'
+    | '/_app/reports/quotations'
+    | '/_app/reports/sales'
+    | '/_app/reports/service'
+    | '/_app/reports/warranty'
     | '/_public/products/$id'
     | '/_app/reports/'
   fileRoutesById: FileRoutesById
@@ -573,6 +753,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicProductsIdRouteImport
       parentRoute: typeof PublicProductsRoute
     }
+    '/_app/reports/warranty': {
+      id: '/_app/reports/warranty'
+      path: '/reports/warranty'
+      fullPath: '/reports/warranty'
+      preLoaderRoute: typeof AppReportsWarrantyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/service': {
+      id: '/_app/reports/service'
+      path: '/reports/service'
+      fullPath: '/reports/service'
+      preLoaderRoute: typeof AppReportsServiceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/sales': {
+      id: '/_app/reports/sales'
+      path: '/reports/sales'
+      fullPath: '/reports/sales'
+      preLoaderRoute: typeof AppReportsSalesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/quotations': {
+      id: '/_app/reports/quotations'
+      path: '/reports/quotations'
+      fullPath: '/reports/quotations'
+      preLoaderRoute: typeof AppReportsQuotationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/purchases': {
+      id: '/_app/reports/purchases'
+      path: '/reports/purchases'
+      fullPath: '/reports/purchases'
+      preLoaderRoute: typeof AppReportsPurchasesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/products': {
+      id: '/_app/reports/products'
+      path: '/reports/products'
+      fullPath: '/reports/products'
+      preLoaderRoute: typeof AppReportsProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/outstanding': {
+      id: '/_app/reports/outstanding'
+      path: '/reports/outstanding'
+      fullPath: '/reports/outstanding'
+      preLoaderRoute: typeof AppReportsOutstandingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/orders': {
+      id: '/_app/reports/orders'
+      path: '/reports/orders'
+      fullPath: '/reports/orders'
+      preLoaderRoute: typeof AppReportsOrdersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/invoices': {
+      id: '/_app/reports/invoices'
+      path: '/reports/invoices'
+      fullPath: '/reports/invoices'
+      preLoaderRoute: typeof AppReportsInvoicesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/inventory': {
+      id: '/_app/reports/inventory'
+      path: '/reports/inventory'
+      fullPath: '/reports/inventory'
+      preLoaderRoute: typeof AppReportsInventoryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/gst': {
+      id: '/_app/reports/gst'
+      path: '/reports/gst'
+      fullPath: '/reports/gst'
+      preLoaderRoute: typeof AppReportsGstRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/employees': {
+      id: '/_app/reports/employees'
+      path: '/reports/employees'
+      fullPath: '/reports/employees'
+      preLoaderRoute: typeof AppReportsEmployeesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/customers': {
+      id: '/_app/reports/customers'
+      path: '/reports/customers'
+      fullPath: '/reports/customers'
+      preLoaderRoute: typeof AppReportsCustomersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/collections': {
+      id: '/_app/reports/collections'
+      path: '/reports/collections'
+      fullPath: '/reports/collections'
+      preLoaderRoute: typeof AppReportsCollectionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reports/amc': {
+      id: '/_app/reports/amc'
+      path: '/reports/amc'
+      fullPath: '/reports/amc'
+      preLoaderRoute: typeof AppReportsAmcRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -589,6 +874,21 @@ interface AppRouteChildren {
   AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRoute
   AppWarrantyAdminRoute: typeof AppWarrantyAdminRoute
+  AppReportsAmcRoute: typeof AppReportsAmcRoute
+  AppReportsCollectionsRoute: typeof AppReportsCollectionsRoute
+  AppReportsCustomersRoute: typeof AppReportsCustomersRoute
+  AppReportsEmployeesRoute: typeof AppReportsEmployeesRoute
+  AppReportsGstRoute: typeof AppReportsGstRoute
+  AppReportsInventoryRoute: typeof AppReportsInventoryRoute
+  AppReportsInvoicesRoute: typeof AppReportsInvoicesRoute
+  AppReportsOrdersRoute: typeof AppReportsOrdersRoute
+  AppReportsOutstandingRoute: typeof AppReportsOutstandingRoute
+  AppReportsProductsRoute: typeof AppReportsProductsRoute
+  AppReportsPurchasesRoute: typeof AppReportsPurchasesRoute
+  AppReportsQuotationsRoute: typeof AppReportsQuotationsRoute
+  AppReportsSalesRoute: typeof AppReportsSalesRoute
+  AppReportsServiceRoute: typeof AppReportsServiceRoute
+  AppReportsWarrantyRoute: typeof AppReportsWarrantyRoute
   AppReportsIndexRoute: typeof AppReportsIndexRoute
 }
 
@@ -605,6 +905,21 @@ const AppRouteChildren: AppRouteChildren = {
   AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRoute,
   AppWarrantyAdminRoute: AppWarrantyAdminRoute,
+  AppReportsAmcRoute: AppReportsAmcRoute,
+  AppReportsCollectionsRoute: AppReportsCollectionsRoute,
+  AppReportsCustomersRoute: AppReportsCustomersRoute,
+  AppReportsEmployeesRoute: AppReportsEmployeesRoute,
+  AppReportsGstRoute: AppReportsGstRoute,
+  AppReportsInventoryRoute: AppReportsInventoryRoute,
+  AppReportsInvoicesRoute: AppReportsInvoicesRoute,
+  AppReportsOrdersRoute: AppReportsOrdersRoute,
+  AppReportsOutstandingRoute: AppReportsOutstandingRoute,
+  AppReportsProductsRoute: AppReportsProductsRoute,
+  AppReportsPurchasesRoute: AppReportsPurchasesRoute,
+  AppReportsQuotationsRoute: AppReportsQuotationsRoute,
+  AppReportsSalesRoute: AppReportsSalesRoute,
+  AppReportsServiceRoute: AppReportsServiceRoute,
+  AppReportsWarrantyRoute: AppReportsWarrantyRoute,
   AppReportsIndexRoute: AppReportsIndexRoute,
 }
 
@@ -662,13 +977,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
