@@ -6,7 +6,7 @@ import {
   ArrowRight, Package, ShoppingCart, Truck,
 } from "lucide-react";
 
-export const Route = createFileRoute("/_app/reports")({ component: ReportsPage });
+export const Route = createFileRoute("/_app/reports/")({ component: ReportsPage });
 
 type R = { to: any; label: string; desc: string };
 const groups: { group: string; icon: any; items: R[] }[] = [
