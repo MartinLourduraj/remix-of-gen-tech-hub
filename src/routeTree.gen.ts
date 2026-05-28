@@ -29,7 +29,6 @@ import { Route as AppVendorsRouteImport } from './routes/_app/vendors'
 import { Route as AppServiceRouteImport } from './routes/_app/service'
 import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
 import { Route as AppRolesRouteImport } from './routes/_app/roles'
-import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
@@ -37,6 +36,7 @@ import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
+import { Route as AppReportsIndexRouteImport } from './routes/_app/reports.index'
 import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
 
 const LoginRoute = LoginRouteImport.update({
@@ -137,11 +137,6 @@ const AppRolesRoute = AppRolesRouteImport.update({
   path: '/roles',
   getParentRoute: () => AppRoute,
 } as any)
-const AppReportsRoute = AppReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppQuotationsRoute = AppQuotationsRouteImport.update({
   id: '/quotations',
   path: '/quotations',
@@ -177,6 +172,11 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => AppRoute,
+} as any)
 const PublicProductsIdRoute = PublicProductsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -194,7 +194,6 @@ export interface FileRoutesByFullPath {
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
-  '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
@@ -210,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/products/$id': typeof PublicProductsIdRoute
+  '/reports/': typeof AppReportsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -222,7 +222,6 @@ export interface FileRoutesByTo {
   '/invoices': typeof AppInvoicesRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
-  '/reports': typeof AppReportsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
   '/service': typeof AppServiceRoute
@@ -238,6 +237,7 @@ export interface FileRoutesByTo {
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/products/$id': typeof PublicProductsIdRoute
+  '/reports': typeof AppReportsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -252,7 +252,6 @@ export interface FileRoutesById {
   '/_app/invoices': typeof AppInvoicesRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/quotations': typeof AppQuotationsRoute
-  '/_app/reports': typeof AppReportsRoute
   '/_app/roles': typeof AppRolesRoute
   '/_app/sales-orders': typeof AppSalesOrdersRoute
   '/_app/service': typeof AppServiceRoute
@@ -270,6 +269,7 @@ export interface FileRoutesById {
   '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
   '/_public/products/$id': typeof PublicProductsIdRoute
+  '/_app/reports/': typeof AppReportsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -284,7 +284,6 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/products'
     | '/quotations'
-    | '/reports'
     | '/roles'
     | '/sales-orders'
     | '/service'
@@ -300,6 +299,7 @@ export interface FileRouteTypes {
     | '/used-generators'
     | '/warranty'
     | '/products/$id'
+    | '/reports/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -312,7 +312,6 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/products'
     | '/quotations'
-    | '/reports'
     | '/roles'
     | '/sales-orders'
     | '/service'
@@ -328,6 +327,7 @@ export interface FileRouteTypes {
     | '/used-generators'
     | '/warranty'
     | '/products/$id'
+    | '/reports'
   id:
     | '__root__'
     | '/_app'
@@ -341,7 +341,6 @@ export interface FileRouteTypes {
     | '/_app/invoices'
     | '/_app/products'
     | '/_app/quotations'
-    | '/_app/reports'
     | '/_app/roles'
     | '/_app/sales-orders'
     | '/_app/service'
@@ -359,6 +358,7 @@ export interface FileRouteTypes {
     | '/_public/warranty'
     | '/_public/'
     | '/_public/products/$id'
+    | '/_app/reports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -510,13 +510,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRolesRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/reports': {
-      id: '/_app/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof AppReportsRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/quotations': {
       id: '/_app/quotations'
       path: '/quotations'
@@ -566,6 +559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/reports/': {
+      id: '/_app/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof AppReportsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_public/products/$id': {
       id: '/_public/products/$id'
       path: '/$id'
@@ -584,12 +584,12 @@ interface AppRouteChildren {
   AppInvoicesRoute: typeof AppInvoicesRoute
   AppProductsRoute: typeof AppProductsRoute
   AppQuotationsRoute: typeof AppQuotationsRoute
-  AppReportsRoute: typeof AppReportsRoute
   AppRolesRoute: typeof AppRolesRoute
   AppSalesOrdersRoute: typeof AppSalesOrdersRoute
   AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRoute
   AppWarrantyAdminRoute: typeof AppWarrantyAdminRoute
+  AppReportsIndexRoute: typeof AppReportsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -600,12 +600,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppInvoicesRoute: AppInvoicesRoute,
   AppProductsRoute: AppProductsRoute,
   AppQuotationsRoute: AppQuotationsRoute,
-  AppReportsRoute: AppReportsRoute,
   AppRolesRoute: AppRolesRoute,
   AppSalesOrdersRoute: AppSalesOrdersRoute,
   AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRoute,
   AppWarrantyAdminRoute: AppWarrantyAdminRoute,
+  AppReportsIndexRoute: AppReportsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -662,3 +662,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
