@@ -181,7 +181,7 @@ function HomePage() {
       <Section eyebrow="Service & Warranty" title="Already own a Gen-Tech generator?">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { t: "Register Warranty", d: "Activate your warranty + QR certificate.", to: "/warranty-register", icon: ShieldCheck },
+            { t: "Register Warranty", d: "Activate your warranty + QR certificate.", to: "/warranty", icon: ShieldCheck },
             { t: "Raise Complaint", d: "Log a ticket — auto-assigned to your nearest engineer.", to: "/service-request", icon: Wrench },
             { t: "Book Service", d: "Periodic service, load bank tests, oil change.", to: "/service-request", icon: TrendingUp },
             { t: "AMC Enquiry", d: "Annual Maintenance Contract with SLA-backed uptime.", to: "/contact", icon: Phone },
