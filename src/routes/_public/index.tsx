@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useData, inr } from "@/lib/store";
+import { useData } from "@/lib/store";
+import { ProductActions } from "@/components/product-actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -152,14 +153,8 @@ function HomePage() {
               <div className="p-4">
                 <div className="text-xs text-muted-foreground">{p.fuel} · SKU {p.sku}</div>
                 <div className="font-bold mt-1">{p.model}</div>
-                <div className="mt-2 text-xs text-muted-foreground">Starting at</div>
-                <div className="text-lg font-extrabold text-[var(--brand-navy)]">{inr(p.sellingPrice)}</div>
-                <div className="mt-3 flex gap-2">
-                  <Button asChild size="sm" className="flex-1 bg-[var(--brand-navy)] hover:bg-[var(--brand-navy-2)]">
-                    <Link to="/products">View</Link>
-                  </Button>
-                  <Button asChild size="sm" variant="outline" className="flex-1"><Link to="/compare">Compare</Link></Button>
-                </div>
+                <div className="text-xs text-muted-foreground mt-1">{p.warrantyMonths}m warranty · HSN {p.hsn}</div>
+                <div className="mt-3"><ProductActions productId={p.id} /></div>
               </div>
             </Card>
           ))}

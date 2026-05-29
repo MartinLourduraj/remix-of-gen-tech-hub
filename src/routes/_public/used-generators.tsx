@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Zap, MapPin, Clock, ShieldCheck, ArrowRight } from "lucide-react";
-import { inr } from "@/lib/store";
+import { Zap, MapPin, Clock, ShieldCheck, ArrowRight, FileText, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/_public/used-generators")({ component: UsedMarketplace });
 
@@ -47,9 +46,12 @@ function Page() {
                 <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {u.city}</span>
                 <span>{u.owner}</span>
               </div>
-              <div className="mt-3 text-xl font-extrabold text-[var(--brand-navy)]">{inr(u.price)}</div>
-              <div className="text-xs text-muted-foreground flex items-center gap-1 mt-1"><ShieldCheck className="h-3 w-3 text-green-600" /> 90-day Gen-Tech warranty</div>
-              <Button asChild className="w-full mt-3 bg-[var(--brand-navy)] hover:bg-[var(--brand-navy-2)]"><Link to="/contact">Enquire Now</Link></Button>
+              <div className="text-xs text-muted-foreground flex items-center gap-1 mt-3"><ShieldCheck className="h-3 w-3 text-green-600" /> 90-day Gen-Tech warranty · Inspected</div>
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                <Button asChild size="sm" className="col-span-2 bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white"><Link to="/contact"><FileText className="mr-1 h-3.5 w-3.5" /> Request Quote</Link></Button>
+                <Button asChild size="sm" variant="outline"><Link to="/contact"><Phone className="mr-1 h-3.5 w-3.5" /> Sales</Link></Button>
+                <Button asChild size="sm" variant="outline"><Link to="/contact">Inspection Report</Link></Button>
+              </div>
             </div>
           </Card>
         ))}

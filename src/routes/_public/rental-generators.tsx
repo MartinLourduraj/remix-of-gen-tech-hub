@@ -2,18 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Truck, Clock, Zap, CheckCircle2, ArrowRight } from "lucide-react";
-import { inr } from "@/lib/store";
+import { Truck, Clock, Zap, CheckCircle2, ArrowRight, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/_public/rental-generators")({ component: RentalPage });
 
 const fleet = [
-  { id: "r1", model: "Silent DG 25 KVA", kva: 25, perDay: 1800, perMonth: 32000, app: "Events, Shops" },
-  { id: "r2", model: "Silent DG 62.5 KVA", kva: 62.5, perDay: 2800, perMonth: 56000, app: "Construction, SMB" },
-  { id: "r3", model: "Industrial DG 125 KVA", kva: 125, perDay: 4500, perMonth: 95000, app: "Factories, Sites" },
-  { id: "r4", model: "Industrial DG 250 KVA", kva: 250, perDay: 7800, perMonth: 165000, app: "Heavy Industry" },
-  { id: "r5", model: "Industrial DG 500 KVA", kva: 500, perDay: 14500, perMonth: 320000, app: "Telecom, Hospitals" },
-  { id: "r6", model: "Sync Pack 1000 KVA", kva: 1000, perDay: 28000, perMonth: 620000, app: "Mega Events" },
+  { id: "r1", model: "Silent DG 25 KVA", kva: 25, app: "Events, Shops", tenure: "Day · Week · Month" },
+  { id: "r2", model: "Silent DG 62.5 KVA", kva: 62.5, app: "Construction, SMB", tenure: "Day · Week · Month" },
+  { id: "r3", model: "Industrial DG 125 KVA", kva: 125, app: "Factories, Sites", tenure: "Week · Month · Year" },
+  { id: "r4", model: "Industrial DG 250 KVA", kva: 250, app: "Heavy Industry", tenure: "Week · Month · Year" },
+  { id: "r5", model: "Industrial DG 500 KVA", kva: 500, app: "Telecom, Hospitals", tenure: "Month · Year" },
+  { id: "r6", model: "Sync Pack 1000 KVA", kva: 1000, app: "Mega Events", tenure: "Day · Week · Month" },
 ];
 
 function RentalPage() {
@@ -46,11 +45,11 @@ function RentalPage() {
             <div className="p-4">
               <div className="font-bold">{f.model}</div>
               <div className="text-xs text-muted-foreground">{f.app}</div>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                <div><div className="text-xs text-muted-foreground">Per day</div><div className="font-extrabold text-[var(--brand-navy)]">{inr(f.perDay)}</div></div>
-                <div><div className="text-xs text-muted-foreground">Per month</div><div className="font-extrabold text-[var(--brand-navy)]">{inr(f.perMonth)}</div></div>
+              <div className="mt-2 text-xs text-muted-foreground">Tenure: {f.tenure}</div>
+              <div className="mt-3 grid grid-cols-1 gap-1.5">
+                <Button asChild size="sm" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white"><Link to="/contact"><FileText className="mr-1 h-3.5 w-3.5" /> Request Rental Quote</Link></Button>
+                <Button asChild size="sm" variant="outline"><Link to="/contact">Check Availability <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
               </div>
-              <Button asChild className="w-full mt-3 bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white"><Link to="/contact">Book Now <ArrowRight className="ml-1.5 h-4 w-4" /></Link></Button>
             </div>
           </Card>
         ))}
