@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as React from "react";
-import { useData, inr } from "@/lib/store";
+import { useData } from "@/lib/store";
+import { productSpecs } from "@/lib/specs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,7 +98,7 @@ function RecommendPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2"><Badge className="bg-[var(--brand-orange)] text-white border-0">{p.capacityKVA} KVA</Badge>{i === 0 && <Badge variant="outline" className="text-green-700 border-green-300">Best Match</Badge>}</div>
                     <div className="font-bold mt-1">{p.model}</div>
-                    <div className="text-sm text-muted-foreground">{p.fuel} · {inr(p.sellingPrice)}</div>
+                    <div className="text-sm text-muted-foreground">{p.fuel} · {productSpecs(p).application}</div>
                   </div>
                   <Button asChild size="sm"><Link to="/products/$id" params={{ id: p.id }}>View</Link></Button>
                 </Card>

@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as React from "react";
-import { useData, inr } from "@/lib/store";
+import { useData } from "@/lib/store";
+import { ProductActions } from "@/components/product-actions";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Zap, Search, ArrowRight, GitCompare, FileText } from "lucide-react";
+import { Zap, Search, ArrowRight, GitCompare } from "lucide-react";
 
 export const Route = createFileRoute("/_public/products")({ component: ProductsPage });
 
@@ -55,14 +56,12 @@ function ProductsPage() {
             </div>
             <div className="p-4">
               <div className="text-xs text-muted-foreground">{p.fuel} · SKU {p.sku}</div>
-              <div className="font-bold mt-1">{p.model}</div>
+              <Link to="/products/$id" params={{ id: p.id }} className="font-bold mt-1 block hover:text-[var(--brand-orange)]">{p.model}</Link>
               <div className="text-xs text-muted-foreground mt-1">HSN {p.hsn} · {p.warrantyMonths}m warranty</div>
-              <div className="mt-2 text-xs text-muted-foreground">Starting at</div>
-              <div className="text-lg font-extrabold text-[var(--brand-navy)]">{inr(p.sellingPrice)}</div>
-              <div className="mt-3 grid grid-cols-3 gap-1.5">
-                <Button asChild size="sm" className="bg-[var(--brand-navy)] hover:bg-[var(--brand-navy-2)]"><Link to="/products/$id" params={{ id: p.id }}>View</Link></Button>
-                <Button asChild size="sm" variant="outline"><Link to="/compare"><GitCompare className="h-3.5 w-3.5" /></Link></Button>
-                <Button asChild size="sm" variant="outline" className="text-[var(--brand-orange)]"><Link to="/contact"><FileText className="h-3.5 w-3.5" /></Link></Button>
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                <Button asChild size="sm" className="bg-[var(--brand-navy)] hover:bg-[var(--brand-navy-2)] col-span-2"><Link to="/products/$id" params={{ id: p.id }}>View Details</Link></Button>
+                <Button asChild size="sm" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white"><Link to="/contact">Request Quote</Link></Button>
+                <Button asChild size="sm" variant="outline"><Link to="/compare"><GitCompare className="mr-1 h-3.5 w-3.5" /> Compare</Link></Button>
               </div>
             </div>
           </Card>
