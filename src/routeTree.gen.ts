@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SelectBranchRouteImport } from './routes/select-branch'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as PublicRouteImport } from './routes/_public'
@@ -54,6 +55,11 @@ import { Route as AppReportsCustomersRouteImport } from './routes/_app/reports.c
 import { Route as AppReportsCollectionsRouteImport } from './routes/_app/reports.collections'
 import { Route as AppReportsAmcRouteImport } from './routes/_app/reports.amc'
 
+const SelectBranchRoute = SelectBranchRouteImport.update({
+  id: '/select-branch',
+  path: '/select-branch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -277,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
@@ -320,6 +327,7 @@ export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
@@ -365,6 +373,7 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteWithChildren
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/employees': typeof AppEmployeesRoute
@@ -412,6 +421,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/select-branch'
     | '/customers'
     | '/dashboard'
     | '/employees'
@@ -455,6 +465,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/select-branch'
     | '/customers'
     | '/dashboard'
     | '/employees'
@@ -499,6 +510,7 @@ export interface FileRouteTypes {
     | '/_public'
     | '/admin'
     | '/login'
+    | '/select-branch'
     | '/_app/customers'
     | '/_app/dashboard'
     | '/_app/employees'
@@ -546,10 +558,18 @@ export interface RootRouteChildren {
   PublicRoute: typeof PublicRouteWithChildren
   AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
+  SelectBranchRoute: typeof SelectBranchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/select-branch': {
+      id: '/select-branch'
+      path: '/select-branch'
+      fullPath: '/select-branch'
+      preLoaderRoute: typeof SelectBranchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -973,7 +993,18 @@ const rootRouteChildren: RootRouteChildren = {
   PublicRoute: PublicRouteWithChildren,
   AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
+  SelectBranchRoute: SelectBranchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

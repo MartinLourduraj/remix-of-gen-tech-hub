@@ -39,7 +39,7 @@ function LoginPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     login(`${username}@gentech.in`, role);
-    nav({ to: "/dashboard" });
+    nav({ to: "/select-branch" });
   };
 
   const s = heroSlides[slide];
