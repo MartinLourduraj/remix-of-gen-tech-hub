@@ -3,9 +3,11 @@ import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard, Users, Package, Truck, UserCog, FileText, ShoppingCart,
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
-  LogOut, Menu, ChevronDown, KeyRound, Building2,
+  LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
+  FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useBranch } from "@/lib/branch-context";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +15,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 type NavItem = { to: string; label: string; icon: React.ElementType };
 type NavGroup = { title: string; items: NavItem[] };
@@ -22,15 +25,22 @@ const navGroups: NavGroup[] = [
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   ]},
   { title: "Masters", items: [
+    { to: "/companies", label: "Companies", icon: Building },
+    { to: "/branches", label: "Branches", icon: Building2 },
     { to: "/customers", label: "Customers", icon: Users },
     { to: "/products", label: "Products", icon: Package },
     { to: "/vendors", label: "Vendors", icon: Truck },
     { to: "/employees", label: "Employees", icon: UserCog },
   ]},
   { title: "Sales", items: [
+    { to: "/sales/estimates/new", label: "New Estimate", icon: FilePlus },
+    { to: "/sales/estimates", label: "Estimate List", icon: FileSpreadsheet },
+    { to: "/sales/invoices/new", label: "New Invoice", icon: FilePlus },
+    { to: "/sales/invoices", label: "Invoice List", icon: Receipt },
+    { to: "/sales/credit-notes", label: "Credit Note", icon: FileMinus },
+    { to: "/sales/debit-notes", label: "Debit Note", icon: FilePlus },
     { to: "/quotations", label: "Quotations", icon: FileText },
     { to: "/sales-orders", label: "Sales Orders", icon: ShoppingCart },
-    { to: "/invoices", label: "Invoices (GST)", icon: Receipt },
   ]},
   { title: "Operations", items: [
     { to: "/inventory", label: "Inventory", icon: Boxes },
@@ -39,12 +49,14 @@ const navGroups: NavGroup[] = [
   ]},
   { title: "Admin", items: [
     { to: "/reports", label: "Reports", icon: BarChart3 },
+    { to: "/audit-log", label: "Audit Log", icon: History },
     { to: "/roles", label: "Roles & Access", icon: KeyRound },
   ]},
 ];
 
 export function AppShell() {
   const { user, logout } = useAuth();
+  const { branch, company, setSelectedBranchId } = useBranch();
   const nav = useNavigate();
   const loc = useLocation();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -52,7 +64,8 @@ export function AppShell() {
 
   React.useEffect(() => {
     if (!user) nav({ to: "/login" });
-  }, [user, nav]);
+    else if (!branch) nav({ to: "/select-branch" });
+  }, [user, branch, nav]);
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -62,9 +75,10 @@ export function AppShell() {
 
   if (!user) return null;
 
+  const switchBranch = () => { setSelectedBranchId(null); nav({ to: "/select-branch" }); };
+
   return (
     <div className="min-h-screen bg-muted/30">
-      {/* Sidebar */}
       <aside className={cn(
         "fixed inset-y-0 left-0 z-40 w-64 border-r bg-sidebar text-sidebar-foreground transition-transform lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -114,12 +128,25 @@ export function AppShell() {
         <div onClick={() => setMobileOpen(false)} className="fixed inset-0 z-30 bg-black/40 lg:hidden" />
       )}
 
-      {/* Main */}
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b bg-background/90 px-4 backdrop-blur lg:px-6">
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileOpen(true)}>
             <Menu className="h-5 w-5" />
           </Button>
+
+          {/* Branch indicator */}
+          {branch && (
+            <button onClick={switchBranch}
+              className="hidden md:flex items-center gap-2 rounded-md border bg-muted/40 hover:bg-muted px-2.5 py-1.5 text-xs transition-colors">
+              <MapPin className="h-3.5 w-3.5 text-[var(--brand-orange)]" />
+              <div className="text-left leading-tight">
+                <div className="font-semibold">{branch.name}</div>
+                <div className="text-[10px] text-muted-foreground">{company?.name} · {branch.gstin}</div>
+              </div>
+              <Repeat className="h-3 w-3 text-muted-foreground ml-1" />
+            </button>
+          )}
+
           <div className="relative flex-1 max-w-xl">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -150,6 +177,11 @@ export function AppShell() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              {branch && (
+                <DropdownMenuItem onClick={switchBranch}>
+                  <Repeat className="mr-2 h-4 w-4" /> Switch Branch
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem onClick={logout}>
                 <LogOut className="mr-2 h-4 w-4" /> Log out
               </DropdownMenuItem>
