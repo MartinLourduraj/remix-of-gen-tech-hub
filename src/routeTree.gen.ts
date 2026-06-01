@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SelectBranchRouteImport } from './routes/select-branch'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as PublicRouteImport } from './routes/_public'
@@ -36,8 +37,13 @@ import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
+import { Route as AppCompaniesRouteImport } from './routes/_app/companies'
+import { Route as AppBranchesRouteImport } from './routes/_app/branches'
+import { Route as AppAuditLogRouteImport } from './routes/_app/audit-log'
 import { Route as AppReportsIndexRouteImport } from './routes/_app/reports.index'
 import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
+import { Route as AppSalesDebitNotesRouteImport } from './routes/_app/sales/debit-notes'
+import { Route as AppSalesCreditNotesRouteImport } from './routes/_app/sales/credit-notes'
 import { Route as AppReportsWarrantyRouteImport } from './routes/_app/reports.warranty'
 import { Route as AppReportsServiceRouteImport } from './routes/_app/reports.service'
 import { Route as AppReportsSalesRouteImport } from './routes/_app/reports.sales'
@@ -53,7 +59,16 @@ import { Route as AppReportsEmployeesRouteImport } from './routes/_app/reports.e
 import { Route as AppReportsCustomersRouteImport } from './routes/_app/reports.customers'
 import { Route as AppReportsCollectionsRouteImport } from './routes/_app/reports.collections'
 import { Route as AppReportsAmcRouteImport } from './routes/_app/reports.amc'
+import { Route as AppSalesInvoicesIndexRouteImport } from './routes/_app/sales/invoices.index'
+import { Route as AppSalesEstimatesIndexRouteImport } from './routes/_app/sales/estimates.index'
+import { Route as AppSalesInvoicesNewRouteImport } from './routes/_app/sales/invoices.new'
+import { Route as AppSalesEstimatesNewRouteImport } from './routes/_app/sales/estimates.new'
 
+const SelectBranchRoute = SelectBranchRouteImport.update({
+  id: '/select-branch',
+  path: '/select-branch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -187,6 +202,21 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCompaniesRoute = AppCompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBranchesRoute = AppBranchesRouteImport.update({
+  id: '/branches',
+  path: '/branches',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditLogRoute = AppAuditLogRouteImport.update({
+  id: '/audit-log',
+  path: '/audit-log',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
   id: '/reports/',
   path: '/reports/',
@@ -196,6 +226,16 @@ const PublicProductsIdRoute = PublicProductsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => PublicProductsRoute,
+} as any)
+const AppSalesDebitNotesRoute = AppSalesDebitNotesRouteImport.update({
+  id: '/sales/debit-notes',
+  path: '/sales/debit-notes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSalesCreditNotesRoute = AppSalesCreditNotesRouteImport.update({
+  id: '/sales/credit-notes',
+  path: '/sales/credit-notes',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppReportsWarrantyRoute = AppReportsWarrantyRouteImport.update({
   id: '/reports/warranty',
@@ -272,11 +312,35 @@ const AppReportsAmcRoute = AppReportsAmcRouteImport.update({
   path: '/reports/amc',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSalesInvoicesIndexRoute = AppSalesInvoicesIndexRouteImport.update({
+  id: '/sales/invoices/',
+  path: '/sales/invoices/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSalesEstimatesIndexRoute = AppSalesEstimatesIndexRouteImport.update({
+  id: '/sales/estimates/',
+  path: '/sales/estimates/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSalesInvoicesNewRoute = AppSalesInvoicesNewRouteImport.update({
+  id: '/sales/invoices/new',
+  path: '/sales/invoices/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSalesEstimatesNewRoute = AppSalesEstimatesNewRouteImport.update({
+  id: '/sales/estimates/new',
+  path: '/sales/estimates/new',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
+  '/audit-log': typeof AppAuditLogRoute
+  '/branches': typeof AppBranchesRoute
+  '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
@@ -313,13 +377,23 @@ export interface FileRoutesByFullPath {
   '/reports/sales': typeof AppReportsSalesRoute
   '/reports/service': typeof AppReportsServiceRoute
   '/reports/warranty': typeof AppReportsWarrantyRoute
+  '/sales/credit-notes': typeof AppSalesCreditNotesRoute
+  '/sales/debit-notes': typeof AppSalesDebitNotesRoute
   '/products/$id': typeof PublicProductsIdRoute
   '/reports/': typeof AppReportsIndexRoute
+  '/sales/estimates/new': typeof AppSalesEstimatesNewRoute
+  '/sales/invoices/new': typeof AppSalesInvoicesNewRoute
+  '/sales/estimates/': typeof AppSalesEstimatesIndexRoute
+  '/sales/invoices/': typeof AppSalesInvoicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
+  '/audit-log': typeof AppAuditLogRoute
+  '/branches': typeof AppBranchesRoute
+  '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRoute
   '/dashboard': typeof AppDashboardRoute
   '/employees': typeof AppEmployeesRoute
@@ -356,8 +430,14 @@ export interface FileRoutesByTo {
   '/reports/sales': typeof AppReportsSalesRoute
   '/reports/service': typeof AppReportsServiceRoute
   '/reports/warranty': typeof AppReportsWarrantyRoute
+  '/sales/credit-notes': typeof AppSalesCreditNotesRoute
+  '/sales/debit-notes': typeof AppSalesDebitNotesRoute
   '/products/$id': typeof PublicProductsIdRoute
   '/reports': typeof AppReportsIndexRoute
+  '/sales/estimates/new': typeof AppSalesEstimatesNewRoute
+  '/sales/invoices/new': typeof AppSalesInvoicesNewRoute
+  '/sales/estimates': typeof AppSalesEstimatesIndexRoute
+  '/sales/invoices': typeof AppSalesInvoicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -365,6 +445,10 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteWithChildren
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/select-branch': typeof SelectBranchRoute
+  '/_app/audit-log': typeof AppAuditLogRoute
+  '/_app/branches': typeof AppBranchesRoute
+  '/_app/companies': typeof AppCompaniesRoute
   '/_app/customers': typeof AppCustomersRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/employees': typeof AppEmployeesRoute
@@ -403,8 +487,14 @@ export interface FileRoutesById {
   '/_app/reports/sales': typeof AppReportsSalesRoute
   '/_app/reports/service': typeof AppReportsServiceRoute
   '/_app/reports/warranty': typeof AppReportsWarrantyRoute
+  '/_app/sales/credit-notes': typeof AppSalesCreditNotesRoute
+  '/_app/sales/debit-notes': typeof AppSalesDebitNotesRoute
   '/_public/products/$id': typeof PublicProductsIdRoute
   '/_app/reports/': typeof AppReportsIndexRoute
+  '/_app/sales/estimates/new': typeof AppSalesEstimatesNewRoute
+  '/_app/sales/invoices/new': typeof AppSalesInvoicesNewRoute
+  '/_app/sales/estimates/': typeof AppSalesEstimatesIndexRoute
+  '/_app/sales/invoices/': typeof AppSalesInvoicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -412,6 +502,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/select-branch'
+    | '/audit-log'
+    | '/branches'
+    | '/companies'
     | '/customers'
     | '/dashboard'
     | '/employees'
@@ -448,13 +542,23 @@ export interface FileRouteTypes {
     | '/reports/sales'
     | '/reports/service'
     | '/reports/warranty'
+    | '/sales/credit-notes'
+    | '/sales/debit-notes'
     | '/products/$id'
     | '/reports/'
+    | '/sales/estimates/new'
+    | '/sales/invoices/new'
+    | '/sales/estimates/'
+    | '/sales/invoices/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/login'
+    | '/select-branch'
+    | '/audit-log'
+    | '/branches'
+    | '/companies'
     | '/customers'
     | '/dashboard'
     | '/employees'
@@ -491,14 +595,24 @@ export interface FileRouteTypes {
     | '/reports/sales'
     | '/reports/service'
     | '/reports/warranty'
+    | '/sales/credit-notes'
+    | '/sales/debit-notes'
     | '/products/$id'
     | '/reports'
+    | '/sales/estimates/new'
+    | '/sales/invoices/new'
+    | '/sales/estimates'
+    | '/sales/invoices'
   id:
     | '__root__'
     | '/_app'
     | '/_public'
     | '/admin'
     | '/login'
+    | '/select-branch'
+    | '/_app/audit-log'
+    | '/_app/branches'
+    | '/_app/companies'
     | '/_app/customers'
     | '/_app/dashboard'
     | '/_app/employees'
@@ -537,8 +651,14 @@ export interface FileRouteTypes {
     | '/_app/reports/sales'
     | '/_app/reports/service'
     | '/_app/reports/warranty'
+    | '/_app/sales/credit-notes'
+    | '/_app/sales/debit-notes'
     | '/_public/products/$id'
     | '/_app/reports/'
+    | '/_app/sales/estimates/new'
+    | '/_app/sales/invoices/new'
+    | '/_app/sales/estimates/'
+    | '/_app/sales/invoices/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -546,10 +666,18 @@ export interface RootRouteChildren {
   PublicRoute: typeof PublicRouteWithChildren
   AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
+  SelectBranchRoute: typeof SelectBranchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/select-branch': {
+      id: '/select-branch'
+      path: '/select-branch'
+      fullPath: '/select-branch'
+      preLoaderRoute: typeof SelectBranchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -739,6 +867,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCustomersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/companies': {
+      id: '/_app/companies'
+      path: '/companies'
+      fullPath: '/companies'
+      preLoaderRoute: typeof AppCompaniesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/branches': {
+      id: '/_app/branches'
+      path: '/branches'
+      fullPath: '/branches'
+      preLoaderRoute: typeof AppBranchesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/audit-log': {
+      id: '/_app/audit-log'
+      path: '/audit-log'
+      fullPath: '/audit-log'
+      preLoaderRoute: typeof AppAuditLogRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/reports/': {
       id: '/_app/reports/'
       path: '/reports'
@@ -752,6 +901,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/products/$id'
       preLoaderRoute: typeof PublicProductsIdRouteImport
       parentRoute: typeof PublicProductsRoute
+    }
+    '/_app/sales/debit-notes': {
+      id: '/_app/sales/debit-notes'
+      path: '/sales/debit-notes'
+      fullPath: '/sales/debit-notes'
+      preLoaderRoute: typeof AppSalesDebitNotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sales/credit-notes': {
+      id: '/_app/sales/credit-notes'
+      path: '/sales/credit-notes'
+      fullPath: '/sales/credit-notes'
+      preLoaderRoute: typeof AppSalesCreditNotesRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/reports/warranty': {
       id: '/_app/reports/warranty'
@@ -858,10 +1021,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReportsAmcRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/sales/invoices/': {
+      id: '/_app/sales/invoices/'
+      path: '/sales/invoices'
+      fullPath: '/sales/invoices/'
+      preLoaderRoute: typeof AppSalesInvoicesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sales/estimates/': {
+      id: '/_app/sales/estimates/'
+      path: '/sales/estimates'
+      fullPath: '/sales/estimates/'
+      preLoaderRoute: typeof AppSalesEstimatesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sales/invoices/new': {
+      id: '/_app/sales/invoices/new'
+      path: '/sales/invoices/new'
+      fullPath: '/sales/invoices/new'
+      preLoaderRoute: typeof AppSalesInvoicesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sales/estimates/new': {
+      id: '/_app/sales/estimates/new'
+      path: '/sales/estimates/new'
+      fullPath: '/sales/estimates/new'
+      preLoaderRoute: typeof AppSalesEstimatesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAuditLogRoute: typeof AppAuditLogRoute
+  AppBranchesRoute: typeof AppBranchesRoute
+  AppCompaniesRoute: typeof AppCompaniesRoute
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEmployeesRoute: typeof AppEmployeesRoute
@@ -889,10 +1083,19 @@ interface AppRouteChildren {
   AppReportsSalesRoute: typeof AppReportsSalesRoute
   AppReportsServiceRoute: typeof AppReportsServiceRoute
   AppReportsWarrantyRoute: typeof AppReportsWarrantyRoute
+  AppSalesCreditNotesRoute: typeof AppSalesCreditNotesRoute
+  AppSalesDebitNotesRoute: typeof AppSalesDebitNotesRoute
   AppReportsIndexRoute: typeof AppReportsIndexRoute
+  AppSalesEstimatesNewRoute: typeof AppSalesEstimatesNewRoute
+  AppSalesInvoicesNewRoute: typeof AppSalesInvoicesNewRoute
+  AppSalesEstimatesIndexRoute: typeof AppSalesEstimatesIndexRoute
+  AppSalesInvoicesIndexRoute: typeof AppSalesInvoicesIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAuditLogRoute: AppAuditLogRoute,
+  AppBranchesRoute: AppBranchesRoute,
+  AppCompaniesRoute: AppCompaniesRoute,
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEmployeesRoute: AppEmployeesRoute,
@@ -920,7 +1123,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppReportsSalesRoute: AppReportsSalesRoute,
   AppReportsServiceRoute: AppReportsServiceRoute,
   AppReportsWarrantyRoute: AppReportsWarrantyRoute,
+  AppSalesCreditNotesRoute: AppSalesCreditNotesRoute,
+  AppSalesDebitNotesRoute: AppSalesDebitNotesRoute,
   AppReportsIndexRoute: AppReportsIndexRoute,
+  AppSalesEstimatesNewRoute: AppSalesEstimatesNewRoute,
+  AppSalesInvoicesNewRoute: AppSalesInvoicesNewRoute,
+  AppSalesEstimatesIndexRoute: AppSalesEstimatesIndexRoute,
+  AppSalesInvoicesIndexRoute: AppSalesInvoicesIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -973,6 +1182,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicRoute: PublicRouteWithChildren,
   AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
+  SelectBranchRoute: SelectBranchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
