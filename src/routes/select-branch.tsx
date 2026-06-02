@@ -51,7 +51,7 @@ function SelectBranchPage() {
         </div>
 
         <div className="grid sm:grid-cols-2 gap-3">
-          {branches.filter((b) => b.active).map((b) => {
+          {branches.filter((b) => b.active && b.type === "Branch Office").map((b) => {
             const co = companyMap[b.companyId];
             const active = pick === b.id;
             return (
