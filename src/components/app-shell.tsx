@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Package, Truck, UserCog, FileText, ShoppingCart,
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
   LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
-  FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen,
+  FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen, BadgeIndianRupee,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useBranch } from "@/lib/branch-context";
@@ -29,6 +29,7 @@ const navGroups: NavGroup[] = [
     { to: "/branches", label: "Branches", icon: Building2 },
     { to: "/customers", label: "Customers", icon: Users },
     { to: "/products", label: "Products", icon: Package },
+    { to: "/price-list", label: "Price List", icon: BadgeIndianRupee },
     { to: "/vendors", label: "Vendors", icon: Truck },
     { to: "/employees", label: "Employees", icon: UserCog },
   ]},

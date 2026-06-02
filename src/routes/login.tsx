@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import * as React from "react";
-import { Zap, ArrowLeft, KeyRound, User as UserIcon, ShieldCheck } from "lucide-react";
+import { Zap, ArrowLeft, KeyRound, User as UserIcon, ShieldCheck, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,15 @@ const ROLES: Role[] = [
   "Sales Executive", "Service Manager", "Inventory Manager", "Dealer",
 ];
 
+// Demo credential matrix (mock auth — replace with backend later)
+const VALID = [
+  { u: "admin", p: "demo1234", role: "Super Admin" as Role },
+  { u: "sales", p: "demo1234", role: "Sales Manager" as Role },
+  { u: "accounts", p: "demo1234", role: "Accounts Manager" as Role },
+  { u: "service", p: "demo1234", role: "Service Manager" as Role },
+];
+const REMEMBER_KEY = "gentech_remember";
+
 const heroSlides = [
   { tag: "Industrial Power", title: "Generators built to outlast.", sub: "5 kVA – 2500 kVA · CPCB-IV+ compliant · Pan-India service." },
   { tag: "AMC Service Drive", title: "Free Health Check + 15% off AMC.", sub: "Genuine spares · Certified engineers · 24×7 emergency response." },
@@ -25,11 +34,22 @@ const heroSlides = [
 function LoginPage() {
   const { login } = useAuth();
   const nav = useNavigate();
-  const [username, setUsername] = React.useState("admin");
-  const [password, setPassword] = React.useState("demo1234");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [remember, setRemember] = React.useState(true);
   const [role, setRole] = React.useState<Role>("Super Admin");
   const [slide, setSlide] = React.useState(0);
+  const [error, setError] = React.useState<string | null>(null);
+  const [forgotOpen, setForgotOpen] = React.useState(false);
+  const [forgotEmail, setForgotEmail] = React.useState("");
+  const [forgotMsg, setForgotMsg] = React.useState<string | null>(null);
+
+  // Restore remembered username
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = localStorage.getItem(REMEMBER_KEY);
+    if (saved) { setUsername(saved); setRemember(true); }
+  }, []);
 
   React.useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 5000);
@@ -38,8 +58,32 @@ function LoginPage() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    login(`${username}@gentech.in`, role);
+    setError(null);
+    const u = username.trim();
+    const p = password;
+    if (!u || !p) { setError("Please enter both username and password."); return; }
+    if (u.length < 3) { setError("Username must be at least 3 characters."); return; }
+    if (p.length < 6) { setError("Password must be at least 6 characters."); return; }
+
+    const match = VALID.find((v) => v.u === u.toLowerCase() && v.p === p);
+    // Allow demo role-override flow OR matched credential
+    const resolvedRole: Role = match ? match.role : role;
+    if (!match && u.toLowerCase() !== "admin") {
+      // Strict mode: unknown user
+      setError("Invalid username or password. Try admin / demo1234.");
+      return;
+    }
+    if (remember) localStorage.setItem(REMEMBER_KEY, u);
+    else localStorage.removeItem(REMEMBER_KEY);
+
+    login(`${u}@gentech.in`, resolvedRole);
     nav({ to: "/select-branch" });
+  };
+
+  const submitForgot = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!forgotEmail.includes("@")) { setForgotMsg("Please enter a valid email."); return; }
+    setForgotMsg(`Password reset link sent to ${forgotEmail}. Please check your inbox.`);
   };
 
   const s = heroSlides[slide];
@@ -110,23 +154,33 @@ function LoginPage() {
           </p>
 
           <form onSubmit={submit} className="mt-8 space-y-4">
+            {error && (
+              <div role="alert" className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <div className="space-y-1.5">
               <Label htmlFor="username">Username</Label>
               <div className="relative">
                 <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="username" className="pl-9 h-11" value={username}
-                  onChange={(e) => setUsername(e.target.value)} required autoComplete="username" />
+                  onChange={(e) => setUsername(e.target.value)} autoComplete="username"
+                  placeholder="admin" />
               </div>
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <a className="text-xs text-[var(--brand-orange)] hover:underline" href="#">Forgot password?</a>
+                <button type="button" onClick={() => { setForgotOpen(true); setForgotMsg(null); }}
+                  className="text-xs text-[var(--brand-orange)] hover:underline">Forgot password?</button>
               </div>
               <div className="relative">
                 <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="password" type="password" className="pl-9 h-11" value={password}
-                  onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
+                  onChange={(e) => setPassword(e.target.value)} autoComplete="current-password"
+                  placeholder="demo1234" />
               </div>
             </div>
 
@@ -161,6 +215,24 @@ function LoginPage() {
               New dealer? <Link to="/contact" className="text-[var(--brand-orange)] font-semibold hover:underline">Request access →</Link>
             </p>
           </form>
+
+          {forgotOpen && (
+            <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4" onClick={() => setForgotOpen(false)}>
+              <div onClick={(e) => e.stopPropagation()} className="w-full max-w-sm rounded-lg bg-background p-6 shadow-elevated border">
+                <h3 className="text-lg font-bold">Reset password</h3>
+                <p className="text-xs text-muted-foreground mt-1">Enter your registered email and we'll send a reset link.</p>
+                <form onSubmit={submitForgot} className="mt-4 space-y-3">
+                  <Input type="email" placeholder="you@company.com" value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)} required />
+                  {forgotMsg && <p className="text-xs text-[var(--brand-orange)]">{forgotMsg}</p>}
+                  <div className="flex justify-end gap-2">
+                    <Button type="button" variant="ghost" onClick={() => setForgotOpen(false)}>Cancel</Button>
+                    <Button type="submit" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white">Send link</Button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useData } from "@/lib/store";
 import { ProductActions } from "@/components/product-actions";
+import { VideoHeroSlider, type HeroSlide } from "@/components/video-hero-slider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   ArrowRight, Zap, ShieldCheck, Wrench, Truck, Award, Factory, Fuel, Volume2,
-  Phone, MapPin, Star, CheckCircle2, TrendingUp, Users, PlayCircle,
+  Phone, MapPin, Star, CheckCircle2, TrendingUp, Users,
 } from "lucide-react";
 import * as React from "react";
 
@@ -25,63 +26,52 @@ const categories = [
   { name: "Spare Parts", icon: Wrench, count: 220 },
 ];
 
-const slides = [
-  { tag: "CPCB-IV+ Ready", title: "Industrial Power, Engineered to Outlast.", sub: "Authorized dealer for Kirloskar, Cummins & Mahindra Powerol. 5 kVA to 2500 kVA generators with pan-India service.", cta1: "View Products", cta1To: "/products", cta2: "Request Quote", cta2To: "/contact" },
-  { tag: "Monsoon Service Drive", title: "Free Health Check + 15% Off AMC.", sub: "Book before 30 June and get a complimentary load-bank test plus genuine spares discount.", cta1: "Book Service", cta1To: "/service-request", cta2: "AMC Enquiry", cta2To: "/contact" },
-  { tag: "Rental Marketplace", title: "Power on Demand — From 12 hrs to 12 months.", sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.", cta1: "Browse Rental", cta1To: "/rental-generators", cta2: "Become Dealer", cta2To: "/login" },
+const heroSlides: HeroSlide[] = [
+  {
+    kind: "youtube", src: "5qap5aO4i9A",
+    tag: "CPCB-IV+ Ready",
+    title: "Industrial Power, Engineered to Outlast.",
+    sub: "Authorized dealer for Kirloskar, Cummins & Mahindra Powerol. 5 kVA to 2500 kVA with pan-India service.",
+    cta1: { label: "View Products", to: "/products" },
+    cta2: { label: "Request Quote", to: "/contact" },
+  },
+  {
+    kind: "mp4",
+    src: "https://cdn.coverr.co/videos/coverr-an-industrial-facility-at-night-5746/1080p.mp4",
+    poster: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1600&q=80",
+    tag: "Monsoon Service Drive",
+    title: "Free Health Check + 15% Off AMC.",
+    sub: "Book before 30 June and get a complimentary load-bank test plus genuine spares discount.",
+    cta1: { label: "Book Service", to: "/service-request" },
+    cta2: { label: "AMC Enquiry", to: "/contact" },
+  },
+  {
+    kind: "image",
+    src: "https://images.unsplash.com/photo-1487875961445-47a00398c267?auto=format&fit=crop&w=1600&q=80",
+    tag: "Rental Marketplace",
+    title: "Power on Demand — 12 hrs to 12 months.",
+    sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.",
+    cta1: { label: "Browse Rental", to: "/rental-generators" },
+    cta2: { label: "Become Dealer", to: "/login" },
+  },
 ];
 
 function HomePage() {
   const { products } = useData();
-  const [slide, setSlide] = React.useState(0);
-  React.useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 6000);
-    return () => clearInterval(t);
-  }, []);
-  const s = slides[slide];
-
   const featured = products.slice(0, 4);
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-hero text-white">
-        <div className="absolute inset-0 grid-pattern opacity-40" />
-        <div className="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-[var(--brand-orange)]/20 blur-3xl animate-float" />
-        <div className="absolute -bottom-40 -left-40 h-[400px] w-[400px] rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:py-28 grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <Badge className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange)] text-white border-0 mb-5">{s.tag}</Badge>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.05]">
-              {s.title}
-            </h1>
-            <p className="mt-5 text-lg text-white/75 max-w-xl">{s.sub}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-[var(--brand-orange)] hover:bg-[var(--brand-orange-2)] text-white shadow-glow">
-                <Link to={s.cta1To}>{s.cta1} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="bg-white/5 border-white/20 text-white hover:bg-white/10 hover:text-white">
-                <Link to={s.cta2To}>{s.cta2}</Link>
-              </Button>
-              <Button asChild size="lg" variant="ghost" className="text-white hover:bg-white/10 hover:text-white">
-                <Link to="/recommend"><PlayCircle className="mr-1.5 h-4 w-4" /> Recommendation Tool</Link>
-              </Button>
-            </div>
+      <VideoHeroSlider slides={heroSlides} />
 
-            <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
-              <Stat n="17+" l="Years" />
-              <Stat n="8,400+" l="Installed" />
-              <Stat n="120+" l="Dealers" />
-            </div>
-            <div className="mt-6 flex gap-1.5">
-              {slides.map((_, i) => (
-                <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all ${i === slide ? "w-8 bg-[var(--brand-orange)]" : "w-4 bg-white/30"}`} />
-              ))}
-            </div>
+      {/* Sizing tool below the hero video */}
+      <section className="bg-[var(--brand-navy)] text-white py-10">
+        <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-[1fr_400px] gap-8 items-center">
+          <div className="grid grid-cols-3 gap-6 max-w-md">
+            <Stat n="17+" l="Years" />
+            <Stat n="8,400+" l="Installed" />
+            <Stat n="120+" l="Dealers" />
           </div>
-
-          {/* Recommendation glass card */}
           <div className="glass rounded-2xl p-6 shadow-elevated">
             <div className="flex items-center justify-between mb-4">
               <div>

@@ -32,6 +32,7 @@ import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
 import { Route as AppRolesRouteImport } from './routes/_app/roles'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
+import { Route as AppPriceListRouteImport } from './routes/_app/price-list'
 import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
@@ -175,6 +176,11 @@ const AppQuotationsRoute = AppQuotationsRouteImport.update({
 const AppProductsRoute = AppProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPriceListRoute = AppPriceListRouteImport.update({
+  id: '/price-list',
+  path: '/price-list',
   getParentRoute: () => AppRoute,
 } as any)
 const AppInvoicesRoute = AppInvoicesRouteImport.update({
@@ -346,6 +352,7 @@ export interface FileRoutesByFullPath {
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
+  '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/roles': typeof AppRolesRoute
@@ -399,6 +406,7 @@ export interface FileRoutesByTo {
   '/employees': typeof AppEmployeesRoute
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
+  '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
   '/roles': typeof AppRolesRoute
@@ -454,6 +462,7 @@ export interface FileRoutesById {
   '/_app/employees': typeof AppEmployeesRoute
   '/_app/inventory': typeof AppInventoryRoute
   '/_app/invoices': typeof AppInvoicesRoute
+  '/_app/price-list': typeof AppPriceListRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/quotations': typeof AppQuotationsRoute
   '/_app/roles': typeof AppRolesRoute
@@ -511,6 +520,7 @@ export interface FileRouteTypes {
     | '/employees'
     | '/inventory'
     | '/invoices'
+    | '/price-list'
     | '/products'
     | '/quotations'
     | '/roles'
@@ -564,6 +574,7 @@ export interface FileRouteTypes {
     | '/employees'
     | '/inventory'
     | '/invoices'
+    | '/price-list'
     | '/products'
     | '/quotations'
     | '/roles'
@@ -618,6 +629,7 @@ export interface FileRouteTypes {
     | '/_app/employees'
     | '/_app/inventory'
     | '/_app/invoices'
+    | '/_app/price-list'
     | '/_app/products'
     | '/_app/quotations'
     | '/_app/roles'
@@ -830,6 +842,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/price-list': {
+      id: '/_app/price-list'
+      path: '/price-list'
+      fullPath: '/price-list'
+      preLoaderRoute: typeof AppPriceListRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/invoices': {
@@ -1061,6 +1080,7 @@ interface AppRouteChildren {
   AppEmployeesRoute: typeof AppEmployeesRoute
   AppInventoryRoute: typeof AppInventoryRoute
   AppInvoicesRoute: typeof AppInvoicesRoute
+  AppPriceListRoute: typeof AppPriceListRoute
   AppProductsRoute: typeof AppProductsRoute
   AppQuotationsRoute: typeof AppQuotationsRoute
   AppRolesRoute: typeof AppRolesRoute
@@ -1101,6 +1121,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppEmployeesRoute: AppEmployeesRoute,
   AppInventoryRoute: AppInventoryRoute,
   AppInvoicesRoute: AppInvoicesRoute,
+  AppPriceListRoute: AppPriceListRoute,
   AppProductsRoute: AppProductsRoute,
   AppQuotationsRoute: AppQuotationsRoute,
   AppRolesRoute: AppRolesRoute,
@@ -1187,13 +1208,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
