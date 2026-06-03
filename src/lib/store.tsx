@@ -4,11 +4,13 @@ import {
   seedQuotations, seedSalesOrders, seedInvoices, seedWarranties,
   seedServiceTickets, seedStock,
   seedCompanies, seedBranches, seedEstimates, seedCreditNotes, seedDebitNotes, seedAuditLogs,
+  seedDepartments, seedDesignations, seedLoginHistory,
 } from "./seed";
 import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
+  Department, Designation, LoginHistory,
 } from "./types";
 
 type DataState = {
@@ -28,6 +30,9 @@ type DataState = {
   tickets: ServiceTicket[];
   stock: StockMovement[];
   auditLogs: AuditLog[];
+  departments: Department[];
+  designations: Designation[];
+  loginHistory: LoginHistory[];
 };
 
 type Ctx = DataState & {
@@ -56,6 +61,9 @@ const initial: DataState = {
   tickets: seedServiceTickets,
   stock: seedStock,
   auditLogs: seedAuditLogs,
+  departments: seedDepartments,
+  designations: seedDesignations,
+  loginHistory: seedLoginHistory,
 };
 
 export function DataProvider({ children }: { children: React.ReactNode }) {

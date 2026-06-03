@@ -2,6 +2,7 @@ import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
+  Department, Designation, LoginHistory,
 } from "./types";
 
 export const seedCompanies: Company[] = [
@@ -168,4 +169,30 @@ export const productMix = [
   { name: "GT-Industrial 125", value: 14 },
   { name: "GT-Portable 5", value: 8 },
   { name: "GT-Gas 20", value: 4 },
+];
+
+export const seedDepartments: Department[] = [
+  { id: "dp1", code: "SAL", name: "Sales", description: "Sales & business development" },
+  { id: "dp2", code: "SVC", name: "Service", description: "Field service & technical support" },
+  { id: "dp3", code: "FIN", name: "Finance", description: "Accounts, billing & collections" },
+  { id: "dp4", code: "OPS", name: "Operations", description: "Logistics, warehouse, dispatch" },
+  { id: "dp5", code: "HR",  name: "Human Resources", description: "HR, payroll, training" },
+  { id: "dp6", code: "IT",  name: "Information Technology", description: "IT infrastructure & systems" },
+];
+
+export const seedDesignations: Designation[] = [
+  { id: "dg1", code: "SM",  name: "Sales Manager",      departmentId: "dp1" },
+  { id: "dg2", code: "SE",  name: "Sales Executive",    departmentId: "dp1" },
+  { id: "dg3", code: "SVM", name: "Service Manager",    departmentId: "dp2" },
+  { id: "dg4", code: "SVE", name: "Service Engineer",   departmentId: "dp2" },
+  { id: "dg5", code: "AM",  name: "Accounts Manager",   departmentId: "dp3" },
+  { id: "dg6", code: "BM",  name: "Branch Manager",     departmentId: "dp4" },
+  { id: "dg7", code: "SK",  name: "Store Keeper",       departmentId: "dp4" },
+  { id: "dg8", code: "HRM", name: "HR Manager",         departmentId: "dp5" },
+];
+
+export const seedLoginHistory: LoginHistory[] = [
+  { id: "lh1", user: "admin", role: "Super Admin", branchId: "b1", loginAt: "2026-06-02 09:14", logoutAt: "2026-06-02 18:32", ip: "192.168.1.24" },
+  { id: "lh2", user: "sales", role: "Sales Manager", branchId: "b2", loginAt: "2026-06-02 09:05", logoutAt: "2026-06-02 19:10", ip: "192.168.1.41" },
+  { id: "lh3", user: "accounts", role: "Accounts Manager", branchId: "b2", loginAt: "2026-06-03 08:58", ip: "192.168.1.55" },
 ];
