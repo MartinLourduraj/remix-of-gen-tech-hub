@@ -66,13 +66,11 @@ function LoginPage() {
     if (p.length < 6) { setError("Password must be at least 6 characters."); return; }
 
     const match = VALID.find((v) => v.u === u.toLowerCase() && v.p === p);
-    // Allow demo role-override flow OR matched credential
-    const resolvedRole: Role = match ? match.role : role;
-    if (!match && u.toLowerCase() !== "admin") {
-      // Strict mode: unknown user
+    if (!match) {
       setError("Invalid username or password. Try admin / demo1234.");
       return;
     }
+    const resolvedRole: Role = match.role;
     if (remember) localStorage.setItem(REMEMBER_KEY, u);
     else localStorage.removeItem(REMEMBER_KEY);
 
