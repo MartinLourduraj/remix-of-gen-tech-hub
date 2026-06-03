@@ -97,6 +97,45 @@ export type Employee = {
   designation: string; department: string; branch: string;
   mobile: string; email: string; joiningDate: string;
   branchId?: string;
+  firstName?: string; lastName?: string;
+  gender?: "Male" | "Female" | "Other";
+  dob?: string;
+  altMobile?: string;
+  address1?: string; address2?: string; city?: string; district?: string; state?: string; pincode?: string;
+  employeeType?: "Permanent" | "Contract" | "Intern" | "Consultant";
+  reportingManager?: string;
+  userId?: string;
+  passwordHash?: string;
+  loginStart?: string; // "09:00"
+  loginEnd?: string;   // "18:00"
+  role?: Role;
+  status?: "Active" | "Inactive" | "Locked";
+};
+
+export type Department = {
+  id: string; code: string; name: string; description?: string;
+};
+
+export type Designation = {
+  id: string; code: string; name: string; departmentId?: string; description?: string;
+};
+
+export type LoginHistory = {
+  id: string; user: string; role: string; branchId?: string;
+  loginAt: string; logoutAt?: string; ip: string; userAgent?: string;
+};
+
+export type TicketCategory = "Hardware" | "Software" | "Service" | "Billing" | "AMC" | "Spares" | "Other";
+export type TicketNote = { id: string; at: string; author: string; kind: "Internal" | "Customer"; body: string };
+
+export type ServiceTicketExt = {
+  category?: TicketCategory; subCategory?: string;
+  department?: string; assignedTo?: string;
+  resolution?: string; notes?: TicketNote[];
+  attachments?: { name: string; url?: string }[];
+  escalated?: boolean;
+  sla?: string; // e.g. "24h"
+  updatedAt?: string;
 };
 
 export type Quotation = {
