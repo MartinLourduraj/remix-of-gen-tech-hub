@@ -2,6 +2,7 @@ import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
+  Department, Designation, LoginHistory,
 } from "./types";
 
 export const seedCompanies: Company[] = [
