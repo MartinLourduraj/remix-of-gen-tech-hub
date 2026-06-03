@@ -33,9 +33,12 @@ import { Route as AppRolesRouteImport } from './routes/_app/roles'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppPriceListRouteImport } from './routes/_app/price-list'
+import { Route as AppLoginHistoryRouteImport } from './routes/_app/login-history'
 import { Route as AppInvoicesRouteImport } from './routes/_app/invoices'
 import { Route as AppInventoryRouteImport } from './routes/_app/inventory'
 import { Route as AppEmployeesRouteImport } from './routes/_app/employees'
+import { Route as AppDesignationsRouteImport } from './routes/_app/designations'
+import { Route as AppDepartmentsRouteImport } from './routes/_app/departments'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppCustomersRouteImport } from './routes/_app/customers'
 import { Route as AppCompaniesRouteImport } from './routes/_app/companies'
@@ -191,6 +194,11 @@ const AppPriceListRoute = AppPriceListRouteImport.update({
   path: '/price-list',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLoginHistoryRoute = AppLoginHistoryRouteImport.update({
+  id: '/login-history',
+  path: '/login-history',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppInvoicesRoute = AppInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
@@ -204,6 +212,16 @@ const AppInventoryRoute = AppInventoryRouteImport.update({
 const AppEmployeesRoute = AppEmployeesRouteImport.update({
   id: '/employees',
   path: '/employees',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDesignationsRoute = AppDesignationsRouteImport.update({
+  id: '/designations',
+  path: '/designations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDepartmentsRoute = AppDepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -397,9 +415,12 @@ export interface FileRoutesByFullPath {
   '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/departments': typeof AppDepartmentsRoute
+  '/designations': typeof AppDesignationsRoute
   '/employees': typeof AppEmployeesRouteWithChildren
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
+  '/login-history': typeof AppLoginHistoryRoute
   '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
@@ -459,9 +480,12 @@ export interface FileRoutesByTo {
   '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
+  '/departments': typeof AppDepartmentsRoute
+  '/designations': typeof AppDesignationsRoute
   '/employees': typeof AppEmployeesRouteWithChildren
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
+  '/login-history': typeof AppLoginHistoryRoute
   '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
   '/quotations': typeof AppQuotationsRoute
@@ -523,9 +547,12 @@ export interface FileRoutesById {
   '/_app/companies': typeof AppCompaniesRoute
   '/_app/customers': typeof AppCustomersRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/departments': typeof AppDepartmentsRoute
+  '/_app/designations': typeof AppDesignationsRoute
   '/_app/employees': typeof AppEmployeesRouteWithChildren
   '/_app/inventory': typeof AppInventoryRoute
   '/_app/invoices': typeof AppInvoicesRoute
+  '/_app/login-history': typeof AppLoginHistoryRoute
   '/_app/price-list': typeof AppPriceListRoute
   '/_app/products': typeof AppProductsRouteWithChildren
   '/_app/quotations': typeof AppQuotationsRoute
@@ -589,9 +616,12 @@ export interface FileRouteTypes {
     | '/companies'
     | '/customers'
     | '/dashboard'
+    | '/departments'
+    | '/designations'
     | '/employees'
     | '/inventory'
     | '/invoices'
+    | '/login-history'
     | '/price-list'
     | '/products'
     | '/quotations'
@@ -651,9 +681,12 @@ export interface FileRouteTypes {
     | '/companies'
     | '/customers'
     | '/dashboard'
+    | '/departments'
+    | '/designations'
     | '/employees'
     | '/inventory'
     | '/invoices'
+    | '/login-history'
     | '/price-list'
     | '/products'
     | '/quotations'
@@ -714,9 +747,12 @@ export interface FileRouteTypes {
     | '/_app/companies'
     | '/_app/customers'
     | '/_app/dashboard'
+    | '/_app/departments'
+    | '/_app/designations'
     | '/_app/employees'
     | '/_app/inventory'
     | '/_app/invoices'
+    | '/_app/login-history'
     | '/_app/price-list'
     | '/_app/products'
     | '/_app/quotations'
@@ -947,6 +983,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPriceListRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/login-history': {
+      id: '/_app/login-history'
+      path: '/login-history'
+      fullPath: '/login-history'
+      preLoaderRoute: typeof AppLoginHistoryRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/invoices': {
       id: '/_app/invoices'
       path: '/invoices'
@@ -966,6 +1009,20 @@ declare module '@tanstack/react-router' {
       path: '/employees'
       fullPath: '/employees'
       preLoaderRoute: typeof AppEmployeesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/designations': {
+      id: '/_app/designations'
+      path: '/designations'
+      fullPath: '/designations'
+      preLoaderRoute: typeof AppDesignationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/departments': {
+      id: '/_app/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof AppDepartmentsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -1285,9 +1342,12 @@ interface AppRouteChildren {
   AppCompaniesRoute: typeof AppCompaniesRoute
   AppCustomersRoute: typeof AppCustomersRouteWithChildren
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDepartmentsRoute: typeof AppDepartmentsRoute
+  AppDesignationsRoute: typeof AppDesignationsRoute
   AppEmployeesRoute: typeof AppEmployeesRouteWithChildren
   AppInventoryRoute: typeof AppInventoryRoute
   AppInvoicesRoute: typeof AppInvoicesRoute
+  AppLoginHistoryRoute: typeof AppLoginHistoryRoute
   AppPriceListRoute: typeof AppPriceListRoute
   AppProductsRoute: typeof AppProductsRouteWithChildren
   AppQuotationsRoute: typeof AppQuotationsRoute
@@ -1326,9 +1386,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppCompaniesRoute: AppCompaniesRoute,
   AppCustomersRoute: AppCustomersRouteWithChildren,
   AppDashboardRoute: AppDashboardRoute,
+  AppDepartmentsRoute: AppDepartmentsRoute,
+  AppDesignationsRoute: AppDesignationsRoute,
   AppEmployeesRoute: AppEmployeesRouteWithChildren,
   AppInventoryRoute: AppInventoryRoute,
   AppInvoicesRoute: AppInvoicesRoute,
+  AppLoginHistoryRoute: AppLoginHistoryRoute,
   AppPriceListRoute: AppPriceListRoute,
   AppProductsRoute: AppProductsRouteWithChildren,
   AppQuotationsRoute: AppQuotationsRoute,
