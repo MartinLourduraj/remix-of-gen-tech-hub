@@ -177,7 +177,7 @@ export type ServiceTicket = {
   id: string; number: string; customerId: string; productId: string;
   problem: string;
   priority: "Low" | "Medium" | "High" | "Critical";
-  status: "Open" | "Assigned" | "In Progress" | "Pending Parts" | "Closed";
+  status: "New" | "Open" | "Assigned" | "In Progress" | "Pending Parts" | "Waiting for Customer" | "Waiting for Developer" | "Resolved" | "Closed" | "Reopened";
   technician?: string; createdAt: string;
   branchId?: string;
 } & ServiceTicketExt;
