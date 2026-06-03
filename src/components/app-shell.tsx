@@ -5,6 +5,7 @@ import {
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
   LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
   FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen, BadgeIndianRupee,
+  Briefcase, IdCard,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useBranch } from "@/lib/branch-context";
@@ -32,6 +33,8 @@ const navGroups: NavGroup[] = [
     { to: "/price-list", label: "Price List", icon: BadgeIndianRupee },
     { to: "/vendors", label: "Vendors", icon: Truck },
     { to: "/employees", label: "Employees", icon: UserCog },
+    { to: "/departments", label: "Departments", icon: Briefcase },
+    { to: "/designations", label: "Designations", icon: IdCard },
   ]},
   { title: "Sales", items: [
     { to: "/sales/estimates/new", label: "New Estimate", icon: FilePlus },
@@ -51,6 +54,7 @@ const navGroups: NavGroup[] = [
   { title: "Admin", items: [
     { to: "/reports", label: "Reports", icon: BarChart3 },
     { to: "/audit-log", label: "Audit Log", icon: History },
+    { to: "/login-history", label: "Login History", icon: BookOpen },
     { to: "/roles", label: "Roles & Access", icon: KeyRound },
   ]},
 ];

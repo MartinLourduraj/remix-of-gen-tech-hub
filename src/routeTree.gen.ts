@@ -62,6 +62,7 @@ import { Route as AppReportsCustomersRouteImport } from './routes/_app/reports.c
 import { Route as AppReportsCollectionsRouteImport } from './routes/_app/reports.collections'
 import { Route as AppReportsAmcRouteImport } from './routes/_app/reports.amc'
 import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
+import { Route as AppEmployeesNewRouteImport } from './routes/_app/employees.new'
 import { Route as AppCustomersNewRouteImport } from './routes/_app/customers.new'
 import { Route as AppSalesInvoicesIndexRouteImport } from './routes/_app/sales/invoices.index'
 import { Route as AppSalesEstimatesIndexRouteImport } from './routes/_app/sales/estimates.index'
@@ -69,6 +70,7 @@ import { Route as AppVendorsIdEditRouteImport } from './routes/_app/vendors.$id.
 import { Route as AppSalesInvoicesNewRouteImport } from './routes/_app/sales/invoices.new'
 import { Route as AppSalesEstimatesNewRouteImport } from './routes/_app/sales/estimates.new'
 import { Route as AppProductsIdEditRouteImport } from './routes/_app/products.$id.edit'
+import { Route as AppEmployeesIdEditRouteImport } from './routes/_app/employees.$id.edit'
 import { Route as AppCustomersIdEditRouteImport } from './routes/_app/customers.$id.edit'
 
 const SelectBranchRoute = SelectBranchRouteImport.update({
@@ -334,6 +336,11 @@ const AppProductsNewRoute = AppProductsNewRouteImport.update({
   path: '/new',
   getParentRoute: () => AppProductsRoute,
 } as any)
+const AppEmployeesNewRoute = AppEmployeesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AppEmployeesRoute,
+} as any)
 const AppCustomersNewRoute = AppCustomersNewRouteImport.update({
   id: '/new',
   path: '/new',
@@ -369,6 +376,11 @@ const AppProductsIdEditRoute = AppProductsIdEditRouteImport.update({
   path: '/$id/edit',
   getParentRoute: () => AppProductsRoute,
 } as any)
+const AppEmployeesIdEditRoute = AppEmployeesIdEditRouteImport.update({
+  id: '/$id/edit',
+  path: '/$id/edit',
+  getParentRoute: () => AppEmployeesRoute,
+} as any)
 const AppCustomersIdEditRoute = AppCustomersIdEditRouteImport.update({
   id: '/$id/edit',
   path: '/$id/edit',
@@ -385,7 +397,7 @@ export interface FileRoutesByFullPath {
   '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
-  '/employees': typeof AppEmployeesRoute
+  '/employees': typeof AppEmployeesRouteWithChildren
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
   '/price-list': typeof AppPriceListRoute
@@ -406,6 +418,7 @@ export interface FileRoutesByFullPath {
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
+  '/employees/new': typeof AppEmployeesNewRoute
   '/products/new': typeof AppProductsNewRoute
   '/reports/amc': typeof AppReportsAmcRoute
   '/reports/collections': typeof AppReportsCollectionsRoute
@@ -428,6 +441,7 @@ export interface FileRoutesByFullPath {
   '/products/$id': typeof PublicProductsIdRoute
   '/reports/': typeof AppReportsIndexRoute
   '/customers/$id/edit': typeof AppCustomersIdEditRoute
+  '/employees/$id/edit': typeof AppEmployeesIdEditRoute
   '/products/$id/edit': typeof AppProductsIdEditRoute
   '/sales/estimates/new': typeof AppSalesEstimatesNewRoute
   '/sales/invoices/new': typeof AppSalesInvoicesNewRoute
@@ -445,7 +459,7 @@ export interface FileRoutesByTo {
   '/companies': typeof AppCompaniesRoute
   '/customers': typeof AppCustomersRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
-  '/employees': typeof AppEmployeesRoute
+  '/employees': typeof AppEmployeesRouteWithChildren
   '/inventory': typeof AppInventoryRoute
   '/invoices': typeof AppInvoicesRoute
   '/price-list': typeof AppPriceListRoute
@@ -466,6 +480,7 @@ export interface FileRoutesByTo {
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
+  '/employees/new': typeof AppEmployeesNewRoute
   '/products/new': typeof AppProductsNewRoute
   '/reports/amc': typeof AppReportsAmcRoute
   '/reports/collections': typeof AppReportsCollectionsRoute
@@ -488,6 +503,7 @@ export interface FileRoutesByTo {
   '/products/$id': typeof PublicProductsIdRoute
   '/reports': typeof AppReportsIndexRoute
   '/customers/$id/edit': typeof AppCustomersIdEditRoute
+  '/employees/$id/edit': typeof AppEmployeesIdEditRoute
   '/products/$id/edit': typeof AppProductsIdEditRoute
   '/sales/estimates/new': typeof AppSalesEstimatesNewRoute
   '/sales/invoices/new': typeof AppSalesInvoicesNewRoute
@@ -507,7 +523,7 @@ export interface FileRoutesById {
   '/_app/companies': typeof AppCompaniesRoute
   '/_app/customers': typeof AppCustomersRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
-  '/_app/employees': typeof AppEmployeesRoute
+  '/_app/employees': typeof AppEmployeesRouteWithChildren
   '/_app/inventory': typeof AppInventoryRoute
   '/_app/invoices': typeof AppInvoicesRoute
   '/_app/price-list': typeof AppPriceListRoute
@@ -530,6 +546,7 @@ export interface FileRoutesById {
   '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
+  '/_app/employees/new': typeof AppEmployeesNewRoute
   '/_app/products/new': typeof AppProductsNewRoute
   '/_app/reports/amc': typeof AppReportsAmcRoute
   '/_app/reports/collections': typeof AppReportsCollectionsRoute
@@ -552,6 +569,7 @@ export interface FileRoutesById {
   '/_public/products/$id': typeof PublicProductsIdRoute
   '/_app/reports/': typeof AppReportsIndexRoute
   '/_app/customers/$id/edit': typeof AppCustomersIdEditRoute
+  '/_app/employees/$id/edit': typeof AppEmployeesIdEditRoute
   '/_app/products/$id/edit': typeof AppProductsIdEditRoute
   '/_app/sales/estimates/new': typeof AppSalesEstimatesNewRoute
   '/_app/sales/invoices/new': typeof AppSalesInvoicesNewRoute
@@ -592,6 +610,7 @@ export interface FileRouteTypes {
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
+    | '/employees/new'
     | '/products/new'
     | '/reports/amc'
     | '/reports/collections'
@@ -614,6 +633,7 @@ export interface FileRouteTypes {
     | '/products/$id'
     | '/reports/'
     | '/customers/$id/edit'
+    | '/employees/$id/edit'
     | '/products/$id/edit'
     | '/sales/estimates/new'
     | '/sales/invoices/new'
@@ -652,6 +672,7 @@ export interface FileRouteTypes {
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
+    | '/employees/new'
     | '/products/new'
     | '/reports/amc'
     | '/reports/collections'
@@ -674,6 +695,7 @@ export interface FileRouteTypes {
     | '/products/$id'
     | '/reports'
     | '/customers/$id/edit'
+    | '/employees/$id/edit'
     | '/products/$id/edit'
     | '/sales/estimates/new'
     | '/sales/invoices/new'
@@ -715,6 +737,7 @@ export interface FileRouteTypes {
     | '/_public/warranty'
     | '/_public/'
     | '/_app/customers/new'
+    | '/_app/employees/new'
     | '/_app/products/new'
     | '/_app/reports/amc'
     | '/_app/reports/collections'
@@ -737,6 +760,7 @@ export interface FileRouteTypes {
     | '/_public/products/$id'
     | '/_app/reports/'
     | '/_app/customers/$id/edit'
+    | '/_app/employees/$id/edit'
     | '/_app/products/$id/edit'
     | '/_app/sales/estimates/new'
     | '/_app/sales/invoices/new'
@@ -1126,6 +1150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsNewRouteImport
       parentRoute: typeof AppProductsRoute
     }
+    '/_app/employees/new': {
+      id: '/_app/employees/new'
+      path: '/new'
+      fullPath: '/employees/new'
+      preLoaderRoute: typeof AppEmployeesNewRouteImport
+      parentRoute: typeof AppEmployeesRoute
+    }
     '/_app/customers/new': {
       id: '/_app/customers/new'
       path: '/new'
@@ -1175,6 +1206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsIdEditRouteImport
       parentRoute: typeof AppProductsRoute
     }
+    '/_app/employees/$id/edit': {
+      id: '/_app/employees/$id/edit'
+      path: '/$id/edit'
+      fullPath: '/employees/$id/edit'
+      preLoaderRoute: typeof AppEmployeesIdEditRouteImport
+      parentRoute: typeof AppEmployeesRoute
+    }
     '/_app/customers/$id/edit': {
       id: '/_app/customers/$id/edit'
       path: '/$id/edit'
@@ -1197,6 +1235,20 @@ const AppCustomersRouteChildren: AppCustomersRouteChildren = {
 
 const AppCustomersRouteWithChildren = AppCustomersRoute._addFileChildren(
   AppCustomersRouteChildren,
+)
+
+interface AppEmployeesRouteChildren {
+  AppEmployeesNewRoute: typeof AppEmployeesNewRoute
+  AppEmployeesIdEditRoute: typeof AppEmployeesIdEditRoute
+}
+
+const AppEmployeesRouteChildren: AppEmployeesRouteChildren = {
+  AppEmployeesNewRoute: AppEmployeesNewRoute,
+  AppEmployeesIdEditRoute: AppEmployeesIdEditRoute,
+}
+
+const AppEmployeesRouteWithChildren = AppEmployeesRoute._addFileChildren(
+  AppEmployeesRouteChildren,
 )
 
 interface AppProductsRouteChildren {
@@ -1233,7 +1285,7 @@ interface AppRouteChildren {
   AppCompaniesRoute: typeof AppCompaniesRoute
   AppCustomersRoute: typeof AppCustomersRouteWithChildren
   AppDashboardRoute: typeof AppDashboardRoute
-  AppEmployeesRoute: typeof AppEmployeesRoute
+  AppEmployeesRoute: typeof AppEmployeesRouteWithChildren
   AppInventoryRoute: typeof AppInventoryRoute
   AppInvoicesRoute: typeof AppInvoicesRoute
   AppPriceListRoute: typeof AppPriceListRoute
@@ -1274,7 +1326,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCompaniesRoute: AppCompaniesRoute,
   AppCustomersRoute: AppCustomersRouteWithChildren,
   AppDashboardRoute: AppDashboardRoute,
-  AppEmployeesRoute: AppEmployeesRoute,
+  AppEmployeesRoute: AppEmployeesRouteWithChildren,
   AppInventoryRoute: AppInventoryRoute,
   AppInvoicesRoute: AppInvoicesRoute,
   AppPriceListRoute: AppPriceListRoute,
