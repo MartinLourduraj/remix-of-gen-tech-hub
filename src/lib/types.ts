@@ -180,7 +180,7 @@ export type ServiceTicket = {
   status: "Open" | "Assigned" | "In Progress" | "Pending Parts" | "Closed";
   technician?: string; createdAt: string;
   branchId?: string;
-};
+} & ServiceTicketExt;
 
 export type StockMovement = {
   id: string; date: string; productId: string;
