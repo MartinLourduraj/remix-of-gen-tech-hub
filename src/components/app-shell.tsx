@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useBranch } from "@/lib/branch-context";
+import { canView } from "@/lib/permissions";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,44 +19,44 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 
-type NavItem = { to: string; label: string; icon: React.ElementType };
+type NavItem = { to: string; label: string; icon: React.ElementType; mod: string };
 type NavGroup = { title: string; items: NavItem[] };
 
 const navGroups: NavGroup[] = [
   { title: "Main", items: [
-    { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, mod: "Dashboard" },
   ]},
   { title: "Masters", items: [
-    { to: "/companies", label: "Companies", icon: Building },
-    { to: "/branches", label: "Branches", icon: Building2 },
-    { to: "/customers", label: "Customers", icon: Users },
-    { to: "/products", label: "Products", icon: Package },
-    { to: "/price-list", label: "Price List", icon: BadgeIndianRupee },
-    { to: "/vendors", label: "Vendors", icon: Truck },
-    { to: "/employees", label: "Employees", icon: UserCog },
-    { to: "/departments", label: "Departments", icon: Briefcase },
-    { to: "/designations", label: "Designations", icon: IdCard },
+    { to: "/companies", label: "Companies", icon: Building, mod: "Companies" },
+    { to: "/branches", label: "Branches", icon: Building2, mod: "Branches" },
+    { to: "/customers", label: "Customers", icon: Users, mod: "Customers" },
+    { to: "/products", label: "Products", icon: Package, mod: "Products" },
+    { to: "/price-list", label: "Price List", icon: BadgeIndianRupee, mod: "Price List" },
+    { to: "/vendors", label: "Vendors", icon: Truck, mod: "Vendors" },
+    { to: "/employees", label: "Employees", icon: UserCog, mod: "Employees" },
+    { to: "/departments", label: "Departments", icon: Briefcase, mod: "Employees" },
+    { to: "/designations", label: "Designations", icon: IdCard, mod: "Employees" },
   ]},
   { title: "Sales", items: [
-    { to: "/sales/estimates/new", label: "New Estimate", icon: FilePlus },
-    { to: "/sales/estimates", label: "Estimate List", icon: FileSpreadsheet },
-    { to: "/sales/invoices/new", label: "New Invoice", icon: FilePlus },
-    { to: "/sales/invoices", label: "Invoice List", icon: Receipt },
-    { to: "/sales/credit-notes", label: "Credit Note", icon: FileMinus },
-    { to: "/sales/debit-notes", label: "Debit Note", icon: FilePlus },
-    { to: "/quotations", label: "Quotations", icon: FileText },
-    { to: "/sales-orders", label: "Sales Orders", icon: ShoppingCart },
+    { to: "/sales/estimates/new", label: "New Estimate", icon: FilePlus, mod: "Estimates" },
+    { to: "/sales/estimates", label: "Estimate List", icon: FileSpreadsheet, mod: "Estimates" },
+    { to: "/sales/invoices/new", label: "New Invoice", icon: FilePlus, mod: "Invoices" },
+    { to: "/sales/invoices", label: "Invoice List", icon: Receipt, mod: "Invoices" },
+    { to: "/sales/credit-notes", label: "Credit Note", icon: FileMinus, mod: "Credit Notes" },
+    { to: "/sales/debit-notes", label: "Debit Note", icon: FilePlus, mod: "Debit Notes" },
+    { to: "/quotations", label: "Quotations", icon: FileText, mod: "Quotations" },
+    { to: "/sales-orders", label: "Sales Orders", icon: ShoppingCart, mod: "Sales Orders" },
   ]},
   { title: "Operations", items: [
-    { to: "/inventory", label: "Inventory", icon: Boxes },
-    { to: "/warranty-admin", label: "Warranty", icon: ShieldCheck },
-    { to: "/service", label: "Service Tickets", icon: Wrench },
+    { to: "/inventory", label: "Inventory", icon: Boxes, mod: "Inventory" },
+    { to: "/warranty-admin", label: "Warranty", icon: ShieldCheck, mod: "Warranty" },
+    { to: "/service", label: "Service Tickets", icon: Wrench, mod: "Service" },
   ]},
   { title: "Admin", items: [
-    { to: "/reports", label: "Reports", icon: BarChart3 },
-    { to: "/audit-log", label: "Audit Log", icon: History },
-    { to: "/login-history", label: "Login History", icon: BookOpen },
-    { to: "/roles", label: "Roles & Access", icon: KeyRound },
+    { to: "/reports", label: "Reports", icon: BarChart3, mod: "Reports" },
+    { to: "/audit-log", label: "Audit Log", icon: History, mod: "Audit Log" },
+    { to: "/login-history", label: "Login History", icon: BookOpen, mod: "Audit Log" },
+    { to: "/roles", label: "Roles & Access", icon: KeyRound, mod: "Roles & Access" },
   ]},
 ];
 
@@ -98,34 +99,38 @@ export function AppShell() {
           </div>
         </div>
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto px-3 py-4">
-          {navGroups.map((g) => (
-            <div key={g.title} className="mb-4">
-              <div className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {g.title}
+          {navGroups.map((g) => {
+            const items = g.items.filter((it) => canView(user.role, it.mod));
+            if (items.length === 0) return null;
+            return (
+              <div key={g.title} className="mb-4">
+                <div className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {g.title}
+                </div>
+                <div className="space-y-0.5">
+                  {items.map((item) => {
+                    const active = loc.pathname === item.to;
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        className={cn(
+                          "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                          active
+                            ? "bg-primary text-primary-foreground font-medium"
+                            : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                        )}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        <span>{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="space-y-0.5">
-                {g.items.map((item) => {
-                  const active = loc.pathname === item.to;
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      className={cn(
-                        "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
-                        active
-                          ? "bg-primary text-primary-foreground font-medium"
-                          : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                      )}
-                    >
-                      <Icon className="h-4 w-4 shrink-0" />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </nav>
       </aside>
 
