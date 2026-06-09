@@ -11,23 +11,31 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/select-branch")({ component: SelectBranchPage });
 
 function SelectBranchPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { branches, companies } = useData();
   const { selectedBranchId, setSelectedBranchId } = useBranch();
   const nav = useNavigate();
   const [pick, setPick] = React.useState<string | null>(selectedBranchId);
 
   React.useEffect(() => {
-    if (!user) nav({ to: "/login" });
-  }, [user, nav]);
+    if (!user) { nav({ to: "/login" }); return; }
+    // Specific-branch users should never see this screen
+    if (user.branchAccess && user.branchAccess !== "ALL") {
+      setSelectedBranchId(user.branchAccess);
+      nav({ to: "/dashboard" });
+    }
+  }, [user, nav, setSelectedBranchId]);
 
   const proceed = () => {
     if (!pick) return;
     setSelectedBranchId(pick);
+    updateUser({ branchId: pick });
     nav({ to: "/dashboard" });
   };
 
   const companyMap = Object.fromEntries(companies.map((c) => [c.id, c]));
+  const visible = branches.filter((b) => b.active && (user?.branchAccess === "ALL" || !user?.branchAccess || b.id === user.branchAccess));
+
 
   return (
     <div className="min-h-screen bg-[var(--brand-navy)] text-white flex items-center justify-center p-6 relative overflow-hidden">
@@ -51,7 +59,8 @@ function SelectBranchPage() {
         </div>
 
         <div className="grid sm:grid-cols-2 gap-3">
-          {branches.filter((b) => b.active && b.type === "Branch Office").map((b) => {
+          {visible.filter((b) => b.type === "Branch Office" || b.type === "Head Office").map((b) => {
+
             const co = companyMap[b.companyId];
             const active = pick === b.id;
             return (
