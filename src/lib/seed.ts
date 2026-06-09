@@ -2,8 +2,9 @@ import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
-  Department, Designation, LoginHistory,
+  Department, Designation, LoginHistory, Promotion,
 } from "./types";
+
 
 export const seedCompanies: Company[] = [
   {
@@ -210,3 +211,38 @@ export const seedLoginHistory: LoginHistory[] = [
   { id: "lh2", user: "sales", role: "Sales Manager", branchId: "b2", loginAt: "2026-06-02 09:05", logoutAt: "2026-06-02 19:10", ip: "192.168.1.41" },
   { id: "lh3", user: "accounts", role: "Accounts Manager", branchId: "b2", loginAt: "2026-06-03 08:58", ip: "192.168.1.55" },
 ];
+
+export const seedPromotions: Promotion[] = [
+  {
+    id: "pr1", number: "PROMO-2026-0001", employeeId: "e3", empName: "Mohammed Faizal",
+    currentBranchId: "b2", currentBranch: "Chennai", currentDepartment: "Service", currentDesignation: "Service Engineer", currentSalary: 55000,
+    promotedBranchId: "b2", promotedBranch: "Chennai", promotedDepartment: "Service", promotedDesignation: "Service Manager", revisedSalary: 75000,
+    effectiveDate: "2026-07-01", type: "Performance",
+    reason: "Consistently exceeded SLA targets and led 12 successful AMC drives.",
+    remarks: "Approved unanimously across all levels.",
+    status: "Applied",
+    approvals: [
+      { level: 1, role: "Reporting Manager", approver: "Sneha Kulkarni", decision: "Approved", at: "2026-06-05 10:12", remarks: "Strong technical leadership." },
+      { level: 2, role: "Department Head",   approver: "Priya Nair",     decision: "Approved", at: "2026-06-05 14:30" },
+      { level: 3, role: "HR Manager",        approver: "HR Team",        decision: "Approved", at: "2026-06-06 09:00" },
+      { level: 4, role: "Managing Director", approver: "MD Office",      decision: "Approved", at: "2026-06-06 17:45" },
+    ],
+    createdAt: "2026-06-04 11:00", createdBy: "Sneha Kulkarni", appliedAt: "2026-06-06 18:00",
+  },
+  {
+    id: "pr2", number: "PROMO-2026-0002", employeeId: "e2", empName: "Priya Nair",
+    currentBranchId: "b2", currentBranch: "Chennai", currentDepartment: "Finance", currentDesignation: "Accounts Manager", currentSalary: 85000,
+    promotedBranchId: "b2", promotedBranch: "Chennai", promotedDepartment: "Finance", promotedDesignation: "Senior Accounts Manager", revisedSalary: 110000,
+    effectiveDate: "2026-08-01", type: "Merit",
+    reason: "GST audit clearance with zero objections; reduced overdue receivables by 38%.",
+    status: "Pending L3",
+    approvals: [
+      { level: 1, role: "Reporting Manager", approver: "Arjun Reddy", decision: "Approved", at: "2026-06-07 09:30" },
+      { level: 2, role: "Department Head",   approver: "Finance Head", decision: "Approved", at: "2026-06-07 16:00" },
+      { level: 3, role: "HR Manager" },
+      { level: 4, role: "Managing Director" },
+    ],
+    createdAt: "2026-06-06 14:20", createdBy: "Arjun Reddy",
+  },
+];
+
