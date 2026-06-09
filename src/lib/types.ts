@@ -16,7 +16,11 @@ export type User = {
   name: string;
   email: string;
   role: Role;
+  empId?: string;
+  branchAccess?: string; // "ALL" or a specific branch id
+  branchId?: string;     // resolved working branch after selection
 };
+
 
 export type Company = {
   id: string; code: string; name: string; legalName: string;
@@ -110,7 +114,43 @@ export type Employee = {
   loginEnd?: string;   // "18:00"
   role?: Role;
   status?: "Active" | "Inactive" | "Locked";
+  branchAccess?: string; // "ALL" or a branch id
+  currentSalary?: number;
 };
+
+export type PromotionStatus =
+  | "Draft" | "Pending L1" | "Pending L2" | "Pending L3" | "Pending L4"
+  | "Approved" | "Rejected" | "Cancelled" | "Applied";
+
+export type PromotionApproval = {
+  level: 1 | 2 | 3 | 4;
+  role: "Reporting Manager" | "Department Head" | "HR Manager" | "Managing Director";
+  approver?: string;
+  decision?: "Approved" | "Rejected";
+  at?: string;
+  remarks?: string;
+};
+
+export type Promotion = {
+  id: string;
+  number: string;
+  employeeId: string;
+  empName: string;
+  currentBranchId: string; currentBranch: string;
+  currentDepartment: string; currentDesignation: string; currentSalary: number;
+  promotedBranchId: string; promotedBranch: string;
+  promotedDepartment: string; promotedDesignation: string; revisedSalary: number;
+  effectiveDate: string;
+  type: "Regular" | "Merit" | "Performance" | "Special" | "Transfer" | "Temporary";
+  reason: string;
+  remarks?: string;
+  status: PromotionStatus;
+  approvals: PromotionApproval[];
+  createdAt: string;
+  createdBy: string;
+  appliedAt?: string;
+};
+
 
 export type Department = {
   id: string; code: string; name: string; description?: string;
