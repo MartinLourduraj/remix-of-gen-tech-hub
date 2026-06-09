@@ -81,10 +81,21 @@ function EditEmployeePage() {
             <SelectContent>{["Active","Inactive","Locked"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
           </Select>
         </Fl>
+        <Fl label="Branch Access">
+          <Select value={f.branchAccess ?? "ALL"} onValueChange={(v) => set("branchAccess", v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All Branches (HQ user)</SelectItem>
+              {branches.map((b) => <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </Fl>
+        <Fl label="Current Salary (₹)"><Input type="number" value={f.currentSalary ?? 0} onChange={(e) => set("currentSalary", +e.target.value as any)} /></Fl>
       </Card>
     </div>
   );
 }
+
 function Fl({ label, children }: { label: string; children: React.ReactNode }) {
   return <div className="space-y-1.5"><Label className="text-xs">{label}</Label>{children}</div>;
 }

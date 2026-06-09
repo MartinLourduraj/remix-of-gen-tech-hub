@@ -29,7 +29,9 @@ function NewEmployeePage() {
     userId: "", password: "", confirmPassword: "",
     loginStart: "09:00", loginEnd: "18:00",
     role: "Sales Executive", status: "Active",
+    branchAccess: "ALL", currentSalary: 0,
   });
+
   const set = (k: any, v: any) => setF({ ...f, [k]: v });
   const age = calcAge(f.dob ?? "");
   const save = (exit: boolean) => {
@@ -49,7 +51,9 @@ function NewEmployeePage() {
       employeeType: f.employeeType, reportingManager: f.reportingManager,
       userId: f.userId, passwordHash: btoa(f.password ?? ""),
       loginStart: f.loginStart, loginEnd: f.loginEnd, role: f.role, status: f.status,
+      branchAccess: f.branchAccess ?? "ALL", currentSalary: Number(f.currentSalary ?? 0),
     };
+
     add("employees", e);
     logAudit({ user: "current", entity: "Employee", entityId: empId, action: "Created", newValue: name });
     toast.success(`Employee ${empId} created`);
@@ -131,13 +135,27 @@ function NewEmployeePage() {
               <SelectContent>{ROLES.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
             </Select>
           </Fl>
+          <Fl label="Branch Access">
+            <Select value={f.branchAccess ?? "ALL"} onValueChange={(v) => set("branchAccess", v)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ALL">All Branches (HQ user)</SelectItem>
+                {branches.map((b) => <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </Fl>
           <Fl label="Status">
             <Select value={f.status} onValueChange={(v) => set("status", v)}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>{["Active","Inactive","Locked"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
             </Select>
           </Fl>
+          <Fl label="Current Salary (₹)"><Input type="number" value={f.currentSalary ?? 0} onChange={(e) => set("currentSalary", +e.target.value)} /></Fl>
+          <p className="md:col-span-3 text-xs text-muted-foreground">
+            Branch Access controls login routing. <b>All Branches</b> users will see the branch picker after login. Specific-branch users go straight to the dashboard for their branch.
+          </p>
         </Section>
+
       </div>
     </div>
   );
