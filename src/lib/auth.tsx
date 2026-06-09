@@ -1,10 +1,20 @@
 import * as React from "react";
 import type { Role, User } from "./types";
 
+type LoginPayload = {
+  email: string;
+  role?: Role;
+  empId?: string;
+  branchAccess?: string;
+  branchId?: string;
+  name?: string;
+};
+
 type AuthCtx = {
   user: User | null;
-  login: (email: string, role?: Role, meta?: { branchId?: string }) => void;
+  login: (payload: LoginPayload) => void;
   logout: () => void;
+  updateUser: (patch: Partial<User>) => void;
   loginHistory: LoginEntry[];
 };
 
@@ -23,7 +33,6 @@ function nowStr() {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-
 function fakeIp() {
   return `192.168.${Math.floor(Math.random()*250)+1}.${Math.floor(Math.random()*250)+1}`;
 }
@@ -35,9 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     const raw = localStorage.getItem(KEY);
-    if (raw) {
-      try { setUser(JSON.parse(raw)); } catch { /* ignore */ }
-    }
+    if (raw) { try { setUser(JSON.parse(raw)); } catch { /* ignore */ } }
     try {
       const h = localStorage.getItem(HIST_KEY);
       if (h) setLoginHistory(JSON.parse(h));
@@ -49,21 +56,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem(HIST_KEY, JSON.stringify(next.slice(0, 200))); } catch { /* ignore */ }
   };
 
-  const login = (email: string, role: Role = "Super Admin", meta?: { branchId?: string }) => {
+  const login: AuthCtx["login"] = (p) => {
+    const name = p.name || p.email.split("@")[0].replace(/\./g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
     const u: User = {
-      id: "u1",
-      name: email.split("@")[0].replace(/\./g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-      email,
-      role,
+      id: p.empId ?? "u1",
+      name,
+      email: p.email,
+      role: p.role ?? "Super Admin",
+      empId: p.empId,
+      branchAccess: p.branchAccess ?? "ALL",
+      branchId: p.branchId,
     };
     localStorage.setItem(KEY, JSON.stringify(u));
     setUser(u);
     const entry: LoginEntry = {
-      id: `lh_${Date.now()}`, user: email.split("@")[0], role,
-      branchId: meta?.branchId, loginAt: nowStr(), ip: fakeIp(),
+      id: `lh_${Date.now()}`, user: p.email.split("@")[0], role: u.role,
+      branchId: p.branchId, loginAt: nowStr(), ip: fakeIp(),
     };
     localStorage.setItem(CUR_KEY, entry.id);
     persistHist([entry, ...loginHistory]);
+  };
+
+  const updateUser: AuthCtx["updateUser"] = (patch) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev, ...patch };
+      try { localStorage.setItem(KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
   };
 
   const logout = () => {
@@ -79,7 +99,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
-  return <Ctx.Provider value={{ user, login, logout, loginHistory }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ user, login, logout, updateUser, loginHistory }}>{children}</Ctx.Provider>;
 }
 
 export function useAuth() {

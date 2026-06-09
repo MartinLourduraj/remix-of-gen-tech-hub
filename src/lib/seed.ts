@@ -71,12 +71,26 @@ export const seedVendors: Vendor[] = [
   { id: "v3", code: "VEN-003", name: "Mahindra Powerol", gstin: "27MAHIND765K1Z2", contact: "Vikram Joshi", mobile: "9844033333", terms: "Net 30", branchId: "b3" },
 ];
 
+// btoa polyfill-safe encoder (server + browser)
+const _b64 = (s: string) =>
+  typeof btoa !== "undefined" ? btoa(s) : Buffer.from(s, "utf-8").toString("base64");
+const PWD = _b64("demo1234");
+
 export const seedEmployees: Employee[] = [
-  { id: "e1", empId: "EMP-001", name: "Arjun Reddy", designation: "Sales Manager", department: "Sales", branch: "Hosur HO", mobile: "9000011111", email: "arjun@gentech.in", joiningDate: "2021-03-10", branchId: "b1" },
-  { id: "e2", empId: "EMP-002", name: "Priya Nair", designation: "Accounts Manager", department: "Finance", branch: "Chennai", mobile: "9000022222", email: "priya@gentech.in", joiningDate: "2020-07-22", branchId: "b2" },
-  { id: "e3", empId: "EMP-003", name: "Mohammed Faizal", designation: "Service Engineer", department: "Service", branch: "Chennai", mobile: "9000033333", email: "faizal@gentech.in", joiningDate: "2022-01-15", branchId: "b2" },
-  { id: "e4", empId: "EMP-004", name: "Sneha Kulkarni", designation: "Branch Manager", department: "Operations", branch: "Puducherry", mobile: "9000044444", email: "sneha@gentech.in", joiningDate: "2019-11-05", branchId: "b3" },
+  { id: "e0", empId: "EMP-000", name: "System Administrator", designation: "Super Admin", department: "IT", branch: "Hosur HO", mobile: "9000000000", email: "admin@gentech.in", joiningDate: "2018-01-01", branchId: "b1",
+    userId: "admin", passwordHash: PWD, loginStart: "00:00", loginEnd: "23:59", role: "Super Admin", status: "Active", branchAccess: "ALL", currentSalary: 250000 },
+  { id: "e1", empId: "EMP-001", name: "Arjun Reddy", designation: "Sales Manager", department: "Sales", branch: "Hosur HO", mobile: "9000011111", email: "arjun@gentech.in", joiningDate: "2021-03-10", branchId: "b1",
+    userId: "sales", passwordHash: PWD, loginStart: "09:00", loginEnd: "20:00", role: "Sales Manager", status: "Active", branchAccess: "ALL", currentSalary: 75000 },
+  { id: "e2", empId: "EMP-002", name: "Priya Nair", designation: "Accounts Manager", department: "Finance", branch: "Chennai", mobile: "9000022222", email: "priya@gentech.in", joiningDate: "2020-07-22", branchId: "b2",
+    userId: "accounts", passwordHash: PWD, loginStart: "09:00", loginEnd: "19:00", role: "Accounts Manager", status: "Active", branchAccess: "b2", currentSalary: 85000 },
+  { id: "e3", empId: "EMP-003", name: "Mohammed Faizal", designation: "Service Engineer", department: "Service", branch: "Chennai", mobile: "9000033333", email: "faizal@gentech.in", joiningDate: "2022-01-15", branchId: "b2",
+    userId: "service", passwordHash: PWD, loginStart: "08:00", loginEnd: "20:00", role: "Service Manager", status: "Active", branchAccess: "b2", currentSalary: 55000 },
+  { id: "e4", empId: "EMP-004", name: "Sneha Kulkarni", designation: "Branch Manager", department: "Operations", branch: "Puducherry", mobile: "9000044444", email: "sneha@gentech.in", joiningDate: "2019-11-05", branchId: "b3",
+    userId: "manager", passwordHash: PWD, loginStart: "09:00", loginEnd: "19:00", role: "Branch Manager", status: "Active", branchAccess: "b3", currentSalary: 95000 },
+  { id: "e5", empId: "EMP-005", name: "Karthik Subramanian", designation: "Store Keeper", department: "Operations", branch: "Hosur WH", mobile: "9000055555", email: "store@gentech.in", joiningDate: "2023-04-01", branchId: "b4",
+    userId: "store", passwordHash: PWD, loginStart: "08:00", loginEnd: "18:00", role: "Inventory Manager", status: "Active", branchAccess: "b4", currentSalary: 45000 },
 ];
+
 
 export const seedQuotations: Quotation[] = [
   { id: "q1", number: "QTN-2026-0001", customerId: "c1", date: "2026-05-12", productId: "p3", qty: 2, discount: 25000, freight: 8000, installation: 15000, status: "Approved", total: 1615200, branchId: "b2" },
