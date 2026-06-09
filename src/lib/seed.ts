@@ -2,8 +2,9 @@ import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
-  Department, Designation, LoginHistory,
+  Department, Designation, LoginHistory, Promotion,
 } from "./types";
+
 
 export const seedCompanies: Company[] = [
   {
@@ -71,12 +72,26 @@ export const seedVendors: Vendor[] = [
   { id: "v3", code: "VEN-003", name: "Mahindra Powerol", gstin: "27MAHIND765K1Z2", contact: "Vikram Joshi", mobile: "9844033333", terms: "Net 30", branchId: "b3" },
 ];
 
+// btoa polyfill-safe encoder (server + browser)
+const _b64 = (s: string) =>
+  typeof btoa !== "undefined" ? btoa(s) : Buffer.from(s, "utf-8").toString("base64");
+const PWD = _b64("demo1234");
+
 export const seedEmployees: Employee[] = [
-  { id: "e1", empId: "EMP-001", name: "Arjun Reddy", designation: "Sales Manager", department: "Sales", branch: "Hosur HO", mobile: "9000011111", email: "arjun@gentech.in", joiningDate: "2021-03-10", branchId: "b1" },
-  { id: "e2", empId: "EMP-002", name: "Priya Nair", designation: "Accounts Manager", department: "Finance", branch: "Chennai", mobile: "9000022222", email: "priya@gentech.in", joiningDate: "2020-07-22", branchId: "b2" },
-  { id: "e3", empId: "EMP-003", name: "Mohammed Faizal", designation: "Service Engineer", department: "Service", branch: "Chennai", mobile: "9000033333", email: "faizal@gentech.in", joiningDate: "2022-01-15", branchId: "b2" },
-  { id: "e4", empId: "EMP-004", name: "Sneha Kulkarni", designation: "Branch Manager", department: "Operations", branch: "Puducherry", mobile: "9000044444", email: "sneha@gentech.in", joiningDate: "2019-11-05", branchId: "b3" },
+  { id: "e0", empId: "EMP-000", name: "System Administrator", designation: "Super Admin", department: "IT", branch: "Hosur HO", mobile: "9000000000", email: "admin@gentech.in", joiningDate: "2018-01-01", branchId: "b1",
+    userId: "admin", passwordHash: PWD, loginStart: "00:00", loginEnd: "23:59", role: "Super Admin", status: "Active", branchAccess: "ALL", currentSalary: 250000 },
+  { id: "e1", empId: "EMP-001", name: "Arjun Reddy", designation: "Sales Manager", department: "Sales", branch: "Hosur HO", mobile: "9000011111", email: "arjun@gentech.in", joiningDate: "2021-03-10", branchId: "b1",
+    userId: "sales", passwordHash: PWD, loginStart: "09:00", loginEnd: "20:00", role: "Sales Manager", status: "Active", branchAccess: "ALL", currentSalary: 75000 },
+  { id: "e2", empId: "EMP-002", name: "Priya Nair", designation: "Accounts Manager", department: "Finance", branch: "Chennai", mobile: "9000022222", email: "priya@gentech.in", joiningDate: "2020-07-22", branchId: "b2",
+    userId: "accounts", passwordHash: PWD, loginStart: "09:00", loginEnd: "19:00", role: "Accounts Manager", status: "Active", branchAccess: "b2", currentSalary: 85000 },
+  { id: "e3", empId: "EMP-003", name: "Mohammed Faizal", designation: "Service Engineer", department: "Service", branch: "Chennai", mobile: "9000033333", email: "faizal@gentech.in", joiningDate: "2022-01-15", branchId: "b2",
+    userId: "service", passwordHash: PWD, loginStart: "08:00", loginEnd: "20:00", role: "Service Manager", status: "Active", branchAccess: "b2", currentSalary: 55000 },
+  { id: "e4", empId: "EMP-004", name: "Sneha Kulkarni", designation: "Branch Manager", department: "Operations", branch: "Puducherry", mobile: "9000044444", email: "sneha@gentech.in", joiningDate: "2019-11-05", branchId: "b3",
+    userId: "manager", passwordHash: PWD, loginStart: "09:00", loginEnd: "19:00", role: "Branch Manager", status: "Active", branchAccess: "b3", currentSalary: 95000 },
+  { id: "e5", empId: "EMP-005", name: "Karthik Subramanian", designation: "Store Keeper", department: "Operations", branch: "Hosur WH", mobile: "9000055555", email: "store@gentech.in", joiningDate: "2023-04-01", branchId: "b4",
+    userId: "store", passwordHash: PWD, loginStart: "08:00", loginEnd: "18:00", role: "Inventory Manager", status: "Active", branchAccess: "b4", currentSalary: 45000 },
 ];
+
 
 export const seedQuotations: Quotation[] = [
   { id: "q1", number: "QTN-2026-0001", customerId: "c1", date: "2026-05-12", productId: "p3", qty: 2, discount: 25000, freight: 8000, installation: 15000, status: "Approved", total: 1615200, branchId: "b2" },
@@ -196,3 +211,38 @@ export const seedLoginHistory: LoginHistory[] = [
   { id: "lh2", user: "sales", role: "Sales Manager", branchId: "b2", loginAt: "2026-06-02 09:05", logoutAt: "2026-06-02 19:10", ip: "192.168.1.41" },
   { id: "lh3", user: "accounts", role: "Accounts Manager", branchId: "b2", loginAt: "2026-06-03 08:58", ip: "192.168.1.55" },
 ];
+
+export const seedPromotions: Promotion[] = [
+  {
+    id: "pr1", number: "PROMO-2026-0001", employeeId: "e3", empName: "Mohammed Faizal",
+    currentBranchId: "b2", currentBranch: "Chennai", currentDepartment: "Service", currentDesignation: "Service Engineer", currentSalary: 55000,
+    promotedBranchId: "b2", promotedBranch: "Chennai", promotedDepartment: "Service", promotedDesignation: "Service Manager", revisedSalary: 75000,
+    effectiveDate: "2026-07-01", type: "Performance",
+    reason: "Consistently exceeded SLA targets and led 12 successful AMC drives.",
+    remarks: "Approved unanimously across all levels.",
+    status: "Applied",
+    approvals: [
+      { level: 1, role: "Reporting Manager", approver: "Sneha Kulkarni", decision: "Approved", at: "2026-06-05 10:12", remarks: "Strong technical leadership." },
+      { level: 2, role: "Department Head",   approver: "Priya Nair",     decision: "Approved", at: "2026-06-05 14:30" },
+      { level: 3, role: "HR Manager",        approver: "HR Team",        decision: "Approved", at: "2026-06-06 09:00" },
+      { level: 4, role: "Managing Director", approver: "MD Office",      decision: "Approved", at: "2026-06-06 17:45" },
+    ],
+    createdAt: "2026-06-04 11:00", createdBy: "Sneha Kulkarni", appliedAt: "2026-06-06 18:00",
+  },
+  {
+    id: "pr2", number: "PROMO-2026-0002", employeeId: "e2", empName: "Priya Nair",
+    currentBranchId: "b2", currentBranch: "Chennai", currentDepartment: "Finance", currentDesignation: "Accounts Manager", currentSalary: 85000,
+    promotedBranchId: "b2", promotedBranch: "Chennai", promotedDepartment: "Finance", promotedDesignation: "Senior Accounts Manager", revisedSalary: 110000,
+    effectiveDate: "2026-08-01", type: "Merit",
+    reason: "GST audit clearance with zero objections; reduced overdue receivables by 38%.",
+    status: "Pending L3",
+    approvals: [
+      { level: 1, role: "Reporting Manager", approver: "Arjun Reddy", decision: "Approved", at: "2026-06-07 09:30" },
+      { level: 2, role: "Department Head",   approver: "Finance Head", decision: "Approved", at: "2026-06-07 16:00" },
+      { level: 3, role: "HR Manager" },
+      { level: 4, role: "Managing Director" },
+    ],
+    createdAt: "2026-06-06 14:20", createdBy: "Arjun Reddy",
+  },
+];
+

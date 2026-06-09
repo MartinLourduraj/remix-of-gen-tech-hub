@@ -5,8 +5,9 @@ import {
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
   LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
   FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen, BadgeIndianRupee,
-  Briefcase, IdCard,
+  Briefcase, IdCard, TrendingUp,
 } from "lucide-react";
+
 import { useAuth } from "@/lib/auth";
 import { useBranch } from "@/lib/branch-context";
 import { canView } from "@/lib/permissions";
@@ -36,7 +37,9 @@ const navGroups: NavGroup[] = [
     { to: "/employees", label: "Employees", icon: UserCog, mod: "Employees" },
     { to: "/departments", label: "Departments", icon: Briefcase, mod: "Employees" },
     { to: "/designations", label: "Designations", icon: IdCard, mod: "Employees" },
+    { to: "/promotions", label: "Promotions", icon: TrendingUp, mod: "Employees" },
   ]},
+
   { title: "Sales", items: [
     { to: "/sales/estimates/new", label: "New Estimate", icon: FilePlus, mod: "Estimates" },
     { to: "/sales/estimates", label: "Estimate List", icon: FileSpreadsheet, mod: "Estimates" },
@@ -81,7 +84,9 @@ export function AppShell() {
 
   if (!user) return null;
 
-  const switchBranch = () => { setSelectedBranchId(null); nav({ to: "/select-branch" }); };
+  const canSwitchBranch = (user?.branchAccess ?? "ALL") === "ALL";
+  const switchBranch = () => { if (!canSwitchBranch) return; setSelectedBranchId(null); nav({ to: "/select-branch" }); };
+
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -144,18 +149,29 @@ export function AppShell() {
             <Menu className="h-5 w-5" />
           </Button>
 
-          {/* Branch indicator */}
+          {/* Branch indicator — clickable only for All-Branches users */}
           {branch && (
-            <button onClick={switchBranch}
-              className="hidden md:flex items-center gap-2 rounded-md border bg-muted/40 hover:bg-muted px-2.5 py-1.5 text-xs transition-colors">
-              <MapPin className="h-3.5 w-3.5 text-[var(--brand-orange)]" />
-              <div className="text-left leading-tight">
-                <div className="font-semibold">{branch.name}</div>
-                <div className="text-[10px] text-muted-foreground">{company?.name} · {branch.gstin}</div>
+            canSwitchBranch ? (
+              <button onClick={switchBranch}
+                className="hidden md:flex items-center gap-2 rounded-md border bg-muted/40 hover:bg-muted px-2.5 py-1.5 text-xs transition-colors">
+                <MapPin className="h-3.5 w-3.5 text-[var(--brand-orange)]" />
+                <div className="text-left leading-tight">
+                  <div className="font-semibold">{branch.name}</div>
+                  <div className="text-[10px] text-muted-foreground">{company?.name} · {branch.gstin}</div>
+                </div>
+                <Repeat className="h-3 w-3 text-muted-foreground ml-1" />
+              </button>
+            ) : (
+              <div className="hidden md:flex items-center gap-2 rounded-md border bg-muted/40 px-2.5 py-1.5 text-xs">
+                <MapPin className="h-3.5 w-3.5 text-[var(--brand-orange)]" />
+                <div className="text-left leading-tight">
+                  <div className="font-semibold">{branch.name}</div>
+                  <div className="text-[10px] text-muted-foreground">Assigned branch · {branch.gstin}</div>
+                </div>
               </div>
-              <Repeat className="h-3 w-3 text-muted-foreground ml-1" />
-            </button>
+            )
           )}
+
 
           <div className="relative flex-1 max-w-xl">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -187,7 +203,7 @@ export function AppShell() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {branch && (
+              {branch && canSwitchBranch && (
                 <DropdownMenuItem onClick={switchBranch}>
                   <Repeat className="mr-2 h-4 w-4" /> Switch Branch
                 </DropdownMenuItem>
@@ -197,6 +213,7 @@ export function AppShell() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
         </header>
         <main className="p-4 lg:p-6">
           <Outlet />

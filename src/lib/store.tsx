@@ -4,14 +4,15 @@ import {
   seedQuotations, seedSalesOrders, seedInvoices, seedWarranties,
   seedServiceTickets, seedStock,
   seedCompanies, seedBranches, seedEstimates, seedCreditNotes, seedDebitNotes, seedAuditLogs,
-  seedDepartments, seedDesignations, seedLoginHistory,
+  seedDepartments, seedDesignations, seedLoginHistory, seedPromotions,
 } from "./seed";
 import type {
   Customer, Product, Vendor, Employee, Quotation, SalesOrder,
   Invoice, Warranty, ServiceTicket, StockMovement,
   Company, Branch, Estimate, CreditNote, DebitNote, AuditLog,
-  Department, Designation, LoginHistory,
+  Department, Designation, LoginHistory, Promotion,
 } from "./types";
+
 
 type DataState = {
   companies: Company[];
@@ -33,7 +34,9 @@ type DataState = {
   departments: Department[];
   designations: Designation[];
   loginHistory: LoginHistory[];
+  promotions: Promotion[];
 };
+
 
 type Ctx = DataState & {
   add: <K extends keyof DataState>(key: K, item: DataState[K][number]) => void;
@@ -64,7 +67,9 @@ const initial: DataState = {
   departments: seedDepartments,
   designations: seedDesignations,
   loginHistory: seedLoginHistory,
+  promotions: seedPromotions,
 };
+
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = React.useState<DataState>(initial);

@@ -7,19 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/store";
-import type { Role } from "@/lib/types";
+import { useBranch } from "@/lib/branch-context";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
-// Demo credentials — visible on screen so users can sign in
-const VALID = [
-  { u: "admin",    p: "demo1234", role: "Super Admin"      as Role, label: "Super Admin" },
-  { u: "manager",  p: "demo1234", role: "Branch Manager"   as Role, label: "Branch Manager" },
-  { u: "sales",    p: "demo1234", role: "Sales Manager"    as Role, label: "Sales" },
-  { u: "accounts", p: "demo1234", role: "Accounts Manager" as Role, label: "Accounts" },
-  { u: "service",  p: "demo1234", role: "Service Manager"  as Role, label: "Service" },
-  { u: "store",    p: "demo1234", role: "Inventory Manager"as Role, label: "Inventory" },
-];
 const REMEMBER_KEY = "gentech_remember";
 
 const heroSlides = [
@@ -32,10 +23,12 @@ function nowHHMM() {
   const d = new Date(); const p = (n: number) => String(n).padStart(2, "0");
   return `${p(d.getHours())}:${p(d.getMinutes())}`;
 }
+const b64 = (s: string) => (typeof btoa !== "undefined" ? btoa(s) : Buffer.from(s, "utf-8").toString("base64"));
 
 function LoginPage() {
   const { login } = useAuth();
-  const { employees } = useData();
+  const { employees, branches } = useData();
+  const { setSelectedBranchId } = useBranch();
   const nav = useNavigate();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -57,7 +50,13 @@ function LoginPage() {
     return () => clearInterval(t);
   }, []);
 
-  const fill = (u: string, p: string) => { setUsername(u); setPassword(p); setError(null); };
+  // Demo accounts derive directly from seeded employees (single source of truth)
+  const demos = React.useMemo(
+    () => employees.filter((e) => !!e.userId).slice(0, 6),
+    [employees]
+  );
+
+  const fill = (u: string) => { setUsername(u); setPassword("demo1234"); setError(null); };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,28 +64,46 @@ function LoginPage() {
     const u = username.trim().toLowerCase();
     const p = password;
     if (!u || !p) { setError("Please enter both username and password."); return; }
-    const match = VALID.find((v) => v.u === u && v.p === p);
-    if (!match) {
-      setError("Invalid credentials. Use admin / demo1234 (or click a demo account below).");
-      return;
+
+    const emp = employees.find((e) => (e.userId ?? "").toLowerCase() === u);
+    if (!emp) { setError("Invalid username. No such user exists."); return; }
+    if (emp.passwordHash && emp.passwordHash !== b64(p)) {
+      setError("Invalid password. Please try again."); return;
     }
-    // Login window enforcement — bypass for Super Admin / Admin
-    if (match.role !== "Super Admin" && match.role !== "Admin") {
-      const emp = employees.find((e) => (e.userId ?? "").toLowerCase() === u || e.email.toLowerCase().startsWith(u + "@"));
-      if (emp?.status === "Locked") { setError(`Account ${u} is locked. Contact administrator.`); return; }
-      if (emp?.loginStart && emp?.loginEnd) {
-        const now = nowHHMM();
-        if (now < emp.loginStart || now > emp.loginEnd) {
-          setError(`Login allowed only between ${emp.loginStart} and ${emp.loginEnd}. Current time ${now}.`);
-          return;
-        }
+    if (emp.status === "Locked")    { setError(`Account ${u} is locked. Contact administrator.`); return; }
+    if (emp.status === "Inactive")  { setError(`Account ${u} is inactive. Contact administrator.`); return; }
+
+    // Login window enforcement (skipped for Super Admin / Admin)
+    if (emp.role !== "Super Admin" && emp.role !== "Admin" && emp.loginStart && emp.loginEnd) {
+      const now = nowHHMM();
+      if (now < emp.loginStart || now > emp.loginEnd) {
+        setError(`Login allowed only between ${emp.loginStart} and ${emp.loginEnd}. Current time ${now}.`);
+        return;
       }
     }
 
     if (remember) localStorage.setItem(REMEMBER_KEY, u);
     else localStorage.removeItem(REMEMBER_KEY);
 
-    login(`${u}@gentech.in`, match.role);
+    const access = emp.branchAccess ?? "ALL";
+    // Specific-branch employees are auto-routed into their dashboard
+    if (access !== "ALL") {
+      const target = branches.find((b) => b.id === access);
+      if (!target) { setError("Assigned branch not found. Contact administrator."); return; }
+      setSelectedBranchId(access);
+      login({
+        email: emp.email || `${u}@gentech.in`, role: emp.role ?? "Sales Executive",
+        empId: emp.empId, name: emp.name, branchAccess: access, branchId: access,
+      });
+      nav({ to: "/dashboard" });
+      return;
+    }
+
+    // All-branch users must pick a working branch first
+    login({
+      email: emp.email || `${u}@gentech.in`, role: emp.role ?? "Super Admin",
+      empId: emp.empId, name: emp.name, branchAccess: "ALL",
+    });
     nav({ to: "/select-branch" });
   };
 
@@ -100,8 +117,7 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 relative bg-background">
-      <Button asChild size="sm"
-        className="absolute top-4 left-4 z-20 bg-white text-[var(--brand-navy)] hover:bg-white/90 shadow-elevated border">
+      <Button asChild size="sm" className="absolute top-4 left-4 z-20 bg-white text-[var(--brand-navy)] hover:bg-white/90 shadow-elevated border">
         <Link to="/"><ArrowLeft className="mr-1.5 h-4 w-4" /> Back to Website</Link>
       </Button>
 
@@ -148,7 +164,6 @@ function LoginPage() {
                 <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" /><span>{error}</span>
               </div>
             )}
-
             <div className="space-y-1.5">
               <Label htmlFor="username">Username</Label>
               <div className="relative">
@@ -182,14 +197,14 @@ function LoginPage() {
 
             <div className="rounded-md border bg-muted/40 p-3">
               <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">
-                <Clock className="h-3 w-3" /> Demo accounts · click to fill
+                <Clock className="h-3 w-3" /> Demo accounts · click to fill (password: demo1234)
               </div>
               <div className="grid grid-cols-2 gap-1.5">
-                {VALID.map((v) => (
-                  <button key={v.u} type="button" onClick={() => fill(v.u, v.p)}
+                {demos.map((e) => (
+                  <button key={e.id} type="button" onClick={() => fill(e.userId!)}
                     className="text-left rounded-md border bg-background hover:border-[var(--brand-orange)] hover:bg-[var(--brand-orange)]/5 px-2.5 py-1.5 transition-colors">
-                    <div className="text-xs font-semibold">{v.label}</div>
-                    <div className="text-[10px] text-muted-foreground font-mono">{v.u} / {v.p}</div>
+                    <div className="text-xs font-semibold">{e.role}</div>
+                    <div className="text-[10px] text-muted-foreground font-mono">{e.userId} · {e.branchAccess === "ALL" ? "All branches" : (branches.find((b) => b.id === e.branchAccess)?.name ?? "—")}</div>
                   </button>
                 ))}
               </div>

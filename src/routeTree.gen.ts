@@ -31,6 +31,7 @@ import { Route as AppServiceRouteImport } from './routes/_app/service'
 import { Route as AppSalesOrdersRouteImport } from './routes/_app/sales-orders'
 import { Route as AppRolesRouteImport } from './routes/_app/roles'
 import { Route as AppQuotationsRouteImport } from './routes/_app/quotations'
+import { Route as AppPromotionsRouteImport } from './routes/_app/promotions'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppPriceListRouteImport } from './routes/_app/price-list'
 import { Route as AppLoginHistoryRouteImport } from './routes/_app/login-history'
@@ -182,6 +183,11 @@ const AppRolesRoute = AppRolesRouteImport.update({
 const AppQuotationsRoute = AppQuotationsRouteImport.update({
   id: '/quotations',
   path: '/quotations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPromotionsRoute = AppPromotionsRouteImport.update({
+  id: '/promotions',
+  path: '/promotions',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProductsRoute = AppProductsRouteImport.update({
@@ -423,6 +429,7 @@ export interface FileRoutesByFullPath {
   '/login-history': typeof AppLoginHistoryRoute
   '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
+  '/promotions': typeof AppPromotionsRoute
   '/quotations': typeof AppQuotationsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
@@ -488,6 +495,7 @@ export interface FileRoutesByTo {
   '/login-history': typeof AppLoginHistoryRoute
   '/price-list': typeof AppPriceListRoute
   '/products': typeof PublicProductsRouteWithChildren
+  '/promotions': typeof AppPromotionsRoute
   '/quotations': typeof AppQuotationsRoute
   '/roles': typeof AppRolesRoute
   '/sales-orders': typeof AppSalesOrdersRoute
@@ -555,6 +563,7 @@ export interface FileRoutesById {
   '/_app/login-history': typeof AppLoginHistoryRoute
   '/_app/price-list': typeof AppPriceListRoute
   '/_app/products': typeof AppProductsRouteWithChildren
+  '/_app/promotions': typeof AppPromotionsRoute
   '/_app/quotations': typeof AppQuotationsRoute
   '/_app/roles': typeof AppRolesRoute
   '/_app/sales-orders': typeof AppSalesOrdersRoute
@@ -624,6 +633,7 @@ export interface FileRouteTypes {
     | '/login-history'
     | '/price-list'
     | '/products'
+    | '/promotions'
     | '/quotations'
     | '/roles'
     | '/sales-orders'
@@ -689,6 +699,7 @@ export interface FileRouteTypes {
     | '/login-history'
     | '/price-list'
     | '/products'
+    | '/promotions'
     | '/quotations'
     | '/roles'
     | '/sales-orders'
@@ -755,6 +766,7 @@ export interface FileRouteTypes {
     | '/_app/login-history'
     | '/_app/price-list'
     | '/_app/products'
+    | '/_app/promotions'
     | '/_app/quotations'
     | '/_app/roles'
     | '/_app/sales-orders'
@@ -967,6 +979,13 @@ declare module '@tanstack/react-router' {
       path: '/quotations'
       fullPath: '/quotations'
       preLoaderRoute: typeof AppQuotationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/promotions': {
+      id: '/_app/promotions'
+      path: '/promotions'
+      fullPath: '/promotions'
+      preLoaderRoute: typeof AppPromotionsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/products': {
@@ -1350,6 +1369,7 @@ interface AppRouteChildren {
   AppLoginHistoryRoute: typeof AppLoginHistoryRoute
   AppPriceListRoute: typeof AppPriceListRoute
   AppProductsRoute: typeof AppProductsRouteWithChildren
+  AppPromotionsRoute: typeof AppPromotionsRoute
   AppQuotationsRoute: typeof AppQuotationsRoute
   AppRolesRoute: typeof AppRolesRoute
   AppSalesOrdersRoute: typeof AppSalesOrdersRoute
@@ -1394,6 +1414,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppLoginHistoryRoute: AppLoginHistoryRoute,
   AppPriceListRoute: AppPriceListRoute,
   AppProductsRoute: AppProductsRouteWithChildren,
+  AppPromotionsRoute: AppPromotionsRoute,
   AppQuotationsRoute: AppQuotationsRoute,
   AppRolesRoute: AppRolesRoute,
   AppSalesOrdersRoute: AppSalesOrdersRoute,
