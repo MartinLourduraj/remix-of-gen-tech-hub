@@ -185,3 +185,151 @@
     animation: shimmer 2.5s linear infinite;
   }
 }
+
+/* =====================================================================
+ * Lamborghini Orange Performance — scoped premium visual layer.
+ * Activates only when <html data-theme="lamborghini-orange">.
+ * ===================================================================== */
+[data-theme="lamborghini-orange"] {
+  /* Sky-blue gradient page backdrop (light mode) */
+  body {
+    background:
+      radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, #7dd3fc 25%, transparent), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, color-mix(in oklab, #FF6A00 12%, transparent), transparent 55%),
+      linear-gradient(180deg, #eff8ff 0%, #ffffff 55%, #f4f8fb 100%);
+    background-attachment: fixed;
+  }
+  &.dark body {
+    background:
+      radial-gradient(1000px 500px at 100% 0%, color-mix(in oklab, #FF6A00 18%, transparent), transparent 60%),
+      linear-gradient(180deg, #0a0a0a 0%, #111 60%, #0a0a0a 100%);
+    background-attachment: fixed;
+  }
+
+  /* Carbon-fiber sidebar texture */
+  aside[class*="bg-sidebar"] {
+    background-color: #0d0d0d;
+    background-image:
+      linear-gradient(135deg, rgba(255,255,255,0.04) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.04) 75%, transparent 75%, transparent),
+      linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.03) 75%, transparent 75%, transparent),
+      linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+    background-size: 6px 6px, 6px 6px, 100% 100%;
+    border-right: 1px solid rgba(192,192,192,0.15);
+    box-shadow: inset -1px 0 0 rgba(255,106,0,0.15);
+  }
+
+  /* Sidebar menu items — orange indicator + glow on hover, silver dividers */
+  aside nav a {
+    position: relative;
+    transition: background 250ms ease, color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+    border-left: 2px solid transparent;
+  }
+  aside nav a:hover {
+    background: linear-gradient(90deg, rgba(255,106,0,0.18), rgba(255,106,0,0.04));
+    box-shadow: 0 0 18px -4px rgba(255,106,0,0.45);
+    border-left-color: rgba(192,192,192,0.6);
+  }
+  aside nav a.bg-primary,
+  aside nav a[class*="bg-primary"] {
+    background: linear-gradient(90deg, #FF6A00 0%, #ff8a2b 100%) !important;
+    border-left-color: #ffd8b8;
+    box-shadow: 0 6px 20px -6px rgba(255,106,0,0.65);
+  }
+
+  /* Glossy white navbar with silver bottom border + orange highlight */
+  header.sticky {
+    background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%) !important;
+    border-bottom: 1px solid #d4d4d8;
+    box-shadow: 0 1px 0 rgba(255,106,0,0.35), 0 8px 24px -18px rgba(0,0,0,0.15);
+  }
+  &.dark header.sticky {
+    background: linear-gradient(180deg, #151515 0%, #101010 100%) !important;
+    border-bottom: 1px solid rgba(192,192,192,0.18);
+    box-shadow: 0 1px 0 rgba(255,106,0,0.5);
+  }
+
+  /* Metallic silver card finish with orange accent line */
+  [data-slot="card"],
+  .rounded-lg.border.bg-card,
+  .rounded-xl.border.bg-card {
+    position: relative;
+    background:
+      linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
+    border: 1px solid #d9dde3;
+    border-radius: 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9) inset,
+      0 10px 30px -18px rgba(15,23,42,0.25);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  [data-slot="card"]::before,
+  .rounded-lg.border.bg-card::before,
+  .rounded-xl.border.bg-card::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; border-radius: 12px 0 0 12px;
+    background: linear-gradient(180deg, #FF6A00, #ff8a2b);
+    opacity: 0.9;
+  }
+  [data-slot="card"]:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -20px rgba(255,106,0,0.35); }
+  &.dark [data-slot="card"] {
+    background: linear-gradient(180deg, #1a1a1a 0%, #141414 100%);
+    border-color: rgba(192,192,192,0.18);
+  }
+
+  /* Primary buttons — orange gradient with glow on hover */
+  button[class*="bg-primary"],
+  a[class*="bg-primary"] {
+    background: linear-gradient(135deg, #FF6A00 0%, #ff8a2b 100%) !important;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 250ms ease, box-shadow 250ms ease, filter 250ms ease;
+  }
+  button[class*="bg-primary"]:hover,
+  a[class*="bg-primary"]:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 0 24px -4px rgba(255,106,0,0.7), 0 10px 22px -12px rgba(255,106,0,0.55);
+    filter: brightness(1.05);
+  }
+
+  /* Silver secondary buttons */
+  button[class*="bg-secondary"],
+  button[class*="variant-outline"],
+  .border.bg-background {
+    background: linear-gradient(180deg, #f4f6f9 0%, #dfe3e8 100%);
+    border: 1px solid #c0c4cc;
+    color: #1a1a1a;
+  }
+
+  /* Tables — dark header, alt light-blue rows, orange selection, silver borders */
+  table thead th {
+    background: linear-gradient(180deg, #1c1c1c 0%, #111 100%);
+    color: #f5f5f5;
+    border-bottom: 1px solid rgba(192,192,192,0.25);
+  }
+  table tbody tr { background: #ffffff; transition: background 200ms ease; }
+  table tbody tr:nth-child(even) { background: #eff6ff; }
+  table tbody tr:hover { background: color-mix(in oklab, #FF6A00 8%, #ffffff); }
+  table tbody tr[data-state="selected"],
+  table tbody tr.selected {
+    background: color-mix(in oklab, #FF6A00 22%, #ffffff);
+    box-shadow: inset 3px 0 0 #FF6A00;
+  }
+  table td, table th { border-color: #d9dde3 !important; }
+
+  /* Forms — white bg, silver border, orange focus ring */
+  input, textarea, select, [data-slot="input"], [data-slot="textarea"] {
+    background: #ffffff;
+    border: 1px solid #c0c4cc !important;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  input:focus, textarea:focus, select:focus,
+  input:focus-visible, textarea:focus-visible, select:focus-visible {
+    border-color: #FF6A00 !important;
+    box-shadow: 0 0 0 3px rgba(255,106,0,0.25) !important;
+    outline: none !important;
+  }
+
+  /* Global smooth transitions + subtle card lift on interactive elements */
+  a, button, [role="button"] { transition: all 250ms ease; }
+}
+
