@@ -13,6 +13,7 @@ import { AuthProvider } from "@/lib/auth";
 import { DataProvider } from "@/lib/store";
 import { BranchProvider } from "@/lib/branch-context";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function NotFoundComponent() {
   return (
@@ -117,14 +118,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <DataProvider>
-          <BranchProvider>
-            <Outlet />
-            <Toaster />
-          </BranchProvider>
-        </DataProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <DataProvider>
+            <BranchProvider>
+              <Outlet />
+              <Toaster />
+            </BranchProvider>
+          </DataProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
