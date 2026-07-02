@@ -137,7 +137,7 @@ function PromotionsPage() {
       {newOpen && (
         <NewPromotionDialog
           onClose={() => setNewOpen(false)}
-          onCreate={(p) => {
+          onCreate={(p: Promotion) => {
             add("promotions", p);
             logAudit({ user: user?.name ?? "current", entity: "Promotion", entityId: p.number, action: "Created", newValue: p.empName });
             toast.success(`Promotion ${p.number} created`);
