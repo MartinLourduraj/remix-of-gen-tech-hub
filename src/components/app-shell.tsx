@@ -19,6 +19,8 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { useTheme } from "@/components/theme-provider";
 
 type NavItem = { to: string; label: string; icon: React.ElementType; mod: string };
 type NavGroup = { title: string; items: NavItem[] };
@@ -69,16 +71,13 @@ export function AppShell() {
   const nav = useNavigate();
   const loc = useLocation();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [dark, setDark] = React.useState(false);
+  const { mode, toggleMode } = useTheme();
+  const dark = mode === "dark";
 
   React.useEffect(() => {
     if (!user) nav({ to: "/login" });
     else if (!branch) nav({ to: "/select-branch" });
   }, [user, branch, nav]);
-
-  React.useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
 
   React.useEffect(() => { setMobileOpen(false); }, [loc.pathname]);
 
@@ -180,7 +179,8 @@ export function AppShell() {
               className="pl-9 h-9 bg-muted/50 border-transparent focus-visible:bg-background"
             />
           </div>
-          <Button variant="ghost" size="icon" onClick={() => setDark((d) => !d)}>
+          <ThemeSwitcher />
+          <Button variant="ghost" size="icon" onClick={toggleMode} title={dark ? "Switch to light" : "Switch to dark"}>
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           <Button variant="ghost" size="icon" className="relative">
