@@ -45,6 +45,7 @@ import { Route as AppCustomersRouteImport } from './routes/_app/customers'
 import { Route as AppCompaniesRouteImport } from './routes/_app/companies'
 import { Route as AppBranchesRouteImport } from './routes/_app/branches'
 import { Route as AppAuditLogRouteImport } from './routes/_app/audit-log'
+import { Route as AppAppearanceRouteImport } from './routes/_app/appearance'
 import { Route as AppReportsIndexRouteImport } from './routes/_app/reports.index'
 import { Route as PublicProductsIdRouteImport } from './routes/_public/products.$id'
 import { Route as AppVendorsNewRouteImport } from './routes/_app/vendors.new'
@@ -255,6 +256,11 @@ const AppAuditLogRoute = AppAuditLogRouteImport.update({
   path: '/audit-log',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAppearanceRoute = AppAppearanceRouteImport.update({
+  id: '/appearance',
+  path: '/appearance',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
   id: '/reports/',
   path: '/reports/',
@@ -416,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/select-branch': typeof SelectBranchRoute
+  '/appearance': typeof AppAppearanceRoute
   '/audit-log': typeof AppAuditLogRoute
   '/branches': typeof AppBranchesRoute
   '/companies': typeof AppCompaniesRoute
@@ -482,6 +489,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/select-branch': typeof SelectBranchRoute
+  '/appearance': typeof AppAppearanceRoute
   '/audit-log': typeof AppAuditLogRoute
   '/branches': typeof AppBranchesRoute
   '/companies': typeof AppCompaniesRoute
@@ -550,6 +558,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/select-branch': typeof SelectBranchRoute
+  '/_app/appearance': typeof AppAppearanceRoute
   '/_app/audit-log': typeof AppAuditLogRoute
   '/_app/branches': typeof AppBranchesRoute
   '/_app/companies': typeof AppCompaniesRoute
@@ -620,6 +629,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/select-branch'
+    | '/appearance'
     | '/audit-log'
     | '/branches'
     | '/companies'
@@ -686,6 +696,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/select-branch'
+    | '/appearance'
     | '/audit-log'
     | '/branches'
     | '/companies'
@@ -753,6 +764,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/select-branch'
+    | '/_app/appearance'
     | '/_app/audit-log'
     | '/_app/branches'
     | '/_app/companies'
@@ -1079,6 +1091,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuditLogRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/appearance': {
+      id: '/_app/appearance'
+      path: '/appearance'
+      fullPath: '/appearance'
+      preLoaderRoute: typeof AppAppearanceRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/reports/': {
       id: '/_app/reports/'
       path: '/reports'
@@ -1356,6 +1375,7 @@ const AppVendorsRouteWithChildren = AppVendorsRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppAppearanceRoute: typeof AppAppearanceRoute
   AppAuditLogRoute: typeof AppAuditLogRoute
   AppBranchesRoute: typeof AppBranchesRoute
   AppCompaniesRoute: typeof AppCompaniesRoute
@@ -1401,6 +1421,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAppearanceRoute: AppAppearanceRoute,
   AppAuditLogRoute: AppAuditLogRoute,
   AppBranchesRoute: AppBranchesRoute,
   AppCompaniesRoute: AppCompaniesRoute,
