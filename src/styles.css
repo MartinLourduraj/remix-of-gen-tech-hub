@@ -333,3 +333,175 @@
   a, button, [role="button"] { transition: all 250ms ease; }
 }
 
+
+/* =====================================================================
+ * SPECIAL THEMES — lightweight scoped visual layers.
+ * Each activates only when <html data-theme="..."> matches.
+ * Respects prefers-reduced-motion.
+ * ===================================================================== */
+
+/* SPECIAL LIGHT — soft aurora, multi-colour glow on cards / CTAs */
+[data-theme="special-light"] body {
+  background:
+    radial-gradient(900px 500px at 5% -5%, color-mix(in oklab, #8B5CF6 18%, transparent), transparent 55%),
+    radial-gradient(900px 500px at 100% 10%, color-mix(in oklab, #F43F5E 14%, transparent), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, color-mix(in oklab, #F59E0B 12%, transparent), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #f7f8ff 100%);
+  background-attachment: fixed;
+}
+[data-theme="special-light"] [data-slot="card"] {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(250,250,255,0.85) 100%);
+  backdrop-filter: blur(6px);
+  border: 1px solid color-mix(in oklab, #8B5CF6 15%, transparent);
+  box-shadow: 0 10px 30px -18px color-mix(in oklab, #8B5CF6 30%, transparent);
+}
+[data-theme="special-light"] button[class*="bg-primary"] {
+  background: linear-gradient(135deg, #2563EB 0%, #8B5CF6 60%, #F43F5E 100%) !important;
+}
+
+/* SPECIAL MAGNETIC DARK — glass surfaces + subtle glow follow */
+[data-theme="special-magnetic-dark"] body {
+  background:
+    radial-gradient(1000px 500px at 20% 10%, color-mix(in oklab, #7C3AED 22%, transparent), transparent 55%),
+    radial-gradient(900px 500px at 100% 100%, color-mix(in oklab, #06B6D4 18%, transparent), transparent 60%),
+    linear-gradient(180deg, #08080A 0%, #0a0612 100%);
+  background-attachment: fixed;
+}
+[data-theme="special-magnetic-dark"] [data-slot="card"] {
+  background: linear-gradient(180deg, rgba(20,15,35,0.85) 0%, rgba(14,10,25,0.85) 100%);
+  border: 1px solid color-mix(in oklab, #7C3AED 30%, transparent);
+  backdrop-filter: blur(10px);
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+}
+[data-theme="special-magnetic-dark"] [data-slot="card"]:hover {
+  transform: translateY(-2px);
+  border-color: #06B6D4;
+  box-shadow: 0 0 40px -10px color-mix(in oklab, #06B6D4 45%, transparent);
+}
+
+/* SPIDER-WEB HERO — subtle SVG web pattern in decorative areas */
+[data-theme="spiderman-web"] body {
+  background:
+    radial-gradient(900px 500px at 100% 0%, color-mix(in oklab, #DC2626 15%, transparent), transparent 55%),
+    radial-gradient(900px 500px at 0% 100%, color-mix(in oklab, #1D4ED8 18%, transparent), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%);
+  background-attachment: fixed;
+}
+[data-theme="spiderman-web"] header.sticky {
+  background: linear-gradient(90deg, #1D4ED8 0%, #DC2626 100%) !important;
+  color: #fff;
+  border-bottom: 2px solid #E5E7EB;
+}
+[data-theme="spiderman-web"] [data-slot="card"] {
+  position: relative;
+  border: 1px solid color-mix(in oklab, #1D4ED8 20%, transparent);
+}
+[data-theme="spiderman-web"] [data-slot="card"]::after {
+  content: "";
+  position: absolute; top: 0; right: 0; width: 42px; height: 42px;
+  background-image:
+    linear-gradient(45deg, transparent 46%, #DC2626 46% 54%, transparent 54%),
+    linear-gradient(-45deg, transparent 46%, #1D4ED8 46% 54%, transparent 54%);
+  background-size: 12px 12px;
+  opacity: 0.18;
+  pointer-events: none;
+  border-top-right-radius: inherit;
+}
+
+/* BATMAN SIGNAL — dark cinematic with yellow signal glow */
+[data-theme="batman-signal"] body {
+  background:
+    radial-gradient(600px 400px at 50% -10%, color-mix(in oklab, #FACC15 15%, transparent), transparent 60%),
+    linear-gradient(180deg, #050505 0%, #0b0f18 100%);
+  background-attachment: fixed;
+}
+[data-theme="batman-signal"] [data-slot="card"] {
+  background: linear-gradient(180deg, #14181f 0%, #0d1017 100%);
+  border: 1px solid rgba(250,204,21,0.18);
+  box-shadow: inset 0 1px 0 rgba(250,204,21,0.06);
+}
+[data-theme="batman-signal"] aside nav a:hover {
+  background: rgba(250,204,21,0.08);
+  border-left: 2px solid #FACC15;
+}
+[data-theme="batman-signal"] button[class*="bg-primary"] {
+  box-shadow: 0 0 20px -4px rgba(250,204,21,0.5);
+}
+
+/* NANO-TECH REACTOR — energy borders + HUD corner brackets on cards */
+[data-theme="nano-tech-reactor"] body {
+  background:
+    radial-gradient(800px 500px at 50% 0%, color-mix(in oklab, #B91C1C 22%, transparent), transparent 55%),
+    linear-gradient(180deg, #120606 0%, #1a0a0a 100%);
+  background-attachment: fixed;
+}
+[data-theme="nano-tech-reactor"] [data-slot="card"] {
+  position: relative;
+  background: linear-gradient(180deg, #1c0f0f 0%, #150a0a 100%);
+  border: 1px solid rgba(212,175,55,0.35);
+  box-shadow: 0 0 30px -12px rgba(103,232,249,0.25) inset;
+}
+[data-theme="nano-tech-reactor"] [data-slot="card"]::before,
+[data-theme="nano-tech-reactor"] [data-slot="card"]::after {
+  content: "";
+  position: absolute; width: 14px; height: 14px;
+  border: 1.5px solid #67E8F9;
+  pointer-events: none;
+}
+[data-theme="nano-tech-reactor"] [data-slot="card"]::before {
+  top: 6px; left: 6px; border-right: none; border-bottom: none;
+}
+[data-theme="nano-tech-reactor"] [data-slot="card"]::after {
+  bottom: 6px; right: 6px; border-left: none; border-top: none;
+}
+[data-theme="nano-tech-reactor"] button[class*="bg-primary"] {
+  background: linear-gradient(135deg, #B91C1C 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 24px -6px rgba(212,175,55,0.55);
+}
+
+/* TRANSFORMER ENGINE — brushed metal seams + industrial accents */
+[data-theme="transformer-engine"] body {
+  background:
+    linear-gradient(180deg, #0e131c 0%, #141c2a 100%);
+  background-attachment: fixed;
+}
+[data-theme="transformer-engine"] aside[class*="bg-sidebar"] {
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 60%),
+    repeating-linear-gradient(90deg, rgba(191,197,201,0.06) 0 1px, transparent 1px 60px);
+}
+[data-theme="transformer-engine"] [data-slot="card"] {
+  background:
+    linear-gradient(180deg, #1d2635 0%, #151d2a 100%);
+  border: 1px solid rgba(191,197,201,0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 12px 32px -18px rgba(0,0,0,0.5);
+}
+[data-theme="transformer-engine"] [data-slot="card"]::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, #1D4ED8 0%, #F97316 50%, #DC2626 100%);
+  border-radius: 12px 0 0 12px;
+}
+[data-theme="transformer-engine"] [data-slot="card"] { position: relative; }
+[data-theme="transformer-engine"] button[class*="bg-primary"] {
+  background: linear-gradient(135deg, #1D4ED8 0%, #F97316 100%) !important;
+}
+
+/* Global: honour reduced motion for all special decorative effects */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="special-light"] body,
+  [data-theme="special-magnetic-dark"] body,
+  [data-theme="spiderman-web"] body,
+  [data-theme="batman-signal"] body,
+  [data-theme="nano-tech-reactor"] body,
+  [data-theme="transformer-engine"] body {
+    background-attachment: scroll;
+  }
+  [data-theme="special-magnetic-dark"] [data-slot="card"]:hover {
+    transform: none;
+  }
+}
+
+

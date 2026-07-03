@@ -5,7 +5,7 @@ import {
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
   LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
   FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen, BadgeIndianRupee,
-  Briefcase, IdCard, TrendingUp,
+  Briefcase, IdCard, TrendingUp, Palette,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/auth";
@@ -62,6 +62,8 @@ const navGroups: NavGroup[] = [
     { to: "/audit-log", label: "Audit Log", icon: History, mod: "Audit Log" },
     { to: "/login-history", label: "Login History", icon: BookOpen, mod: "Audit Log" },
     { to: "/roles", label: "Roles & Access", icon: KeyRound, mod: "Roles & Access" },
+    { to: "/appearance", label: "Appearance", icon: Palette, mod: "Dashboard" },
+
   ]},
 ];
 
