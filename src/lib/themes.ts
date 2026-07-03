@@ -54,15 +54,19 @@ export type ThemeVars = {
   radius: string;
 };
 
+export type ThemeCategory = "light" | "dark" | "special";
+
 export type ThemeDef = {
   id: string;
   name: string;
   description: string;
   swatch: string[]; // 3-4 hex/oklch strings for the switcher preview
   supportsDark: boolean;
+  category?: ThemeCategory;
   light: ThemeVars;
   dark?: Partial<ThemeVars>;
 };
+
 
 // ---- shared dark surface baseline used by most themes ----
 const darkBase: Partial<ThemeVars> = {
