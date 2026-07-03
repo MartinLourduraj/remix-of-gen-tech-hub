@@ -5,7 +5,7 @@ import {
   Receipt, Boxes, ShieldCheck, Wrench, BarChart3, Search, Bell, Sun, Moon,
   LogOut, Menu, ChevronDown, KeyRound, Building2, MapPin, Repeat,
   FileSpreadsheet, FilePlus, FileMinus, History, Building, BookOpen, BadgeIndianRupee,
-  Briefcase, IdCard, TrendingUp,
+  Briefcase, IdCard, TrendingUp, Palette,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/auth";
