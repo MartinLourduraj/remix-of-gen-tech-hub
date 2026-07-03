@@ -62,6 +62,8 @@ const navGroups: NavGroup[] = [
     { to: "/audit-log", label: "Audit Log", icon: History, mod: "Audit Log" },
     { to: "/login-history", label: "Login History", icon: BookOpen, mod: "Audit Log" },
     { to: "/roles", label: "Roles & Access", icon: KeyRound, mod: "Roles & Access" },
+    { to: "/appearance", label: "Appearance", icon: Palette, mod: "Dashboard" },
+
   ]},
 ];
 
