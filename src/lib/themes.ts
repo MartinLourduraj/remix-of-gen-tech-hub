@@ -654,6 +654,334 @@ export const THEMES: ThemeDef[] = [
 
 ];
 
+// ---------------------------------------------------------------------------
+// Compact theme factory for the additional 20 themes (5 light, 10 dark, 5 special)
+// ---------------------------------------------------------------------------
+type Palette = {
+  bg: string; fg: string; card: string; cardFg?: string;
+  primary: string; primaryFg?: string;
+  secondary: string; secondaryFg?: string;
+  muted: string; mutedFg: string;
+  accent: string; accentFg?: string;
+  border: string;
+  sidebar: string; sidebarFg: string; sidebarAccent: string; sidebarBorder: string;
+  charts: [string, string, string, string, string];
+  radius?: string;
+  heroFrom?: string; heroTo?: string;
+};
+
+function mk(
+  id: string, name: string, description: string,
+  swatch: string[], category: ThemeCategory,
+  light: Palette, dark?: Partial<ThemeVars>
+): ThemeDef {
+  const toVars = (p: Palette): ThemeVars => ({
+    background: p.bg, foreground: p.fg,
+    card: p.card, "card-foreground": p.cardFg ?? p.fg,
+    popover: p.card, "popover-foreground": p.cardFg ?? p.fg,
+    primary: p.primary, "primary-foreground": p.primaryFg ?? "oklch(0.99 0 0)",
+    secondary: p.secondary, "secondary-foreground": p.secondaryFg ?? p.fg,
+    muted: p.muted, "muted-foreground": p.mutedFg,
+    accent: p.accent, "accent-foreground": p.accentFg ?? "oklch(0.99 0 0)",
+    destructive: "oklch(0.60 0.22 25)", "destructive-foreground": "oklch(0.99 0 0)",
+    border: p.border, input: p.border, ring: p.primary,
+    "chart-1": p.charts[0], "chart-2": p.charts[1], "chart-3": p.charts[2],
+    "chart-4": p.charts[3], "chart-5": p.charts[4],
+    sidebar: p.sidebar, "sidebar-foreground": p.sidebarFg,
+    "sidebar-primary": p.primary, "sidebar-primary-foreground": p.primaryFg ?? "oklch(0.99 0 0)",
+    "sidebar-accent": p.sidebarAccent, "sidebar-accent-foreground": p.sidebarFg,
+    "sidebar-border": p.sidebarBorder, "sidebar-ring": p.primary,
+    "brand-navy": p.sidebar, "brand-navy-2": p.sidebarAccent,
+    "brand-orange": p.primary, "brand-orange-2": p.accent,
+    "gradient-hero": `linear-gradient(135deg, ${p.heroFrom ?? p.sidebar} 0%, ${p.heroTo ?? p.primary} 100%)`,
+    "gradient-accent": `linear-gradient(135deg, ${p.primary} 0%, ${p.accent} 100%)`,
+    "shadow-elevated": `0 20px 50px -20px color-mix(in oklab, ${p.primary} 30%, transparent)`,
+    "shadow-glow": `0 0 55px -10px color-mix(in oklab, ${p.primary} 50%, transparent)`,
+    radius: p.radius ?? "0.625rem",
+  });
+  return {
+    id, name, description, swatch, supportsDark: true, category,
+    light: toVars(light),
+    dark,
+  };
+}
+
+// ============= Additional 4 LIGHT themes =============
+THEMES.push(
+  mk("sky-blue-professional", "Sky Blue Professional", "Azure · Aqua · Bright glass — technical",
+    ["#F0F9FF", "#0284C7", "#22D3EE", "#0369A1"], "light", {
+      bg: "oklch(0.98 0.02 230)", fg: "oklch(0.20 0.05 240)",
+      card: "oklch(1 0 0)", primary: "oklch(0.60 0.16 240)",
+      secondary: "oklch(0.96 0.02 230)", muted: "oklch(0.96 0.02 230)",
+      mutedFg: "oklch(0.48 0.04 240)", accent: "oklch(0.78 0.14 210)",
+      border: "oklch(0.90 0.03 230)", sidebar: "oklch(0.32 0.10 240)",
+      sidebarFg: "oklch(0.96 0.02 230)", sidebarAccent: "oklch(0.42 0.12 240)",
+      sidebarBorder: "oklch(0.50 0.10 240)",
+      charts: ["oklch(0.60 0.16 240)", "oklch(0.78 0.14 210)", "oklch(0.72 0.15 260)", "oklch(0.70 0.15 160)", "oklch(0.72 0.19 50)"],
+      radius: "0.75rem",
+    }),
+  mk("silver-professional", "Silver Professional", "Steel · Silver · Electric Blue — engineering",
+    ["#F1F5F9", "#475569", "#3B82F6", "#CBD5E1"], "light", {
+      bg: "oklch(0.96 0.005 250)", fg: "oklch(0.20 0.01 250)",
+      card: "oklch(1 0 0)", primary: "oklch(0.40 0.02 250)",
+      secondary: "oklch(0.92 0.005 250)", muted: "oklch(0.92 0.005 250)",
+      mutedFg: "oklch(0.48 0.01 250)", accent: "oklch(0.62 0.20 255)",
+      border: "oklch(0.85 0.01 250)", sidebar: "oklch(0.24 0.01 250)",
+      sidebarFg: "oklch(0.94 0.005 250)", sidebarAccent: "oklch(0.32 0.01 250)",
+      sidebarBorder: "oklch(0.42 0.01 250)",
+      charts: ["oklch(0.40 0.02 250)", "oklch(0.62 0.20 255)", "oklch(0.72 0.02 250)", "oklch(0.70 0.15 200)", "oklch(0.72 0.19 50)"],
+      radius: "0.5rem",
+    }),
+  mk("minimal-white", "Minimal White", "Near-black · Neutral Gray · Blue — content-first",
+    ["#FFFFFF", "#18181B", "#2563EB", "#FAFAFA"], "light", {
+      bg: "oklch(1 0 0)", fg: "oklch(0.15 0 0)",
+      card: "oklch(0.99 0 0)", primary: "oklch(0.18 0 0)",
+      secondary: "oklch(0.97 0 0)", muted: "oklch(0.97 0 0)",
+      mutedFg: "oklch(0.50 0 0)", accent: "oklch(0.55 0.20 255)",
+      border: "oklch(0.90 0 0)", sidebar: "oklch(0.99 0 0)",
+      sidebarFg: "oklch(0.18 0 0)", sidebarAccent: "oklch(0.95 0 0)",
+      sidebarBorder: "oklch(0.90 0 0)",
+      charts: ["oklch(0.18 0 0)", "oklch(0.55 0.20 255)", "oklch(0.60 0.005 260)", "oklch(0.70 0.15 160)", "oklch(0.72 0.19 50)"],
+      radius: "0.375rem",
+    }),
+  mk("premium-cream", "Premium Cream", "Deep Brown · Warm Cream · Bronze — executive",
+    ["#FFFBF2", "#5C4033", "#B7791F", "#FFF7E6"], "light", {
+      bg: "oklch(0.98 0.02 85)", fg: "oklch(0.24 0.04 55)",
+      card: "oklch(1 0 0)", primary: "oklch(0.35 0.05 45)",
+      secondary: "oklch(0.96 0.03 85)", muted: "oklch(0.96 0.03 85)",
+      mutedFg: "oklch(0.48 0.03 55)", accent: "oklch(0.62 0.13 70)",
+      border: "oklch(0.90 0.03 80)", sidebar: "oklch(0.24 0.04 45)",
+      sidebarFg: "oklch(0.96 0.03 85)", sidebarAccent: "oklch(0.32 0.05 45)",
+      sidebarBorder: "oklch(0.42 0.05 45)",
+      charts: ["oklch(0.62 0.13 70)", "oklch(0.35 0.05 45)", "oklch(0.78 0.10 85)", "oklch(0.55 0.10 40)", "oklch(0.72 0.19 50)"],
+      radius: "0.625rem",
+    }),
+);
+
+// ============= 10 DARK themes =============
+const darkFg = "oklch(0.96 0.01 250)";
+THEMES.push(
+  mk("midnight-blue", "Midnight Blue", "Deep Navy · Ice Blue — analytical night",
+    ["#020617", "#0F172A", "#3B82F6", "#7DD3FC"], "dark", {
+      bg: "oklch(0.10 0.03 260)", fg: darkFg, card: "oklch(0.16 0.04 260)",
+      primary: "oklch(0.62 0.20 255)", secondary: "oklch(0.20 0.04 260)",
+      muted: "oklch(0.20 0.04 260)", mutedFg: "oklch(0.72 0.02 255)",
+      accent: "oklch(0.80 0.12 230)", border: "oklch(1 0 0 / 10%)",
+      sidebar: "oklch(0.08 0.03 260)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.18 0.04 260)", sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.62 0.20 255)", "oklch(0.80 0.12 230)", "oklch(0.70 0.15 280)", "oklch(0.75 0.14 200)", "oklch(0.99 0 0)"],
+      radius: "0.75rem",
+    }),
+  mk("carbon-fiber-black", "Carbon Fiber Black", "Carbon · Metallic Silver · Orange — automotive",
+    ["#080808", "#171717", "#C0C0C0", "#F97316"], "dark", {
+      bg: "oklch(0.09 0 0)", fg: "oklch(0.95 0 0)", card: "oklch(0.15 0 0)",
+      primary: "oklch(0.82 0.008 250)", primaryFg: "oklch(0.10 0 0)",
+      secondary: "oklch(0.18 0 0)", muted: "oklch(0.18 0 0)",
+      mutedFg: "oklch(0.72 0 0)", accent: "oklch(0.70 0.22 45)",
+      border: "oklch(0.82 0.01 60 / 20%)", sidebar: "oklch(0.06 0 0)",
+      sidebarFg: "oklch(0.95 0 0)", sidebarAccent: "oklch(0.14 0 0)",
+      sidebarBorder: "oklch(0.82 0.01 60 / 15%)",
+      charts: ["oklch(0.70 0.22 45)", "oklch(0.82 0.008 250)", "oklch(0.60 0.02 250)", "oklch(0.99 0 0)", "oklch(0.55 0.14 230)"],
+      radius: "0.5rem",
+    }),
+  mk("dark-emerald", "Dark Emerald", "Deep Forest · Emerald · Mint — sustainable dark",
+    ["#04130F", "#0B241C", "#10B981", "#6EE7B7"], "dark", {
+      bg: "oklch(0.10 0.03 160)", fg: darkFg, card: "oklch(0.16 0.04 160)",
+      primary: "oklch(0.68 0.16 160)", secondary: "oklch(0.20 0.05 160)",
+      muted: "oklch(0.20 0.05 160)", mutedFg: "oklch(0.72 0.02 160)",
+      accent: "oklch(0.82 0.14 155)", border: "oklch(1 0 0 / 10%)",
+      sidebar: "oklch(0.08 0.03 160)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.18 0.04 160)", sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.68 0.16 160)", "oklch(0.82 0.14 155)", "oklch(0.78 0.15 130)", "oklch(0.70 0.15 200)", "oklch(0.75 0.15 60)"],
+      radius: "0.75rem",
+    }),
+  mk("dark-crimson", "Dark Crimson", "Burgundy · Crimson · Rose — bold executive",
+    ["#0F0505", "#211010", "#DC2626", "#FB7185"], "dark", {
+      bg: "oklch(0.11 0.03 20)", fg: darkFg, card: "oklch(0.17 0.04 20)",
+      primary: "oklch(0.58 0.22 25)", secondary: "oklch(0.20 0.04 20)",
+      muted: "oklch(0.20 0.04 20)", mutedFg: "oklch(0.72 0.03 20)",
+      accent: "oklch(0.72 0.16 15)", border: "oklch(1 0 0 / 10%)",
+      sidebar: "oklch(0.08 0.03 20)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.18 0.04 20)", sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.58 0.22 25)", "oklch(0.72 0.16 15)", "oklch(0.65 0.18 5)", "oklch(0.80 0.13 40)", "oklch(0.72 0.19 50)"],
+      radius: "0.625rem",
+    }),
+  mk("dark-purple-elite", "Dark Purple Elite", "Violet · Deep Purple · Fuchsia — elite creative",
+    ["#090510", "#1A1025", "#8B5CF6", "#D946EF"], "dark", {
+      bg: "oklch(0.10 0.04 300)", fg: darkFg, card: "oklch(0.17 0.06 300)",
+      primary: "oklch(0.62 0.22 300)", secondary: "oklch(0.22 0.06 300)",
+      muted: "oklch(0.22 0.06 300)", mutedFg: "oklch(0.72 0.03 300)",
+      accent: "oklch(0.72 0.24 330)", border: "oklch(1 0 0 / 10%)",
+      sidebar: "oklch(0.08 0.04 300)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.18 0.06 300)", sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.62 0.22 300)", "oklch(0.72 0.24 330)", "oklch(0.78 0.15 200)", "oklch(0.85 0.13 90)", "oklch(0.99 0 0)"],
+      radius: "0.75rem",
+    }),
+  mk("dark-navy", "Dark Navy", "Royal · Navy · Sky Blue — corporate stable",
+    ["#020617", "#111827", "#2563EB", "#38BDF8"], "dark", {
+      bg: "oklch(0.11 0.03 260)", fg: darkFg, card: "oklch(0.18 0.04 260)",
+      primary: "oklch(0.55 0.20 255)", secondary: "oklch(0.22 0.05 260)",
+      muted: "oklch(0.22 0.05 260)", mutedFg: "oklch(0.72 0.03 255)",
+      accent: "oklch(0.78 0.14 230)", border: "oklch(1 0 0 / 10%)",
+      sidebar: "oklch(0.09 0.03 260)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.18 0.04 260)", sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.55 0.20 255)", "oklch(0.78 0.14 230)", "oklch(0.70 0.15 200)", "oklch(0.72 0.15 280)", "oklch(0.99 0 0)"],
+      radius: "0.625rem",
+    }),
+  mk("cyber-gray", "Cyber Gray", "Graphite · Cyan · Lime — technical engineering",
+    ["#101214", "#1B1F23", "#06B6D4", "#84CC16"], "dark", {
+      bg: "oklch(0.14 0.005 240)", fg: darkFg, card: "oklch(0.20 0.005 240)",
+      primary: "oklch(0.72 0.15 200)", secondary: "oklch(0.24 0.005 240)",
+      muted: "oklch(0.24 0.005 240)", mutedFg: "oklch(0.72 0.01 240)",
+      accent: "oklch(0.80 0.18 130)", accentFg: "oklch(0.14 0 0)",
+      border: "oklch(1 0 0 / 10%)", sidebar: "oklch(0.11 0.005 240)",
+      sidebarFg: darkFg, sidebarAccent: "oklch(0.20 0.005 240)",
+      sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.72 0.15 200)", "oklch(0.80 0.18 130)", "oklch(0.62 0.20 255)", "oklch(0.72 0.19 50)", "oklch(0.99 0 0)"],
+      radius: "0.5rem",
+    }),
+  mk("dark-steel", "Dark Steel", "Gunmetal · Steel Blue · Silver — heavy machinery",
+    ["#11161A", "#1E272E", "#4682B4", "#BFC5C9"], "dark", {
+      bg: "oklch(0.15 0.008 240)", fg: darkFg, card: "oklch(0.22 0.01 240)",
+      primary: "oklch(0.55 0.10 240)", secondary: "oklch(0.25 0.01 240)",
+      muted: "oklch(0.25 0.01 240)", mutedFg: "oklch(0.72 0.01 240)",
+      accent: "oklch(0.80 0.008 250)", accentFg: "oklch(0.15 0 0)",
+      border: "oklch(1 0 0 / 10%)", sidebar: "oklch(0.12 0.008 240)",
+      sidebarFg: darkFg, sidebarAccent: "oklch(0.22 0.01 240)",
+      sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.55 0.10 240)", "oklch(0.80 0.008 250)", "oklch(0.70 0.12 220)", "oklch(0.72 0.19 50)", "oklch(0.99 0 0)"],
+      radius: "0.5rem",
+    }),
+  mk("matte-black-orange", "Matte Black Orange", "Matte Black · Performance Orange · Silver",
+    ["#0B0B0B", "#171717", "#F97316", "#A3A3A3"], "dark", {
+      bg: "oklch(0.09 0 0)", fg: "oklch(0.95 0 0)", card: "oklch(0.15 0 0)",
+      primary: "oklch(0.70 0.22 45)", secondary: "oklch(0.18 0 0)",
+      muted: "oklch(0.18 0 0)", mutedFg: "oklch(0.72 0 0)",
+      accent: "oklch(0.72 0.008 250)", accentFg: "oklch(0.10 0 0)",
+      border: "oklch(1 0 0 / 10%)", sidebar: "oklch(0.06 0 0)",
+      sidebarFg: "oklch(0.95 0 0)", sidebarAccent: "oklch(0.14 0 0)",
+      sidebarBorder: "oklch(1 0 0 / 8%)",
+      charts: ["oklch(0.70 0.22 45)", "oklch(0.78 0.20 55)", "oklch(0.72 0.008 250)", "oklch(0.99 0 0)", "oklch(0.55 0.14 230)"],
+      radius: "0.625rem",
+    }),
+  mk("lambo-ultimate-dark", "Lamborghini Ultimate Dark", "Carbon · Orange · Silver — supercar cockpit",
+    ["#090909", "#171717", "#FF6A00", "#C0C0C0"], "dark", {
+      bg: "oklch(0.08 0 0)", fg: "oklch(0.96 0.01 60)", card: "oklch(0.15 0.008 30)",
+      primary: "oklch(0.70 0.22 45)", secondary: "oklch(0.18 0.008 30)",
+      muted: "oklch(0.18 0.008 30)", mutedFg: "oklch(0.75 0.005 60)",
+      accent: "oklch(0.82 0.01 60)", accentFg: "oklch(0.10 0 0)",
+      border: "oklch(0.82 0.01 60 / 22%)", sidebar: "oklch(0.05 0 0)",
+      sidebarFg: "oklch(0.94 0.008 60)", sidebarAccent: "oklch(0.14 0.008 30)",
+      sidebarBorder: "oklch(0.82 0.01 60 / 15%)",
+      charts: ["oklch(0.70 0.22 45)", "oklch(0.82 0.01 60)", "oklch(0.99 0 0)", "oklch(0.60 0.02 250)", "oklch(0.55 0.14 230)"],
+      radius: "0.75rem",
+    }),
+);
+
+// ============= 6 SPECIAL themes =============
+THEMES.push(
+  mk("special-light", "Special Light Aurora", "Blue · Violet · Rose · Gold — magical aurora",
+    ["#2563EB", "#8B5CF6", "#F43F5E", "#F59E0B"], "special", {
+      bg: "oklch(0.99 0.01 280)", fg: "oklch(0.20 0.04 260)",
+      card: "oklch(1 0 0)", primary: "oklch(0.55 0.20 260)",
+      secondary: "oklch(0.97 0.02 280)", muted: "oklch(0.97 0.02 280)",
+      mutedFg: "oklch(0.48 0.03 260)", accent: "oklch(0.62 0.22 320)",
+      border: "oklch(0.90 0.02 280)", sidebar: "oklch(0.98 0.02 280)",
+      sidebarFg: "oklch(0.20 0.04 260)", sidebarAccent: "oklch(0.94 0.03 300)",
+      sidebarBorder: "oklch(0.90 0.02 280)",
+      charts: ["oklch(0.55 0.20 260)", "oklch(0.62 0.22 320)", "oklch(0.65 0.20 15)", "oklch(0.78 0.15 80)", "oklch(0.75 0.15 200)"],
+      radius: "1rem",
+      heroFrom: "oklch(0.96 0.03 260)", heroTo: "oklch(0.92 0.06 320)",
+    }),
+  mk("special-magnetic-dark", "Special Magnetic Dark", "Violet · Cyan · Magenta — magnetic mystery",
+    ["#7C3AED", "#06B6D4", "#DB2777", "#08080A"], "special", {
+      bg: "oklch(0.08 0.02 290)", fg: darkFg, card: "oklch(0.14 0.04 290)",
+      primary: "oklch(0.58 0.22 300)", secondary: "oklch(0.20 0.05 290)",
+      muted: "oklch(0.20 0.05 290)", mutedFg: "oklch(0.72 0.02 290)",
+      accent: "oklch(0.72 0.15 200)", border: "oklch(1 0 0 / 12%)",
+      sidebar: "oklch(0.06 0.02 290)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.14 0.04 290)", sidebarBorder: "oklch(1 0 0 / 10%)",
+      charts: ["oklch(0.58 0.22 300)", "oklch(0.72 0.15 200)", "oklch(0.62 0.24 340)", "oklch(0.80 0.008 250)", "oklch(0.55 0.20 255)"],
+      radius: "0.875rem",
+    }),
+  mk("spiderman-web", "Spider-Web Hero", "Red · Blue · Silver — dynamic heroic",
+    ["#DC2626", "#1D4ED8", "#E5E7EB", "#111111"], "special", {
+      bg: "oklch(0.99 0.005 260)", fg: "oklch(0.15 0.02 260)",
+      card: "oklch(1 0 0)", primary: "oklch(0.55 0.22 25)",
+      secondary: "oklch(0.96 0.01 260)", muted: "oklch(0.96 0.01 260)",
+      mutedFg: "oklch(0.48 0.02 260)", accent: "oklch(0.42 0.20 260)",
+      border: "oklch(0.90 0.02 260)", sidebar: "oklch(0.20 0.06 260)",
+      sidebarFg: "oklch(0.96 0.01 260)", sidebarAccent: "oklch(0.28 0.08 260)",
+      sidebarBorder: "oklch(0.35 0.08 260)",
+      charts: ["oklch(0.55 0.22 25)", "oklch(0.42 0.20 260)", "oklch(0.20 0 0)", "oklch(0.80 0.008 250)", "oklch(0.72 0.15 200)"],
+      radius: "0.75rem",
+      heroFrom: "oklch(0.20 0.06 260)", heroTo: "oklch(0.45 0.20 25)",
+    }),
+  mk("batman-signal", "Batman Signal", "Night Black · Graphite · Signal Yellow — cinematic",
+    ["#050505", "#1F2937", "#FACC15", "#9CA3AF"], "special", {
+      bg: "oklch(0.06 0 0)", fg: "oklch(0.95 0.01 90)",
+      card: "oklch(0.14 0.01 260)", primary: "oklch(0.85 0.17 90)",
+      primaryFg: "oklch(0.10 0 0)", secondary: "oklch(0.18 0.01 260)",
+      muted: "oklch(0.18 0.01 260)", mutedFg: "oklch(0.72 0.01 260)",
+      accent: "oklch(0.85 0.17 90)", accentFg: "oklch(0.10 0 0)",
+      border: "oklch(1 0 0 / 12%)", sidebar: "oklch(0.04 0 0)",
+      sidebarFg: "oklch(0.94 0.01 90)", sidebarAccent: "oklch(0.14 0.01 260)",
+      sidebarBorder: "oklch(1 0 0 / 10%)",
+      charts: ["oklch(0.85 0.17 90)", "oklch(0.72 0.02 260)", "oklch(0.99 0 0)", "oklch(0.55 0.05 250)", "oklch(0.78 0.14 80)"],
+      radius: "0.5rem",
+      heroFrom: "oklch(0.05 0 0)", heroTo: "oklch(0.14 0.01 260)",
+    }),
+  mk("nano-tech-reactor", "Nano-Tech Reactor", "Reactor Red · Gold · Energy Cyan — nano armor",
+    ["#B91C1C", "#D4AF37", "#67E8F9", "#120606"], "special", {
+      bg: "oklch(0.10 0.02 20)", fg: "oklch(0.95 0.02 60)",
+      card: "oklch(0.16 0.03 20)", primary: "oklch(0.55 0.22 25)",
+      secondary: "oklch(0.20 0.03 20)", muted: "oklch(0.20 0.03 20)",
+      mutedFg: "oklch(0.72 0.03 40)", accent: "oklch(0.85 0.14 80)",
+      accentFg: "oklch(0.12 0 0)", border: "oklch(0.85 0.14 80 / 25%)",
+      sidebar: "oklch(0.09 0.02 20)", sidebarFg: "oklch(0.94 0.02 60)",
+      sidebarAccent: "oklch(0.18 0.03 20)", sidebarBorder: "oklch(0.85 0.14 80 / 20%)",
+      charts: ["oklch(0.55 0.22 25)", "oklch(0.85 0.14 80)", "oklch(0.85 0.13 210)", "oklch(0.99 0 0)", "oklch(0.72 0.19 50)"],
+      radius: "0.75rem",
+      heroFrom: "oklch(0.08 0.02 20)", heroTo: "oklch(0.30 0.15 25)",
+    }),
+  mk("transformer-engine", "Transformer Engine", "Industrial Blue · Engine Red · Silver · Orange — mechanical",
+    ["#1D4ED8", "#DC2626", "#BFC5C9", "#F97316"], "special", {
+      bg: "oklch(0.14 0.03 260)", fg: darkFg, card: "oklch(0.20 0.04 260)",
+      primary: "oklch(0.55 0.20 255)", secondary: "oklch(0.24 0.04 260)",
+      muted: "oklch(0.24 0.04 260)", mutedFg: "oklch(0.75 0.02 260)",
+      accent: "oklch(0.70 0.22 45)", border: "oklch(0.80 0.008 250 / 22%)",
+      sidebar: "oklch(0.11 0.02 240)", sidebarFg: darkFg,
+      sidebarAccent: "oklch(0.20 0.03 240)", sidebarBorder: "oklch(0.80 0.008 250 / 18%)",
+      charts: ["oklch(0.55 0.20 255)", "oklch(0.58 0.22 25)", "oklch(0.80 0.008 250)", "oklch(0.70 0.22 45)", "oklch(0.72 0.15 200)"],
+      radius: "0.625rem",
+      heroFrom: "oklch(0.11 0.02 240)", heroTo: "oklch(0.32 0.10 260)",
+    }),
+);
+
+// ---------------------------------------------------------------------------
+// Category map — used by the theme switcher to group into tabs.
+// ---------------------------------------------------------------------------
+const CATEGORY_OVERRIDES: Record<string, ThemeCategory> = {
+  "industrial-blue": "light",
+  "light-corporate": "light",
+  "emerald-green": "light",
+  "orange-grey": "light",
+  "red-white-blue": "light",
+  "chiropractic-studio": "light",
+  "dental-clinic": "light",
+  "lamborghini-orange": "light",
+  "dark-professional": "dark",
+  "luxury-black-gold": "dark",
+};
+
+for (const t of THEMES) {
+  if (!t.category) t.category = CATEGORY_OVERRIDES[t.id] ?? "light";
+}
+
+export function getThemesByCategory(cat: ThemeCategory): ThemeDef[] {
+  return THEMES.filter((t) => (t.category ?? "light") === cat);
+}
+
 export const DEFAULT_THEME_ID = "industrial-blue";
 export const THEME_STORAGE_KEY = "app.theme.id";
 export const MODE_STORAGE_KEY = "app.theme.mode";
@@ -661,3 +989,4 @@ export const MODE_STORAGE_KEY = "app.theme.mode";
 export function getThemeById(id: string): ThemeDef {
   return THEMES.find((t) => t.id === id) ?? THEMES[0];
 }
+
