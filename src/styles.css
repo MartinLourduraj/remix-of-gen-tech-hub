@@ -504,4 +504,99 @@
   }
 }
 
+/* =====================================================================
+ * THEME CONTRAST SAFETY NET — applies to every theme.
+ * Forces menus, dropdowns, popovers, sheets, tooltips, dialogs and
+ * their internal text to resolve to the matching *-foreground token,
+ * regardless of any hardcoded text-white / text-slate-* / text-gray-*
+ * utility a child component may still ship. Fixes the invisible-menu
+ * problem across all 30 themes without touching component source.
+ * ===================================================================== */
+
+[data-slot="popover-content"],
+[data-slot="dropdown-menu-content"],
+[data-slot="dropdown-menu-sub-content"],
+[data-slot="select-content"],
+[data-slot="menubar-content"],
+[data-slot="menubar-sub-content"],
+[data-slot="context-menu-content"],
+[data-slot="context-menu-sub-content"],
+[data-slot="navigation-menu-content"],
+[data-slot="navigation-menu-viewport"],
+[data-slot="hover-card-content"],
+[data-slot="command"] {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+}
+
+[data-slot="popover-content"] .text-white,
+[data-slot="dropdown-menu-content"] .text-white,
+[data-slot="select-content"] .text-white,
+[data-slot="menubar-content"] .text-white,
+[data-slot="context-menu-content"] .text-white,
+[data-slot="navigation-menu-content"] .text-white,
+[data-slot="hover-card-content"] .text-white,
+[data-slot="command"] .text-white,
+[data-slot="popover-content"] [class*="text-slate-"],
+[data-slot="dropdown-menu-content"] [class*="text-slate-"],
+[data-slot="select-content"] [class*="text-slate-"],
+[data-slot="popover-content"] [class*="text-gray-"],
+[data-slot="dropdown-menu-content"] [class*="text-gray-"],
+[data-slot="select-content"] [class*="text-gray-"] {
+  color: var(--popover-foreground) !important;
+}
+
+[data-slot="sheet-content"],
+[data-slot="dialog-content"],
+[data-slot="drawer-content"],
+[data-slot="alert-dialog-content"] {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+}
+[data-slot="sheet-content"] .text-white,
+[data-slot="dialog-content"] .text-white,
+[data-slot="drawer-content"] .text-white,
+[data-slot="alert-dialog-content"] .text-white {
+  color: var(--popover-foreground);
+}
+
+[data-slot="tooltip-content"] {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+/* Sidebar — enforce sidebar-foreground even when a legacy component
+   ships an explicit text-white / text-slate-* */
+[data-slot="sidebar"],
+[data-slot="sidebar-content"],
+[data-slot="sidebar-header"],
+[data-slot="sidebar-footer"] {
+  color: var(--sidebar-foreground);
+}
+[data-slot="sidebar"] .text-white,
+[data-slot="sidebar-content"] .text-white,
+[data-slot="sidebar"] [class*="text-slate-"],
+[data-slot="sidebar"] [class*="text-gray-"] {
+  color: var(--sidebar-foreground) !important;
+}
+
+/* Public nav / mega-menu — inherit foreground rather than hardcoded white */
+[data-slot="navigation-menu"] a,
+[data-slot="navigation-menu"] button {
+  color: inherit;
+}
+
+/* Table header text always follows theme foreground */
+[data-slot="table"] thead th { color: var(--foreground); }
+
+/* Labels + inputs never inherit an invisible text color */
+[data-slot="label"] { color: var(--foreground); }
+input, textarea, select { color: var(--foreground); }
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-foreground);
+  opacity: 0.7;
+}
+
+
 
