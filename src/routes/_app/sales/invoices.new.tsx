@@ -220,7 +220,7 @@ function NewInvoicePage() {
     if (!customerId) { alert("Select a customer"); return; }
     if (items.some((it) => !it.name || it.qty <= 0)) { alert("Complete every item row"); return; }
     if (mode === "save" || mode === "print" || mode === "new") {
-      if (Math.abs(remaining) > 1 && mode !== "hold" && mode !== "draft") {
+      if (Math.abs(remaining) > 1) {
         const ok = window.confirm(
           `Payment allocation (${inr(totalAllocated)}) does not match Grand Total (${inr(calc.grand)}). Save anyway?`
         );
