@@ -195,14 +195,75 @@ export type SalesOrder = {
   branchId?: string;
 };
 
+export type PaymentMode = "Cash" | "Card" | "Cheque" | "UPI" | "Bank" | "Credit" | "Advance";
+
+export type PaymentAllocation = {
+  mode: PaymentMode;
+  amount: number;
+  // per-mode metadata (all optional)
+  cardType?: string; cardLast4?: string; cardTxnId?: string; cardApproval?: string; cardBank?: string;
+  chequeNo?: string; chequeDate?: string; chequeBank?: string; chequeBranch?: string;
+  upiTxnId?: string; upiRef?: string; upiProvider?: string;
+  bankName?: string; bankAcctRef?: string; utrNo?: string; txnDate?: string;
+  creditDueDate?: string; creditDays?: number;
+};
+
+export type InvoiceItem = {
+  id: string;
+  productId?: string;
+  itemCode: string;
+  name: string;
+  description?: string;
+  serialNo?: string; engineNo?: string; alternatorNo?: string; modelNo?: string;
+  hsn: string;
+  qty: number;
+  unit: string;
+  rate: number;
+  discountPct: number;
+  taxPct: number;
+  cess?: number;
+};
+
 export type Invoice = {
   id: string; number: string; orderId?: string;
   customerId: string; date: string; productId: string;
   qty: number; subtotal: number; gstAmount: number; total: number; paid: number;
-  status: "Paid" | "Partial" | "Pending" | "Overdue" | "Cancelled";
+  status: "Paid" | "Partial" | "Pending" | "Overdue" | "Cancelled" | "Draft" | "Hold";
   irn?: string; ewayBill?: string;
   branchId?: string;
   billType?: BillType;
+  // --- Advanced billing (all optional, non-breaking) ---
+  time?: string;
+  invoiceType?: string;
+  employeeId?: string;
+  salesPersonId?: string;
+  counter?: string;
+  refNo?: string;
+  items?: InvoiceItem[];
+  customerName?: string;
+  customerMobile?: string;
+  customerEmail?: string;
+  customerGSTIN?: string;
+  customerPAN?: string;
+  billingAddress?: string;
+  shippingAddress?: string;
+  placeOfSupply?: string;
+  stateCode?: string;
+  reverseCharge?: boolean;
+  transporter?: string;
+  vehicleNo?: string;
+  deliveryNotes?: string;
+  internalNotes?: string;
+  freight?: number;
+  installation?: number;
+  delivery?: number;
+  otherCharges?: number;
+  billDiscount?: number;
+  roundOff?: number;
+  cgst?: number;
+  sgst?: number;
+  igst?: number;
+  payments?: PaymentAllocation[];
 };
 
 export type Warranty = {
