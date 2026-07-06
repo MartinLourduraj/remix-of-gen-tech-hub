@@ -18,7 +18,6 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicWarrantyRouteImport } from './routes/_public/warranty'
 import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
 import { Route as PublicServiceRequestRouteImport } from './routes/_public/service-request'
-import { Route as PublicRentalGeneratorsRouteImport } from './routes/_public/rental-generators'
 import { Route as PublicRecommendRouteImport } from './routes/_public/recommend'
 import { Route as PublicProductsRouteImport } from './routes/_public/products'
 import { Route as PublicDealersRouteImport } from './routes/_public/dealers'
@@ -119,11 +118,6 @@ const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
 const PublicServiceRequestRoute = PublicServiceRequestRouteImport.update({
   id: '/service-request',
   path: '/service-request',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicRentalGeneratorsRoute = PublicRentalGeneratorsRouteImport.update({
-  id: '/rental-generators',
-  path: '/rental-generators',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicRecommendRoute = PublicRecommendRouteImport.update({
@@ -448,7 +442,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof PublicContactRoute
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
-  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/service-request': typeof PublicServiceRequestRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
@@ -515,7 +508,6 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactRoute
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
-  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/service-request': typeof PublicServiceRequestRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
@@ -585,7 +577,6 @@ export interface FileRoutesById {
   '/_public/dealers': typeof PublicDealersRoute
   '/_public/products': typeof PublicProductsRouteWithChildren
   '/_public/recommend': typeof PublicRecommendRoute
-  '/_public/rental-generators': typeof PublicRentalGeneratorsRoute
   '/_public/service-request': typeof PublicServiceRequestRoute
   '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/warranty': typeof PublicWarrantyRoute
@@ -655,7 +646,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dealers'
     | '/recommend'
-    | '/rental-generators'
     | '/service-request'
     | '/used-generators'
     | '/warranty'
@@ -722,7 +712,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dealers'
     | '/recommend'
-    | '/rental-generators'
     | '/service-request'
     | '/used-generators'
     | '/warranty'
@@ -791,7 +780,6 @@ export interface FileRouteTypes {
     | '/_public/dealers'
     | '/_public/products'
     | '/_public/recommend'
-    | '/_public/rental-generators'
     | '/_public/service-request'
     | '/_public/used-generators'
     | '/_public/warranty'
@@ -900,13 +888,6 @@ declare module '@tanstack/react-router' {
       path: '/service-request'
       fullPath: '/service-request'
       preLoaderRoute: typeof PublicServiceRequestRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/rental-generators': {
-      id: '/_public/rental-generators'
-      path: '/rental-generators'
-      fullPath: '/rental-generators'
-      preLoaderRoute: typeof PublicRentalGeneratorsRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/recommend': {
@@ -1487,7 +1468,6 @@ interface PublicRouteChildren {
   PublicDealersRoute: typeof PublicDealersRoute
   PublicProductsRoute: typeof PublicProductsRouteWithChildren
   PublicRecommendRoute: typeof PublicRecommendRoute
-  PublicRentalGeneratorsRoute: typeof PublicRentalGeneratorsRoute
   PublicServiceRequestRoute: typeof PublicServiceRequestRoute
   PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
   PublicWarrantyRoute: typeof PublicWarrantyRoute
@@ -1501,7 +1481,6 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicDealersRoute: PublicDealersRoute,
   PublicProductsRoute: PublicProductsRouteWithChildren,
   PublicRecommendRoute: PublicRecommendRoute,
-  PublicRentalGeneratorsRoute: PublicRentalGeneratorsRoute,
   PublicServiceRequestRoute: PublicServiceRequestRoute,
   PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
   PublicWarrantyRoute: PublicWarrantyRoute,
@@ -1521,13 +1500,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
