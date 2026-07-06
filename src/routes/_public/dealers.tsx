@@ -14,7 +14,7 @@ const dealers = [
   { n: "Sundaram Power", city: "Chennai", state: "Tamil Nadu", phone: "9840098400", spec: ["Service", "Trolley"] },
   { n: "Karnataka GenSol", city: "Bengaluru", state: "Karnataka", phone: "9844033333", spec: ["Sales", "Service"] },
   { n: "Hyderabad Power Hub", city: "Hyderabad", state: "Telangana", phone: "9000011111", spec: ["Sales", "Spares"] },
-  { n: "Delhi Power Center", city: "Delhi", state: "Delhi", phone: "9811112233", spec: ["Sales", "Service", "Rental"] },
+  { n: "Delhi Power Center", city: "Delhi", state: "Delhi", phone: "9811112233", spec: ["Sales", "Service", "Trolley"] },
   { n: "Pune Generators", city: "Pune", state: "Maharashtra", phone: "9822011111", spec: ["AMC", "Service"] },
   { n: "Kolkata Power Co", city: "Kolkata", state: "West Bengal", phone: "9833022222", spec: ["Sales", "Service"] },
 ];
