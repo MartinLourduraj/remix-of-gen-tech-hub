@@ -17,8 +17,8 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicWarrantyRouteImport } from './routes/_public/warranty'
 import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
+import { Route as PublicTrolleyBookingRouteImport } from './routes/_public/trolley-booking'
 import { Route as PublicServiceRequestRouteImport } from './routes/_public/service-request'
-import { Route as PublicRentalGeneratorsRouteImport } from './routes/_public/rental-generators'
 import { Route as PublicRecommendRouteImport } from './routes/_public/recommend'
 import { Route as PublicProductsRouteImport } from './routes/_public/products'
 import { Route as PublicDealersRouteImport } from './routes/_public/dealers'
@@ -116,14 +116,14 @@ const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
   path: '/used-generators',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicTrolleyBookingRoute = PublicTrolleyBookingRouteImport.update({
+  id: '/trolley-booking',
+  path: '/trolley-booking',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicServiceRequestRoute = PublicServiceRequestRouteImport.update({
   id: '/service-request',
   path: '/service-request',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicRentalGeneratorsRoute = PublicRentalGeneratorsRouteImport.update({
-  id: '/rental-generators',
-  path: '/rental-generators',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicRecommendRoute = PublicRecommendRouteImport.update({
@@ -448,8 +448,8 @@ export interface FileRoutesByFullPath {
   '/contact': typeof PublicContactRoute
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
-  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/service-request': typeof PublicServiceRequestRoute
+  '/trolley-booking': typeof PublicTrolleyBookingRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -515,8 +515,8 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactRoute
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
-  '/rental-generators': typeof PublicRentalGeneratorsRoute
   '/service-request': typeof PublicServiceRequestRoute
+  '/trolley-booking': typeof PublicTrolleyBookingRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -585,8 +585,8 @@ export interface FileRoutesById {
   '/_public/dealers': typeof PublicDealersRoute
   '/_public/products': typeof PublicProductsRouteWithChildren
   '/_public/recommend': typeof PublicRecommendRoute
-  '/_public/rental-generators': typeof PublicRentalGeneratorsRoute
   '/_public/service-request': typeof PublicServiceRequestRoute
+  '/_public/trolley-booking': typeof PublicTrolleyBookingRoute
   '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
@@ -655,8 +655,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dealers'
     | '/recommend'
-    | '/rental-generators'
     | '/service-request'
+    | '/trolley-booking'
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
@@ -722,8 +722,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dealers'
     | '/recommend'
-    | '/rental-generators'
     | '/service-request'
+    | '/trolley-booking'
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
@@ -791,8 +791,8 @@ export interface FileRouteTypes {
     | '/_public/dealers'
     | '/_public/products'
     | '/_public/recommend'
-    | '/_public/rental-generators'
     | '/_public/service-request'
+    | '/_public/trolley-booking'
     | '/_public/used-generators'
     | '/_public/warranty'
     | '/_public/'
@@ -895,18 +895,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicUsedGeneratorsRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/trolley-booking': {
+      id: '/_public/trolley-booking'
+      path: '/trolley-booking'
+      fullPath: '/trolley-booking'
+      preLoaderRoute: typeof PublicTrolleyBookingRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/service-request': {
       id: '/_public/service-request'
       path: '/service-request'
       fullPath: '/service-request'
       preLoaderRoute: typeof PublicServiceRequestRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/rental-generators': {
-      id: '/_public/rental-generators'
-      path: '/rental-generators'
-      fullPath: '/rental-generators'
-      preLoaderRoute: typeof PublicRentalGeneratorsRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/recommend': {
@@ -1487,8 +1487,8 @@ interface PublicRouteChildren {
   PublicDealersRoute: typeof PublicDealersRoute
   PublicProductsRoute: typeof PublicProductsRouteWithChildren
   PublicRecommendRoute: typeof PublicRecommendRoute
-  PublicRentalGeneratorsRoute: typeof PublicRentalGeneratorsRoute
   PublicServiceRequestRoute: typeof PublicServiceRequestRoute
+  PublicTrolleyBookingRoute: typeof PublicTrolleyBookingRoute
   PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
   PublicWarrantyRoute: typeof PublicWarrantyRoute
   PublicIndexRoute: typeof PublicIndexRoute
@@ -1501,8 +1501,8 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicDealersRoute: PublicDealersRoute,
   PublicProductsRoute: PublicProductsRouteWithChildren,
   PublicRecommendRoute: PublicRecommendRoute,
-  PublicRentalGeneratorsRoute: PublicRentalGeneratorsRoute,
   PublicServiceRequestRoute: PublicServiceRequestRoute,
+  PublicTrolleyBookingRoute: PublicTrolleyBookingRoute,
   PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
   PublicWarrantyRoute: PublicWarrantyRoute,
   PublicIndexRoute: PublicIndexRoute,

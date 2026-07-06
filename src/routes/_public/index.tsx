@@ -20,7 +20,7 @@ const categories = [
   { name: "Silent Generators", icon: Volume2, count: 18 },
   { name: "Industrial", icon: Factory, count: 32 },
   { name: "Residential", icon: Zap, count: 12 },
-  { name: "Rental Fleet", icon: Truck, count: 40 },
+  { name: "Trolley Booking", icon: Truck, count: 8 },
   { name: "Portable", icon: Award, count: 9 },
   { name: "AMF Panels", icon: ShieldCheck, count: 14 },
   { name: "Spare Parts", icon: Wrench, count: 220 },
@@ -48,10 +48,10 @@ const heroSlides: HeroSlide[] = [
   {
     kind: "image",
     src: "https://images.unsplash.com/photo-1487875961445-47a00398c267?auto=format&fit=crop&w=1600&q=80",
-    tag: "Rental Marketplace",
-    title: "Power on Demand — 12 hrs to 12 months.",
-    sub: "Synchronized DG sets, mobile power packs and event power — delivered, installed and supported.",
-    cta1: { label: "Browse Rental", to: "/rental-generators" },
+    tag: "Trolley Booking",
+    title: "Generator Trolley on Demand — Pan-India Transport.",
+    sub: "Single-axle, double-axle and heavy-duty generator trolleys with loading, unloading and pan-India delivery.",
+    cta1: { label: "Book a Trolley", to: "/trolley-booking" },
     cta2: { label: "Become Dealer", to: "/login" },
   },
 ];
@@ -171,7 +171,7 @@ function HomePage() {
       <Section eyebrow="Service & Warranty" title="Already own a Gen-Tech generator?">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { t: "Register Warranty", d: "Activate your warranty + QR certificate.", to: "/warranty", icon: ShieldCheck },
+            { t: "Trolley Booking", d: "Book a generator transport trolley with pan-India delivery.", to: "/trolley-booking", icon: Truck },
             { t: "Raise Complaint", d: "Log a ticket — auto-assigned to your nearest engineer.", to: "/service-request", icon: Wrench },
             { t: "Book Service", d: "Periodic service, load bank tests, oil change.", to: "/service-request", icon: TrendingUp },
             { t: "AMC Enquiry", d: "Annual Maintenance Contract with SLA-backed uptime.", to: "/contact", icon: Phone },

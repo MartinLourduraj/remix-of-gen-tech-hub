@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Menu, X, Zap, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube, ShieldCheck, LogIn,
-  Fuel, Volume2, Factory, Truck, Award, Wrench, ChevronDown,
+  Fuel, Volume2, Factory, Award, Wrench, ChevronDown, Truck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ const mainNav = [
   { to: "/products", label: "Products", mega: true },
   { to: "/compare", label: "Compare" },
   { to: "/used-generators", label: "Used Generators" },
-  { to: "/rental-generators", label: "Rental" },
+  { to: "/trolley-booking", label: "Trolley Booking" },
   { to: "/warranty", label: "Warranty" },
   { to: "/service-request", label: "Service" },
   { to: "/dealers", label: "Dealers" },
@@ -39,7 +39,7 @@ const productMega = [
   { t: "Quick Links", items: [
     { to: "/recommend", label: "Sizing Tool", icon: ShieldCheck },
     { to: "/compare", label: "Compare Models", icon: Wrench },
-    { to: "/rental-generators", label: "Rental Fleet", icon: Truck },
+    { to: "/trolley-booking", label: "Trolley Booking", icon: Truck },
     { to: "/used-generators", label: "Pre-Owned", icon: Award },
   ]},
 ] as const;
@@ -51,7 +51,7 @@ export function PublicShell() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      {/* Top utility bar — uses sidebar tokens so every theme has guaranteed contrast */}
+      {/* Top utility bar */}
       <div className="hidden md:block text-xs bg-sidebar text-sidebar-foreground/85 border-b border-sidebar-border">
         <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-2">
           <div className="flex items-center gap-5">
@@ -61,7 +61,7 @@ export function PublicShell() {
           </div>
           <div className="flex items-center gap-4">
             <Link to="/service-request" className="hover:text-sidebar-foreground">Raise Complaint</Link>
-            <Link to="/warranty" className="hover:text-sidebar-foreground">Register Warranty</Link>
+            <Link to="/trolley-booking" className="hover:text-sidebar-foreground inline-flex items-center gap-1"><Truck className="h-3 w-3" /> Trolley Booking</Link>
             <Link to="/dealers" className="hover:text-sidebar-foreground">Find Dealer</Link>
           </div>
         </div>
@@ -123,7 +123,7 @@ export function PublicShell() {
               <Link to="/login"><LogIn className="mr-1.5 h-4 w-4" /> Login</Link>
             </Button>
             <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow">
-              <Link to="/contact">Request Quote</Link>
+              <Link to="/trolley-booking"><Truck className="mr-1.5 h-4 w-4" /> Trolley Booking</Link>
             </Button>
             <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen((v) => !v)}>
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -154,7 +154,7 @@ export function PublicShell() {
               <span className="font-extrabold tracking-tight">GEN-TECH GENERATORS</span>
             </div>
             <p className="mt-3 text-sm text-sidebar-foreground/65 max-w-xs">
-              Authorized industrial generator dealer. Sales, AMC service, spares, rental and second-hand marketplace — across India since 2008.
+              Authorized industrial generator dealer. Sales, AMC service, spares and second-hand marketplace — across India since 2008.
             </p>
             <div className="mt-4 flex items-center gap-3 text-sidebar-foreground/65">
               <Facebook className="h-4 w-4 hover:text-sidebar-primary cursor-pointer transition-colors" />
@@ -168,11 +168,11 @@ export function PublicShell() {
             { to: "/compare", label: "Compare" },
             { to: "/recommend", label: "Recommendation Tool" },
             { to: "/used-generators", label: "Second-Hand" },
-            { to: "/rental-generators", label: "Rental" },
+            { to: "/trolley-booking", label: "Trolley Booking" },
           ]} />
           <FooterCol title="Service" items={[
             { to: "/service-request", label: "Raise Complaint" },
-            { to: "/warranty", label: "Register Warranty" },
+            { to: "/warranty", label: "Warranty" },
             { to: "/contact", label: "AMC Enquiry" },
             { to: "/dealers", label: "Find a Dealer" },
           ]} />
@@ -194,7 +194,7 @@ export function PublicShell() {
   );
 }
 
-type NavItem = { to: "/products" | "/compare" | "/recommend" | "/used-generators" | "/rental-generators" | "/service-request" | "/warranty" | "/contact" | "/dealers" | "/about" | "/login" | "/dashboard"; label: string };
+type NavItem = { to: "/products" | "/compare" | "/recommend" | "/used-generators" | "/trolley-booking" | "/service-request" | "/warranty" | "/contact" | "/dealers" | "/about" | "/login" | "/dashboard"; label: string };
 function FooterCol({ title, items }: { title: string; items: NavItem[] }) {
   return (
     <div>
