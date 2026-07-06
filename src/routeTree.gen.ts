@@ -17,6 +17,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicWarrantyRouteImport } from './routes/_public/warranty'
 import { Route as PublicUsedGeneratorsRouteImport } from './routes/_public/used-generators'
+import { Route as PublicTrolleyBookingRouteImport } from './routes/_public/trolley-booking'
 import { Route as PublicServiceRequestRouteImport } from './routes/_public/service-request'
 import { Route as PublicRecommendRouteImport } from './routes/_public/recommend'
 import { Route as PublicProductsRouteImport } from './routes/_public/products'
@@ -113,6 +114,11 @@ const PublicWarrantyRoute = PublicWarrantyRouteImport.update({
 const PublicUsedGeneratorsRoute = PublicUsedGeneratorsRouteImport.update({
   id: '/used-generators',
   path: '/used-generators',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicTrolleyBookingRoute = PublicTrolleyBookingRouteImport.update({
+  id: '/trolley-booking',
+  path: '/trolley-booking',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicServiceRequestRoute = PublicServiceRequestRouteImport.update({
@@ -443,6 +449,7 @@ export interface FileRoutesByFullPath {
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
   '/service-request': typeof PublicServiceRequestRoute
+  '/trolley-booking': typeof PublicTrolleyBookingRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -509,6 +516,7 @@ export interface FileRoutesByTo {
   '/dealers': typeof PublicDealersRoute
   '/recommend': typeof PublicRecommendRoute
   '/service-request': typeof PublicServiceRequestRoute
+  '/trolley-booking': typeof PublicTrolleyBookingRoute
   '/used-generators': typeof PublicUsedGeneratorsRoute
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
@@ -578,6 +586,7 @@ export interface FileRoutesById {
   '/_public/products': typeof PublicProductsRouteWithChildren
   '/_public/recommend': typeof PublicRecommendRoute
   '/_public/service-request': typeof PublicServiceRequestRoute
+  '/_public/trolley-booking': typeof PublicTrolleyBookingRoute
   '/_public/used-generators': typeof PublicUsedGeneratorsRoute
   '/_public/warranty': typeof PublicWarrantyRoute
   '/_public/': typeof PublicIndexRoute
@@ -647,6 +656,7 @@ export interface FileRouteTypes {
     | '/dealers'
     | '/recommend'
     | '/service-request'
+    | '/trolley-booking'
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
@@ -713,6 +723,7 @@ export interface FileRouteTypes {
     | '/dealers'
     | '/recommend'
     | '/service-request'
+    | '/trolley-booking'
     | '/used-generators'
     | '/warranty'
     | '/customers/new'
@@ -781,6 +792,7 @@ export interface FileRouteTypes {
     | '/_public/products'
     | '/_public/recommend'
     | '/_public/service-request'
+    | '/_public/trolley-booking'
     | '/_public/used-generators'
     | '/_public/warranty'
     | '/_public/'
@@ -881,6 +893,13 @@ declare module '@tanstack/react-router' {
       path: '/used-generators'
       fullPath: '/used-generators'
       preLoaderRoute: typeof PublicUsedGeneratorsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/trolley-booking': {
+      id: '/_public/trolley-booking'
+      path: '/trolley-booking'
+      fullPath: '/trolley-booking'
+      preLoaderRoute: typeof PublicTrolleyBookingRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/service-request': {
@@ -1469,6 +1488,7 @@ interface PublicRouteChildren {
   PublicProductsRoute: typeof PublicProductsRouteWithChildren
   PublicRecommendRoute: typeof PublicRecommendRoute
   PublicServiceRequestRoute: typeof PublicServiceRequestRoute
+  PublicTrolleyBookingRoute: typeof PublicTrolleyBookingRoute
   PublicUsedGeneratorsRoute: typeof PublicUsedGeneratorsRoute
   PublicWarrantyRoute: typeof PublicWarrantyRoute
   PublicIndexRoute: typeof PublicIndexRoute
@@ -1482,6 +1502,7 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicProductsRoute: PublicProductsRouteWithChildren,
   PublicRecommendRoute: PublicRecommendRoute,
   PublicServiceRequestRoute: PublicServiceRequestRoute,
+  PublicTrolleyBookingRoute: PublicTrolleyBookingRoute,
   PublicUsedGeneratorsRoute: PublicUsedGeneratorsRoute,
   PublicWarrantyRoute: PublicWarrantyRoute,
   PublicIndexRoute: PublicIndexRoute,
