@@ -152,7 +152,7 @@ function Dashboard() {
   const receivable = outstanding;
   const payable = Math.round(totalSales * 0.12);
   const stockValue = products.reduce((s, p) => s + p.stock * p.purchasePrice, 0);
-  const lowStock = products.filter((p) => p.stock > 0 && p.stock <= (p.reorderLevel ?? 5)).length;
+  const lowStock = products.filter((p) => p.stock > 0 && p.stock <= (5)).length;
   const outStock = products.filter((p) => p.stock === 0).length;
   const activeWar = warranties.filter((w) => w.status === "Active").length;
   const openTickets = tickets.filter((t) => t.status !== "Closed").length;
@@ -564,7 +564,7 @@ function Dashboard() {
                   <tbody>
                     {productPerf.map(p => (
                       <tr key={p.id} className="border-b hover:bg-muted/40">
-                        <td className="px-2 py-1.5 truncate max-w-[160px]">{p.name}</td>
+                        <td className="px-2 py-1.5 truncate max-w-[160px]">{p.model}</td>
                         <td className="px-2 py-1.5 text-right">{p.qtySold}</td>
                         <td className="px-2 py-1.5 text-right">{inrShort(p.salesV)}</td>
                         <td className="px-2 py-1.5 text-right text-emerald-600">{inrShort(p.profit)}</td>
@@ -700,13 +700,13 @@ function Dashboard() {
                 </tr></thead>
                 <tbody>
                   {products.slice(0, 10).map(p => {
-                    const status = p.stock === 0 ? "Out" : p.stock <= (p.reorderLevel ?? 5) ? "Low" : "Healthy";
+                    const status = p.stock === 0 ? "Out" : p.stock <= (5) ? "Low" : "Healthy";
                     return (
                       <tr key={p.id} className="border-b hover:bg-muted/40">
-                        <td className="px-2 py-1.5 truncate max-w-[180px]">{p.name}</td>
+                        <td className="px-2 py-1.5 truncate max-w-[180px]">{p.model}</td>
                         <td className="px-2 py-1.5 font-mono">{p.sku}</td>
                         <td className="px-2 py-1.5">{p.stock}</td>
-                        <td className="px-2 py-1.5">{p.reorderLevel ?? "-"}</td>
+                        <td className="px-2 py-1.5">{"-"}</td>
                         <td className="px-2 py-1.5">{inrShort(p.purchasePrice)}</td>
                         <td className="px-2 py-1.5">{inrShort(p.sellingPrice)}</td>
                         <td className="px-2 py-1.5">{inrShort(p.stock * p.purchasePrice)}</td>
