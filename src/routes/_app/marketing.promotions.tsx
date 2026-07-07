@@ -319,10 +319,10 @@ function MarketingPromotionsPage() {
         onReject={(p, level, reason) => { const approvals = p.approvals.map((a) => a.level === level ? { ...a, decision: "Rejected" as const, approver: uname, at: new Date().toISOString(), remarks: reason } : a); upsert(logAudit({ ...p, approvals, status: "Rejected" }, { user: uname, action: `Rejected L${level}`, reason })); toast.error("Rejected"); setReviewing({ ...p, approvals, status: "Rejected" }); }}
       />}
 
-      {showCalendar && <CampaignCalendar promos={promos} onClose={() => setShowCalendar(false)} onPick={(p) => { setShowCalendar(false); setReviewing(p); }} />}
-      {showApprovalQueue && <ApprovalQueue promos={promos.filter((p) => p.status === "Pending Approval")} onClose={() => setShowApprovalQueue(false)} onOpen={(p) => { setShowApprovalQueue(false); setReviewing(p); }} />}
+      {showCalendar && <CampaignCalendar promos={promos} onClose={() => setShowCalendar(false)} onPick={(p: MPromo) => { setShowCalendar(false); setReviewing(p); }} />}
+      {showApprovalQueue && <ApprovalQueue promos={promos.filter((p) => p.status === "Pending Approval")} onClose={() => setShowApprovalQueue(false)} onOpen={(p: MPromo) => { setShowApprovalQueue(false); setReviewing(p); }} />}
       {showMediaLibrary && <MediaLibrary promos={promos} onClose={() => setShowMediaLibrary(false)} />}
-      {showTemplates && <FestivalTemplates onClose={() => setShowTemplates(false)} onPick={(t) => {
+      {showTemplates && <FestivalTemplates onClose={() => setShowTemplates(false)} onPick={(t: { name: string; discount: number }) => {
         const p = makeEmpty(nextPromoNumber(promos), uname);
         p.name = t.name + " Campaign"; p.type = "Festival Offer"; p.headline = `Special ${t.name} discount ${t.discount}%`;
         p.actions = [{ kind: "Percentage Off", value: t.discount }]; p.internalCampaign = t.name;
