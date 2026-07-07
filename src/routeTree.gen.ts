@@ -67,6 +67,7 @@ import { Route as AppReportsCustomersRouteImport } from './routes/_app/reports.c
 import { Route as AppReportsCollectionsRouteImport } from './routes/_app/reports.collections'
 import { Route as AppReportsAmcRouteImport } from './routes/_app/reports.amc'
 import { Route as AppProductsNewRouteImport } from './routes/_app/products.new'
+import { Route as AppMarketingPromotionsRouteImport } from './routes/_app/marketing.promotions'
 import { Route as AppEmployeesNewRouteImport } from './routes/_app/employees.new'
 import { Route as AppCustomersNewRouteImport } from './routes/_app/customers.new'
 import { Route as AppSalesInvoicesIndexRouteImport } from './routes/_app/sales/invoices.index'
@@ -366,6 +367,11 @@ const AppProductsNewRoute = AppProductsNewRouteImport.update({
   path: '/new',
   getParentRoute: () => AppProductsRoute,
 } as any)
+const AppMarketingPromotionsRoute = AppMarketingPromotionsRouteImport.update({
+  id: '/marketing/promotions',
+  path: '/marketing/promotions',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppEmployeesNewRoute = AppEmployeesNewRouteImport.update({
   id: '/new',
   path: '/new',
@@ -454,6 +460,7 @@ export interface FileRoutesByFullPath {
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
   '/employees/new': typeof AppEmployeesNewRoute
+  '/marketing/promotions': typeof AppMarketingPromotionsRoute
   '/products/new': typeof AppProductsNewRoute
   '/reports/amc': typeof AppReportsAmcRoute
   '/reports/collections': typeof AppReportsCollectionsRoute
@@ -521,6 +528,7 @@ export interface FileRoutesByTo {
   '/warranty': typeof PublicWarrantyRoute
   '/customers/new': typeof AppCustomersNewRoute
   '/employees/new': typeof AppEmployeesNewRoute
+  '/marketing/promotions': typeof AppMarketingPromotionsRoute
   '/products/new': typeof AppProductsNewRoute
   '/reports/amc': typeof AppReportsAmcRoute
   '/reports/collections': typeof AppReportsCollectionsRoute
@@ -592,6 +600,7 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/_app/customers/new': typeof AppCustomersNewRoute
   '/_app/employees/new': typeof AppEmployeesNewRoute
+  '/_app/marketing/promotions': typeof AppMarketingPromotionsRoute
   '/_app/products/new': typeof AppProductsNewRoute
   '/_app/reports/amc': typeof AppReportsAmcRoute
   '/_app/reports/collections': typeof AppReportsCollectionsRoute
@@ -661,6 +670,7 @@ export interface FileRouteTypes {
     | '/warranty'
     | '/customers/new'
     | '/employees/new'
+    | '/marketing/promotions'
     | '/products/new'
     | '/reports/amc'
     | '/reports/collections'
@@ -728,6 +738,7 @@ export interface FileRouteTypes {
     | '/warranty'
     | '/customers/new'
     | '/employees/new'
+    | '/marketing/promotions'
     | '/products/new'
     | '/reports/amc'
     | '/reports/collections'
@@ -798,6 +809,7 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/_app/customers/new'
     | '/_app/employees/new'
+    | '/_app/marketing/promotions'
     | '/_app/products/new'
     | '/_app/reports/amc'
     | '/_app/reports/collections'
@@ -1245,6 +1257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsNewRouteImport
       parentRoute: typeof AppProductsRoute
     }
+    '/_app/marketing/promotions': {
+      id: '/_app/marketing/promotions'
+      path: '/marketing/promotions'
+      fullPath: '/marketing/promotions'
+      preLoaderRoute: typeof AppMarketingPromotionsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/employees/new': {
       id: '/_app/employees/new'
       path: '/new'
@@ -1396,6 +1415,7 @@ interface AppRouteChildren {
   AppServiceRoute: typeof AppServiceRoute
   AppVendorsRoute: typeof AppVendorsRouteWithChildren
   AppWarrantyAdminRoute: typeof AppWarrantyAdminRoute
+  AppMarketingPromotionsRoute: typeof AppMarketingPromotionsRoute
   AppReportsAmcRoute: typeof AppReportsAmcRoute
   AppReportsCollectionsRoute: typeof AppReportsCollectionsRoute
   AppReportsCustomersRoute: typeof AppReportsCustomersRoute
@@ -1442,6 +1462,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppServiceRoute: AppServiceRoute,
   AppVendorsRoute: AppVendorsRouteWithChildren,
   AppWarrantyAdminRoute: AppWarrantyAdminRoute,
+  AppMarketingPromotionsRoute: AppMarketingPromotionsRoute,
   AppReportsAmcRoute: AppReportsAmcRoute,
   AppReportsCollectionsRoute: AppReportsCollectionsRoute,
   AppReportsCustomersRoute: AppReportsCustomersRoute,
