@@ -39,7 +39,10 @@ const navGroups: NavGroup[] = [
     { to: "/employees", label: "Employees", icon: UserCog, mod: "Employees" },
     { to: "/departments", label: "Departments", icon: Briefcase, mod: "Employees" },
     { to: "/designations", label: "Designations", icon: IdCard, mod: "Employees" },
-    { to: "/promotions", label: "Promotions", icon: TrendingUp, mod: "Employees" },
+    { to: "/promotions", label: "Employee Promotions", icon: TrendingUp, mod: "Employees" },
+  ]},
+  { title: "Marketing", items: [
+    { to: "/marketing/promotions", label: "Promotions & Campaigns", icon: TrendingUp, mod: "Dashboard" },
   ]},
 
   { title: "Sales", items: [
