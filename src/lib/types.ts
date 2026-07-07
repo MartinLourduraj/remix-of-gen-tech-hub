@@ -289,3 +289,165 @@ export type StockMovement = {
   qty: number; warehouse: string; note?: string;
   branchId?: string;
 };
+
+/* ============================================================
+ * Marketing Promotions Command Center
+ * Frontend-only types; wire to Django REST later.
+ * ============================================================ */
+
+export type MPromoStatus =
+  | "Draft" | "Pending Approval" | "Approved" | "Scheduled"
+  | "Active" | "Paused" | "Expired" | "Rejected" | "Archived";
+
+export type MPromoPriority = "Critical" | "High" | "Medium" | "Low";
+
+export type MPromoType =
+  | "Percentage Discount" | "Fixed Amount Discount" | "Buy X Get Y" | "Buy One Get One"
+  | "Bundle Offer" | "Product Discount" | "Category Discount" | "Brand Discount"
+  | "Cart Value Discount" | "Quantity Discount" | "Tiered Discount"
+  | "First Purchase Offer" | "Repeat Customer Offer" | "Loyalty Customer Offer"
+  | "Dealer Offer" | "B2B Offer" | "B2C Offer" | "Employee Offer" | "Branch-Specific Offer"
+  | "Festival Offer" | "Seasonal Offer" | "Flash Sale" | "Clearance Sale"
+  | "Stock Clearance" | "Dead Stock Promotion" | "Slow-Moving Stock Promotion"
+  | "New Product Launch" | "Generator + Accessory Bundle" | "Generator + Service Bundle"
+  | "Generator + AMC Bundle" | "Spare Parts Bundle" | "Free Installation Offer"
+  | "Free Delivery Offer" | "Free Service Offer" | "Extended Warranty Offer"
+  | "Trolley Booking Offer" | "Coupon Code Promotion" | "Automatic Promotion"
+  | "Referral Promotion" | "Customer-Specific Offer" | "Dealer-Specific Offer"
+  | "Quote-Based Promotion" | "Invoice-Based Promotion" | "Payment-Mode Offer"
+  | "Limited-Time Offer";
+
+export type MPromoMediaUsage =
+  | "Desktop Hero Banner" | "Mobile Hero Banner" | "Tablet Banner" | "Promotion Card"
+  | "Product Offer Badge" | "Category Banner" | "Mega Menu Banner" | "Popup Image"
+  | "Sidebar Banner" | "Dashboard Banner" | "Email Banner" | "Social Preview Image"
+  | "Trolley Booking Promotion" | "Dealer Portal Banner";
+
+export type MPromoImage = {
+  id: string; url: string; name: string; size: number;
+  width?: number; height?: number; format: string;
+  alt: string; caption?: string; usage: MPromoMediaUsage;
+  uploadedBy: string; uploadedAt: string; primary?: boolean;
+};
+
+export type MPromoVideo = {
+  id: string; url: string; source: "upload" | "youtube" | "vimeo";
+  title: string; description?: string; poster?: string;
+  durationSec?: number; size?: number; format?: string;
+  alt?: string; uploadedBy: string; uploadedAt: string;
+  autoplay: boolean; muted: boolean; loop: boolean;
+  showControls: boolean; playOnce: boolean; pauseOutOfView: boolean;
+  mobileEnabled: boolean; desktopEnabled: boolean; lazyLoad: boolean;
+  startSec?: number; endSec?: number;
+  placement: string[];
+};
+
+export type MPromoRuleCondition = {
+  id: string; field: string; op: string; value: string;
+};
+export type MPromoRuleGroup = {
+  id: string; joiner: "AND" | "OR";
+  conditions: MPromoRuleCondition[];
+};
+export type MPromoAction = {
+  kind: "Percentage Off" | "Fixed Amount Off" | "Fixed Price" | "Buy X Get Y"
+    | "Free Item" | "Free Accessory" | "Free Installation" | "Free Delivery"
+    | "Free Service" | "Extended Warranty" | "Bundle Price" | "Tiered Discount";
+  value?: number;
+  buyQty?: number; getQty?: number; freeItem?: string;
+  tiers?: { min: number; discountPct: number }[];
+};
+
+export type MPromoCoupon = {
+  id: string; code: string; prefix?: string; suffix?: string;
+  usageLimit?: number; perCustomerLimit?: number;
+  minOrder?: number; maxDiscount?: number;
+  used: number; disabled?: boolean;
+};
+
+export type MPromoApproval = {
+  level: 1 | 2 | 3 | 4;
+  role: "Marketing" | "Sales Manager" | "Accounts" | "Owner";
+  decision?: "Approved" | "Rejected" | "Changes Requested";
+  approver?: string; at?: string; remarks?: string;
+};
+
+export type MPromoAuditEntry = {
+  at: string; user: string; action: string;
+  oldValue?: string; newValue?: string; reason?: string;
+};
+
+export type MPromoVariant = {
+  id: string; label: "A" | "B";
+  headline?: string; imageUrl?: string; cta?: string;
+  stats: { views: number; clicks: number; conversions: number; revenue: number };
+};
+
+export type MPromo = {
+  id: string; number: string;
+  name: string; internalCampaign?: string; code?: string; campaignId?: string;
+  shortTitle?: string; headline?: string; subtitle?: string;
+  shortDesc?: string; fullDesc?: string; internalNotes?: string;
+  terms?: string; tags: string[];
+  status: MPromoStatus; priority: MPromoPriority;
+  type: MPromoType;
+
+  // Eligibility
+  products: string[]; categories: string[]; brands: string[];
+  branches: string[]; // branch ids or "ALL"
+  customerTypes: string[]; customerSegments: string[]; customers: string[];
+  states: string[];
+  // Generator-specific
+  kvaMin?: number; kvaMax?: number; fuelType?: string; phase?: string;
+
+  // Rules & actions
+  rules: MPromoRuleGroup[];
+  actions: MPromoAction[];
+  stacking: "Allow Stack" | "Do Not Stack" | "Best Discount Only" | "Priority Promotion" | "Owner Override";
+
+  // Coupons
+  coupons: MPromoCoupon[];
+  isAutomatic: boolean;
+
+  // Media
+  images: MPromoImage[]; videos: MPromoVideo[];
+
+  // Placement
+  placements: string[]; // e.g. "Home Hero", "Cart", "Dashboard"
+  channels: string[];  // "E-Commerce", "ERP", "Dealer Portal"
+
+  // Schedule
+  startDate: string; startTime?: string;
+  endDate: string; endTime?: string;
+  timezone?: string; repeat: "Never" | "Daily" | "Weekly" | "Monthly" | "Custom";
+
+  // Budget & limits
+  budgetTotal?: number; budgetDiscount?: number; budgetMedia?: number;
+  budgetUsed?: number;
+  maxRedemptions?: number; maxDiscountValue?: number;
+  perCustomerLimit?: number; perDayLimit?: number; perBranchLimit?: number;
+  perProductLimit?: number; maxDiscountPerOrder?: number;
+
+  // Margin
+  costPrice?: number; sellingPrice?: number; promoPrice?: number;
+
+  // Approval
+  approvals: MPromoApproval[];
+
+  // Analytics
+  stats: {
+    impressions: number; uniqueViews: number; clicks: number;
+    addToCart: number; checkoutStarted: number; orders: number;
+    revenue: number; discountGiven: number; unitsSold: number;
+  };
+
+  // A/B
+  variants?: MPromoVariant[];
+
+  // Audit
+  audit: MPromoAuditEntry[];
+  createdAt: string; createdBy: string;
+  approvedBy?: string; publishedAt?: string;
+  archivedAt?: string; deletedAt?: string;
+};
+
