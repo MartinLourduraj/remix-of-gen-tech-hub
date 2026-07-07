@@ -585,7 +585,7 @@ function StepRules({ p, set, marginBefore, marginAfter, belowCost, belowMinMargi
                     <SelectContent>{["=","!=",">=","<=",">","<","in","contains"].map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
                   </Select>
                   <Input className="col-span-4 h-7 text-xs" value={c.value} onChange={(e) => { const rr = [...p.rules]; rr[gi].conditions[ci] = { ...c, value: e.target.value }; set("rules", rr); }} />
-                  <Button size="icon" variant="ghost" className="col-span-1 h-7 w-7" onClick={() => { const rr = [...p.rules]; rr[gi].conditions = rr[gi].conditions.filter((_, i) => i !== ci); set("rules", rr); }}><X className="h-3.5 w-3.5" /></Button>
+                  <Button size="icon" variant="ghost" className="col-span-1 h-7 w-7" onClick={() => { const rr = [...p.rules]; rr[gi].conditions = rr[gi].conditions.filter((_: any, i: number) => i !== ci); set("rules", rr); }}><X className="h-3.5 w-3.5" /></Button>
                 </div>
               ))}
               <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => { const rr = [...p.rules]; rr[gi].conditions.push({ id: `c_${Date.now()}`, field: "Product", op: "=", value: "" }); set("rules", rr); }}><Plus className="h-3 w-3 mr-1" />Add condition</Button>
